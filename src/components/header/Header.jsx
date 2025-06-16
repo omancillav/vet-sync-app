@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button'
 import { Menu, X } from 'lucide-react'
 import { NavItems } from './NavItems'
 import VetsyncLogo from '@/assets/vetsync_logo.webp'
-import { ModeToggle } from '@/components/mode-toggle.jsx'
 
 export function Header() {
   const avatar = false
@@ -34,24 +33,21 @@ export function Header() {
             </nav>
           </section>
 
-          {/* Avatar & Auth Section */}
+          {/* Avatar Section */}
           <section className="flex-1 flex justify-end">
-            <div className="flex items-center gap-2">
-              {avatar ? (
-                <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-              ) : (
-                <>
-                  <Button className="hover:scale-105 transition-transform text-sm lg:text-md hover:cursor-pointer">Sign Up</Button>
-                  <Button variant="outline" className="hover:scale-105 transition-transform text-sm lg:text-md hover:cursor-pointer">
-                    Sign In
-                  </Button>
-                </>
-              )}
-              <ModeToggle />
-            </div>
+            {avatar ? (
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Button className="hover:scale-105 transition-transform text-sm lg:text-md hover:cursor-pointer">Sign Up</Button>
+                <Button variant="outline" className="hover:scale-105 transition-transform text-sm lg:text-md hover:cursor-pointer">
+                  Sign In
+                </Button>
+              </div>
+            )}
           </section>
         </section>
 
@@ -65,17 +61,14 @@ export function Header() {
               <h1 className="text-lg font-bold text-primary">Vet Sync</h1>
             </div>
 
-            <div className="flex items-center gap-2">
-              <ModeToggle />
-              {/* Menu Button */}
-              <button
-                onClick={toggleMenu}
-                className="p-2 hover:bg-accent rounded-md transition-colors"
-                aria-label="Toggle menu"
-              >
-                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            </div>
+            {/* Menu Button */}
+            <button
+              onClick={toggleMenu}
+              className="p-2 hover:bg-accent rounded-md transition-colors"
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </section>
         </section>
 
@@ -134,7 +127,6 @@ export function Header() {
                   </div>
                 )}
               </div>
-
             </div>
           </div>
         </section>
