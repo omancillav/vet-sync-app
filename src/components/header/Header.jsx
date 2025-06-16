@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button'
 import { Menu, X } from 'lucide-react'
 import { NavItems } from './NavItems'
 import VetsyncLogo from '@/assets/vetsync_logo.webp'
-import { ModeToggle } from '@/components/mode-toggle.jsx'
 
 export function Header() {
   const avatar = false
@@ -34,7 +33,7 @@ export function Header() {
             </nav>
           </section>
 
-          {/* Avatar & Auth Section */}
+          {/* Avatar Section */}
           <section className="flex-1 flex justify-end">
             <div className="flex items-center gap-2">
               {avatar ? (
