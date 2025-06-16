@@ -106,7 +106,7 @@ export function Header() {
             <div className="p-6 space-y-6">
               {/* Navigation */}
               <nav>
-                <NavItems />
+                <NavItems onNavItemClick={toggleMenu} />
               </nav>
 
               {/* Auth Buttons */}
