@@ -5,11 +5,14 @@ const NavButton = ({ children, to, ...props }) => {
     <NavLink
       to={to}
       className={({ isActive }) => {
-        const baseClasses = 'w-full md:w-auto px-4 py-2 rounded-full transition-colors block text-center'
-        const activeClasses = 'bg-primary text-primary-foreground text-sm hover:bg-primary/90'
-        const inactiveClasses = 'hover:bg-accent hover:text-accent-foreground hover:cursor-pointer'
+        const base = 'w-full text-center transition-colors text-base block px-4 py-2'
+        const mobile = 'rounded-md'
+        const desktop = 'md:w-auto md:rounded-full'
 
-        return `${baseClasses} ${isActive ? activeClasses : inactiveClasses}`
+        const inactive = 'hover:bg-accent hover:text-accent-foreground'
+        const active = 'font-semibold text-primary md:bg-primary md:text-primary-foreground md:font-normal'
+
+        return `${base} ${mobile} ${desktop} ${isActive ? active : inactive}`
       }}
       {...props}
     >
@@ -18,25 +21,25 @@ const NavButton = ({ children, to, ...props }) => {
   )
 }
 
-export const NavItems = () => (
+export const NavItems = ({ onNavItemClick }) => (
   <ul className="flex flex-col md:flex-row items-center gap-2">
     <li className="w-full md:w-auto">
-      <NavButton to="/">
+      <NavButton to="/" onClick={onNavItemClick}>
         Inicio
       </NavButton>
     </li>
     <li className="w-full md:w-auto">
-      <NavButton to="/mascotas">
+      <NavButton to="/mascotas" onClick={onNavItemClick}>
         Mascotas
       </NavButton>
     </li>
     <li className="w-full md:w-auto">
-      <NavButton to="/citas">
+      <NavButton to="/citas" onClick={onNavItemClick}>
         Citas
       </NavButton>
     </li>
     <li className="w-full md:w-auto">
-      <NavButton to="/servicios">
+      <NavButton to="/servicios" onClick={onNavItemClick}>
         Servicios
       </NavButton>
     </li>
