@@ -1,9 +1,9 @@
-import { Button } from '@/components/ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Menu, X } from 'lucide-react'
 import { useState } from 'react'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import { Menu, X } from 'lucide-react'
+import { NavItems } from './NavItems'
 import VetsyncLogo from '@/assets/vetsync_logo.webp'
-import { NavButton } from './NavButton'
 
 export function Header() {
   const avatar = false
@@ -13,53 +13,28 @@ export function Header() {
     setIsMenuOpen(!isMenuOpen)
   }
 
-  const NavItems = () => (
-    <ul className="flex flex-col md:flex-row items-center gap-2">
-      <li className="w-full md:w-auto">
-        <NavButton isActive={true}>
-          Inicio
-        </NavButton>
-      </li>
-      <li className="w-full md:w-auto">
-        <NavButton>
-          Mascotas
-        </NavButton>
-      </li>
-      <li className="w-full md:w-auto">
-        <NavButton>
-          Citas
-        </NavButton>
-      </li>
-      <li className="w-full md:w-auto">
-        <NavButton>
-          Servicios
-        </NavButton>
-      </li>
-    </ul>
-  )
-
   return (
-    <header className="p-4 shadow-sm">
-      <div className="max-w-[1200px] mx-auto">
+    <header className="py-4 px-5 shadow-sm">
+      <div className="max-w-[1400px] mx-auto">
         {/* Desktop Layout */}
-        <div className="hidden md:flex items-center relative">
+        <section className="hidden md:flex items-center relative">
           {/* Logo Section */}
-          <div className="flex-1">
-            <div className="flex items-center gap-4 lg:gap-6">
-              <img src={VetsyncLogo} className="w-10 lg:w-14" alt="Vetsync Logo" />
-              <h1 className="text-xl lg:text-2xl font-bold text-primary">Vet Sync</h1>
+          <section className="flex-1">
+            <div className="flex items-center gap-4 lg:gap-4">
+              <img src={VetsyncLogo} className="w-10 lg:w-10" alt="Vetsync Logo" />
+              <h1 className="text-xl lg:text-xl font-bold text-primary">Vet Sync</h1>
             </div>
-          </div>
+          </section>
 
           {/* Navigation - Centered */}
-          <div className="absolute left-1/2 transform -translate-x-1/2">
+          <section className="absolute left-1/2 transform -translate-x-1/2">
             <nav>
               <NavItems />
             </nav>
-          </div>
+          </section>
 
           {/* Avatar Section */}
-          <div className="flex-1 flex justify-end">
+          <section className="flex-1 flex justify-end">
             {avatar ? (
               <Avatar>
                 <AvatarImage src="https://github.com/shadcn.png" />
@@ -67,19 +42,19 @@ export function Header() {
               </Avatar>
             ) : (
               <div className="flex items-center gap-2">
-                <Button className="hover:scale-105 transition-transform text-sm lg:text-base hover:cursor-pointer">Sign Up</Button>
-                <Button variant="outline" className="hover:scale-105 transition-transform text-sm lg:text-base hover:cursor-pointer">
+                <Button className="hover:scale-105 transition-transform text-sm lg:text-md hover:cursor-pointer">Sign Up</Button>
+                <Button variant="outline" className="hover:scale-105 transition-transform text-sm lg:text-md hover:cursor-pointer">
                   Sign In
                 </Button>
               </div>
             )}
-          </div>
-        </div>
+          </section>
+        </section>
 
         {/* Mobile Layout */}
-        <div className="md:hidden">
+        <section className="md:hidden">
           {/* Top Bar */}
-          <div className="flex items-center justify-between">
+          <section className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center gap-3">
               <img src={VetsyncLogo} className="w-8" alt="Vetsync Logo" />
@@ -94,11 +69,11 @@ export function Header() {
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-          </div>
-        </div>
+          </section>
+        </section>
 
         {/* Mobile Menu Overlay */}
-        <div
+        <section
           className={`md:hidden fixed inset-0 z-40 bg-black/30 backdrop-blur-sm transition-all duration-300 ${
             isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
           }`}
@@ -154,7 +129,7 @@ export function Header() {
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
     </header>
   )
