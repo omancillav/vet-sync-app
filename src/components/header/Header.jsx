@@ -44,8 +44,13 @@ export function Header() {
                 </Avatar>
               ) : (
                 <>
-                  <Button className="hover:scale-105 transition-transform text-sm lg:text-md hover:cursor-pointer">Sign Up</Button>
-                  <Button variant="outline" className="hover:scale-105 transition-transform text-sm lg:text-md hover:cursor-pointer">
+                  <Button className="hover:scale-105 transition-transform text-sm lg:text-md hover:cursor-pointer">
+                    Sign Up
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="hover:scale-105 transition-transform text-sm lg:text-md hover:cursor-pointer"
+                  >
                     Sign In
                   </Button>
                 </>
@@ -68,13 +73,15 @@ export function Header() {
             <div className="flex items-center gap-2">
               <ModeToggle />
               {/* Menu Button */}
-              <button
+              <Button
+                variant="outline"
+                size="icon"
                 onClick={toggleMenu}
-                className="p-2 hover:bg-accent rounded-md transition-colors"
+                className="hover:bg-accent rounded-md transition-colors"
                 aria-label="Toggle menu"
               >
-                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
+                <Menu size={24} />
+              </Button>
             </div>
           </section>
         </section>
@@ -134,7 +141,6 @@ export function Header() {
                   </div>
                 )}
               </div>
-
             </div>
           </div>
         </section>
