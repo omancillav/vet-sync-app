@@ -51,7 +51,7 @@ export function Login() {
                   </a>
                 </div>
                 <div className="relative">
-                  <Input id="password" type={showPassword ? 'text' : 'password'} required />
+                  <Input id="password" type={showPassword ? 'text' : 'password'} className="pr-10" required />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
