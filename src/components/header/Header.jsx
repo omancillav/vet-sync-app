@@ -9,10 +9,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import { Link } from 'react-router-dom'
 import { Menu, X, User, LogOut } from 'lucide-react'
 import { NavItems } from './NavItems'
+import { ModeToggle } from './mode-toggle.jsx'
 import VetsyncLogo from '@/assets/vetsync_logo.webp'
-import { ModeToggle } from '@/components/mode-toggle.jsx'
 
 export function Header() {
   const [avatar, setAvatar] = useState(false)
@@ -74,10 +75,12 @@ export function Header() {
                 </DropdownMenu>
               ) : (
                 <>
-                  <Button onClick={() => setAvatar(true)} variant="outline" className="transition-transform text-sm lg:text-md hover:cursor-pointer">
-                    Iniciar sesión
+                  <Button asChild variant="outline" className="transition-transform text-sm lg:text-md hover:cursor-pointer">
+                    <Link to="/login">Iniciar sesión</Link>
                   </Button>
-                  <Button onClick={() => setAvatar(true)} className="transition-transform text-sm lg:text-md hover:cursor-pointer">Registrarse</Button>
+                  <Button asChild className="transition-transform text-sm lg:text-md hover:cursor-pointer">
+                    <Link to="/register">Registrarse</Link>
+                  </Button>
                 </>
               )}
               <ModeToggle />
@@ -163,10 +166,12 @@ export function Header() {
                   </div>
                 ) : (
                   <div className="flex flex-col gap-2">
-                    <Button onClick={() => setAvatar(true)} variant="outline" className="w-full hover:scale-105 transition-transform py-5">
-                      Iniciar sesión
+                    <Button asChild variant="outline" className="w-full hover:scale-105 transition-transform py-5">
+                      <Link to="/login">Iniciar sesión</Link>
                     </Button>
-                    <Button onClick={() => setAvatar(true)} className="w-full hover:scale-105 transition-transform py-5">Registrarse</Button>
+                    <Button asChild className="w-full hover:scale-105 transition-transform py-5">
+                      <Link to="/register">Registrarse</Link>
+                    </Button>
                   </div>
                 )}
               </div>
