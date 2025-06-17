@@ -46,11 +46,11 @@ export function Header() {
                 <>
                   <Button
                     variant="outline"
-                    className="hover:scale-105 transition-transform text-sm lg:text-md hover:cursor-pointer"
+                    className="transition-transform text-sm lg:text-md hover:cursor-pointer"
                   >
                     Iniciar sesión
                   </Button>
-                  <Button className="hover:scale-105 transition-transform text-sm lg:text-md hover:cursor-pointer">
+                  <Button className="transition-transform text-sm lg:text-md hover:cursor-pointer">
                     Registrarse
                   </Button>
                 </>
