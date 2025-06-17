@@ -10,7 +10,7 @@ const NavButton = ({ children, to, ...props }) => {
         const desktop = 'md:w-auto md:rounded-full'
 
         const inactive = 'hover:bg-accent hover:text-accent-foreground'
-        const active = 'font-semibold text-primary md:bg-primary md:text-primary-foreground md:font-normal'
+        const active = 'font-bold text-primary md:bg-primary md:text-primary-foreground md:font-normal md:text-base'
 
         return `${base} ${mobile} ${desktop} ${isActive ? active : inactive}`
       }}
