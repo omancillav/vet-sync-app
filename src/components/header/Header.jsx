@@ -1,13 +1,21 @@
 import { useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
-import { Menu, X } from 'lucide-react'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import { Menu, X, User, LogOut } from 'lucide-react'
 import { NavItems } from './NavItems'
 import VetsyncLogo from '@/assets/vetsync_logo.webp'
 import { ModeToggle } from '@/components/mode-toggle.jsx'
 
 export function Header() {
-  const avatar = false
+  const avatar = true
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const toggleMenu = () => {
@@ -38,21 +46,38 @@ export function Header() {
           <section className="flex-1 flex justify-end">
             <div className="flex items-center gap-2">
               {avatar ? (
-                <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                      <Avatar className="hover:cursor-pointer">
+                        <AvatarImage src="https://github.com/shadcn.png" />
+                        <AvatarFallback>CN</AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56" align="end" forceMount>
+                    <DropdownMenuLabel className="font-normal">
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none">Nombre Usuario</p>
+                        <p className="text-xs leading-none text-muted-foreground">correo@example.com</p>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem className="hover:cursor-pointer">
+                      <User /> Mi Perfil
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem className="hover:cursor-pointer">
+                      <LogOut /> Cerrar sesión
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               ) : (
                 <>
-                  <Button
-                    variant="outline"
-                    className="transition-transform text-sm lg:text-md hover:cursor-pointer"
-                  >
+                  <Button variant="outline" className="transition-transform text-sm lg:text-md hover:cursor-pointer">
                     Iniciar sesión
                   </Button>
-                  <Button className="transition-transform text-sm lg:text-md hover:cursor-pointer">
-                    Registrarse
-                  </Button>
+                  <Button className="transition-transform text-sm lg:text-md hover:cursor-pointer">Registrarse</Button>
                 </>
               )}
               <ModeToggle />
@@ -123,14 +148,18 @@ export function Header() {
                 <NavItems onNavItemClick={toggleMenu} />
               </nav>
 
-              {/* Auth Buttons */}
-              <div className="pt-4 border-t border-border/20">
+              {/* Auth Buttons / Profile Section */}
+              <div className="pt-6 border-t border-border/20">
                 {avatar ? (
-                  <div className="flex items-center justify-center">
-                    <Avatar>
-                      <AvatarImage src="https://github.com/shadcn.png" />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Avatar>
+                        <AvatarImage src="https://github.com/shadcn.png" />
+                        <AvatarFallback>CN</AvatarFallback>
+                      </Avatar>
+                      <span className="font-semibold">Nombre Usuario</span>
+                    </div>
+                    <button className="text-sm text-muted-foreground hover:underline">Cerrar sesión</button>
                   </div>
                 ) : (
                   <div className="flex flex-col gap-2">
