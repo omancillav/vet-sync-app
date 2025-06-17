@@ -44,14 +44,14 @@ export function Header() {
                 </Avatar>
               ) : (
                 <>
-                  <Button className="hover:scale-105 transition-transform text-sm lg:text-md hover:cursor-pointer">
-                    Sign Up
-                  </Button>
                   <Button
                     variant="outline"
                     className="hover:scale-105 transition-transform text-sm lg:text-md hover:cursor-pointer"
                   >
-                    Sign In
+                    Iniciar sesión
+                  </Button>
+                  <Button className="hover:scale-105 transition-transform text-sm lg:text-md hover:cursor-pointer">
+                    Registrarse
                   </Button>
                 </>
               )}
@@ -133,11 +133,11 @@ export function Header() {
                     </Avatar>
                   </div>
                 ) : (
-                  <div className="flex flex-col gap-3">
-                    <Button className="w-full hover:scale-105 transition-transform">Sign Up</Button>
-                    <Button variant="outline" className="w-full hover:scale-105 transition-transform">
-                      Sign In
+                  <div className="flex flex-col gap-2">
+                    <Button variant="outline" className="w-full hover:scale-105 transition-transform py-5">
+                      Iniciar sesión
                     </Button>
+                    <Button className="w-full hover:scale-105 transition-transform py-5">Registrarse</Button>
                   </div>
                 )}
               </div>
