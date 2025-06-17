@@ -15,7 +15,7 @@ import VetsyncLogo from '@/assets/vetsync_logo.webp'
 import { ModeToggle } from '@/components/mode-toggle.jsx'
 
 export function Header() {
-  const avatar = true
+  const [avatar, setAvatar] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const toggleMenu = () => {
@@ -67,17 +67,17 @@ export function Header() {
                       <User /> Mi Perfil
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem className="hover:cursor-pointer">
+                    <DropdownMenuItem className="hover:cursor-pointer" onClick={() => setAvatar(false)}>
                       <LogOut /> Cerrar sesión
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
                 <>
-                  <Button variant="outline" className="transition-transform text-sm lg:text-md hover:cursor-pointer">
+                  <Button onClick={() => setAvatar(true)} variant="outline" className="transition-transform text-sm lg:text-md hover:cursor-pointer">
                     Iniciar sesión
                   </Button>
-                  <Button className="transition-transform text-sm lg:text-md hover:cursor-pointer">Registrarse</Button>
+                  <Button onClick={() => setAvatar(true)} className="transition-transform text-sm lg:text-md hover:cursor-pointer">Registrarse</Button>
                 </>
               )}
               <ModeToggle />
@@ -159,14 +159,14 @@ export function Header() {
                       </Avatar>
                       <span className="font-semibold">Nombre Usuario</span>
                     </div>
-                    <button className="text-sm text-muted-foreground hover:underline">Cerrar sesión</button>
+                    <button onClick={() => setAvatar(false)} className="text-sm text-muted-foreground hover:underline">Cerrar sesión</button>
                   </div>
                 ) : (
                   <div className="flex flex-col gap-2">
-                    <Button variant="outline" className="w-full hover:scale-105 transition-transform py-5">
+                    <Button onClick={() => setAvatar(true)} variant="outline" className="w-full hover:scale-105 transition-transform py-5">
                       Iniciar sesión
                     </Button>
-                    <Button className="w-full hover:scale-105 transition-transform py-5">Registrarse</Button>
+                    <Button onClick={() => setAvatar(true)} className="w-full hover:scale-105 transition-transform py-5">Registrarse</Button>
                   </div>
                 )}
               </div>
