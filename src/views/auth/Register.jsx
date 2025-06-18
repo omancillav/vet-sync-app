@@ -10,7 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { registerSchema } from '../../schemas/registerSchema'
 import { ModeToggle } from '@/components/header/mode-toggle.jsx'
 import { ArrowLeft, Eye, EyeOff } from 'lucide-react'
-import { register as registerRequest } from '../../services/api/auth.jsx'
+import { register as registerRequest, login as loginRequest } from '../../services/api/auth.jsx'
 import { useAuth } from '../../contexts/auth.jsx'
 
 export function Register() {
@@ -29,16 +29,22 @@ export function Register() {
 
   const onSubmit = async (data) => {
     try {
-      const responseData = await registerRequest({ input: data })
-      // Inicia sesión automáticamente después del registro
-      login(responseData)
+      // 1. Intenta registrar al usuario
+      await registerRequest({ input: data })
+
+      // 2. Si el registro es exitoso, inicia sesión para obtener los tokens
+      const { email, password } = data
+      const sessionData = await loginRequest({ input: { email, password } })
+
+      // 3. Guarda la sesión en el contexto y redirige
+      login(sessionData)
       navigate('/')
     } catch (err) {
       console.error(err)
-      // Si el error es por un correo ya existente u otro error del servidor
+      // Maneja errores tanto del registro (ej. email ya existe) como del login
       setError('root.serverError', {
         type: 'manual',
-        message: err.response?.data?.message || 'Hubo un error al crear la cuenta. Inténtalo de nuevo.'
+        message: err.response?.data?.message || 'Hubo un error durante el registro. Por favor, inténtalo de nuevo.'
       })
     }
   }
@@ -89,7 +95,7 @@ export function Register() {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="telefono">Teléfono (Opcional)</Label>
-                <Input id="telefono" type="tel" placeholder="123-456-7890" {...register('telefono')} />
+                <Input id="telefono" type="tel" placeholder="1234567890" {...register('telefono')} />
                 {errors.telefono && <p className="text-sm text-red-500">{errors.telefono.message}</p>}
               </div>
               <div className="grid gap-2">
@@ -117,7 +123,7 @@ export function Register() {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="direccion">Dirección (Opcional)</Label>
-                <Input id="direccion" type="text" placeholder="123 Main St" {...register('direccion')} />
+                <Input id="direccion" type="text" placeholder="Calle 123, Colonia, Ciudad, Estado" {...register('direccion')} />
                 {errors.direccion && <p className="text-sm text-red-500">{errors.direccion.message}</p>}
               </div>
               {errors.root?.serverError && (
