@@ -1,0 +1,62 @@
+import { useAuth } from '../../contexts/auth'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import { Link } from 'react-router-dom'
+import { User, LogOut } from 'lucide-react'
+
+export function UserNav() {
+  const { isAuthenticated, user, logout } = useAuth()
+  const userInitials = user?.nombre ? user.nombre.charAt(0).toUpperCase() : 'U'
+
+  if (isAuthenticated) {
+    return (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+            <Avatar className="hover:cursor-pointer">
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>{userInitials}</AvatarFallback>
+            </Avatar>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56" align="end" forceMount>
+          <DropdownMenuLabel className="font-normal">
+            <div className="flex flex-col space-y-1">
+              <p className="text-sm font-medium leading-none">{user?.nombre}</p>
+              <p className="text-xs leading-none text-muted-foreground">{user?.email}</p>
+            </div>
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem className="hover:cursor-pointer">
+            <User className="mr-2 h-4 w-4" />
+            <span>Mi Perfil</span>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem className="hover:cursor-pointer" onClick={logout}>
+            <LogOut className="mr-2 h-4 w-4" />
+            <span>Cerrar sesión</span>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    )
+  }
+
+  return (
+    <div className="flex items-center gap-2">
+      <Button asChild variant="outline" className="transition-transform text-sm lg:text-md hover:cursor-pointer">
+        <Link to="/login">Iniciar sesión</Link>
+      </Button>
+      <Button asChild className="transition-transform text-sm lg:text-md hover:cursor-pointer">
+        <Link to="/register">Registrarse</Link>
+      </Button>
+    </div>
+  )
+}
