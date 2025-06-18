@@ -79,18 +79,18 @@ export function Register() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="grid gap-2">
                   <Label htmlFor="nombre">Nombre</Label>
-                  <Input id="nombre" type="text" placeholder="John" {...register('nombre')} />
+                  <Input id="nombre" type="text" placeholder="Juan" {...register('nombre')} />
                   {errors.nombre && <p className="text-sm text-red-500">{errors.nombre.message}</p>}
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="apellido">Apellido</Label>
-                  <Input id="apellido" type="text" placeholder="Doe" {...register('apellido')} />
+                  <Input id="apellido" type="text" placeholder="Perez" {...register('apellido')} />
                   {errors.apellido && <p className="text-sm text-red-500">{errors.apellido.message}</p>}
                 </div>
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="m@example.com" {...register('email')} />
+                <Input id="email" type="email" placeholder="correo@ejemplo.com" {...register('email')} />
                 {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
               </div>
               <div className="grid gap-2">

@@ -65,7 +65,7 @@ export function MobileMenu({ isOpen, onClose }) {
                     <AvatarImage src="https://github.com/shadcn.png" />
                     <AvatarFallback>{userInitials}</AvatarFallback>
                   </Avatar>
-                  <span className="font-semibold">{user?.nombre}</span>
+                  <span className="font-semibold text-sm">{user?.nombre + ' ' + user?.apellido}</span>
                 </div>
                 <button onClick={handleLogout} className="text-sm text-muted-foreground hover:underline">Cerrar sesión</button>
               </div>
