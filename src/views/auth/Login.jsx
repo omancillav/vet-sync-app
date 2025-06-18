@@ -74,7 +74,7 @@ export function Login() {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="correo@ejemplo.com"
                   {...register('email')}
                 />
                 {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}

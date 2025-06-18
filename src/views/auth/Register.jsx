@@ -5,12 +5,49 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { registerSchema } from '../../schemas/registerSchema'
 import { ModeToggle } from '@/components/header/mode-toggle.jsx'
 import { ArrowLeft, Eye, EyeOff } from 'lucide-react'
+import { register as registerRequest, login as loginRequest } from '../../services/api/auth.jsx'
+import { useAuth } from '../../contexts/auth.jsx'
 
 export function Register() {
   const navigate = useNavigate()
+  const { login } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setError
+  } = useForm({
+    resolver: zodResolver(registerSchema)
+  })
+
+  const onSubmit = async (data) => {
+    try {
+      // 1. Intenta registrar al usuario
+      await registerRequest({ input: data })
+
+      // 2. Si el registro es exitoso, inicia sesión para obtener los tokens
+      const { email, password } = data
+      const sessionData = await loginRequest({ input: { email, password } })
+
+      // 3. Guarda la sesión en el contexto y redirige
+      login(sessionData)
+      navigate('/')
+    } catch (err) {
+      console.error(err)
+      // Maneja errores tanto del registro (ej. email ya existe) como del login
+      setError('root.serverError', {
+        type: 'manual',
+        message: err.response?.data?.message || 'Hubo un error durante el registro. Por favor, inténtalo de nuevo.'
+      })
+    }
+  }
 
   return (
     <div className="relative flex min-h-screen w-full flex-col items-center justify-start gap-4 p-4 pt-20 md:justify-center md:pt-4">
@@ -37,32 +74,49 @@ export function Register() {
         </CardHeader>
 
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-4">
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="grid gap-2">
                   <Label htmlFor="nombre">Nombre</Label>
-                  <Input id="nombre" type="text" placeholder="John" required />
+                  <Input id="nombre" type="text" placeholder="Juan" {...register('nombre')} />
+                  {errors.nombre && <p className="text-sm text-red-500">{errors.nombre.message}</p>}
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="apellido">Apellido</Label>
-                  <Input id="apellido" type="text" placeholder="Doe" required />
+                  <Input id="apellido" type="text" placeholder="Perez" {...register('apellido')} />
+                  {errors.apellido && <p className="text-sm text-red-500">{errors.apellido.message}</p>}
                 </div>
               </div>
-              <div className="grid gap-4 md:grid-cols-2">
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" placeholder="m@example.com" required />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="telefono">Teléfono (Opcional)</Label>
-                  <Input id="telefono" type="tel" placeholder="123-456-7890" />
-                </div>
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" type="email" placeholder="correo@ejemplo.com" {...register('email')} />
+                {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="telefono">Teléfono (Opcional)</Label>
+                <Input
+                  id="telefono"
+                  type="tel"
+                  placeholder="1234567890"
+                  {...register('telefono')}
+                  onChange={(e) => {
+                    const { value } = e.target
+                    e.target.value = value.replace(/[^0-9]/g, '').slice(0, 10)
+                    register('telefono').onChange(e)
+                  }}
+                />
+                {errors.telefono && <p className="text-sm text-red-500">{errors.telefono.message}</p>}
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="password">Contraseña</Label>
                 <div className="relative">
-                  <Input id="password" type={showPassword ? 'text' : 'password'} className="pr-10 font-mono" required />
+                  <Input
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    className="pr-10 font-mono"
+                    {...register('password')}
+                  />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
@@ -75,20 +129,24 @@ export function Register() {
                     )}
                   </button>
                 </div>
+                {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="direccion">Dirección (Opcional)</Label>
-                <Input id="direccion" type="text" placeholder="123 Main St" />
+                <Input id="direccion" type="text" placeholder="Calle 123, Colonia, Ciudad, Estado" {...register('direccion')} />
+                {errors.direccion && <p className="text-sm text-red-500">{errors.direccion.message}</p>}
               </div>
+              {errors.root?.serverError && (
+                <p className="text-sm text-red-500">{errors.root.serverError.message}</p>
+              )}
             </div>
+            <CardFooter className="mt-4 flex-col gap-2 p-0">
+              <Button type="submit" className="w-full" disabled={isSubmitting}>
+                {isSubmitting ? 'Creando cuenta...' : 'Registrarse'}
+              </Button>
+            </CardFooter>
           </form>
         </CardContent>
-
-        <CardFooter className="flex-col gap-2">
-          <Button type="submit" className="w-full" onClick={() => navigate('/')}>
-            Registrarse
-          </Button>
-        </CardFooter>
       </Card>
 
       <Link to="/login">
