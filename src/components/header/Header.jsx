@@ -26,13 +26,11 @@ export function Header() {
 
   const handleLogout = () => {
     logout()
-    // Cierra el menú en móvil si está abierto al cerrar sesión
     if (isMenuOpen) {
       toggleMenu()
     }
   }
 
-  // Cierra el menú móvil al hacer clic en un enlace de navegación
   const handleMobileLinkClick = () => {
     if (isMenuOpen) {
       toggleMenu()
@@ -45,7 +43,7 @@ export function Header() {
     <header className="py-4 px-5 shadow-sm">
       <div className="max-w-[1400px] mx-auto">
         {/* Desktop Layout */}
-        <section className="hidden md:flex items-center relative">
+        <section className="hidden lg:flex items-center relative">
           {/* Logo Section */}
           <section className="flex-1">
             <div className="flex items-center gap-4 lg:gap-4">
@@ -107,7 +105,7 @@ export function Header() {
         </section>
 
         {/* Mobile Layout */}
-        <section className="md:hidden">
+        <section className="lg:hidden">
           {/* Top Bar */}
           <section className="flex items-center justify-between">
             {/* Logo */}
@@ -134,7 +132,7 @@ export function Header() {
 
         {/* Mobile Menu Overlay */}
         <section
-          className={`md:hidden fixed inset-0 z-40 bg-black/30 backdrop-blur-sm transition-all duration-300 ${
+          className={`lg:hidden fixed inset-0 z-40 bg-black/30 backdrop-blur-sm transition-all duration-300 ${
             isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
           }`}
           onClick={toggleMenu}
