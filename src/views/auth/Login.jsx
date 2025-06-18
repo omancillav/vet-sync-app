@@ -5,6 +5,9 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { loginSchema } from '../../schemas/loginSchema'
 import { ModeToggle } from '@/components/header/mode-toggle.jsx'
 import { ArrowLeft, Eye, EyeOff } from 'lucide-react'
 import { login as loginRequest } from '../../services/api/auth.jsx'
@@ -14,20 +17,28 @@ export function Login() {
   const navigate = useNavigate()
   const { login } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError('')
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setError
+  } = useForm({
+    resolver: zodResolver(loginSchema)
+  })
+
+  const onSubmit = async (data) => {
     try {
-      const data = await loginRequest({ input: { email, password } })
-      login(data) // Llama a la función login del contexto
+      const responseData = await loginRequest({ input: data })
+      login(responseData) // Llama a la función login del contexto
       navigate('/')
     } catch (err) {
       console.error(err)
-      setError('Correo o contraseña inválidos. Por favor, inténtalo de nuevo.')
+      // Establece un error en el campo raíz del formulario
+      setError('root.serverError', {
+        type: 'manual',
+        message: 'Correo o contraseña inválidos. Por favor, inténtalo de nuevo.'
+      })
     }
   }
 
@@ -56,7 +67,7 @@ export function Login() {
         </CardHeader>
 
         <CardContent>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Correo electrónico</Label>
@@ -64,10 +75,9 @@ export function Login() {
                   id="email"
                   type="email"
                   placeholder="m@example.com"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  {...register('email')}
                 />
+                {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
@@ -81,9 +91,7 @@ export function Login() {
                     id="password"
                     type={showPassword ? 'text' : 'password'}
                     className="pr-10 font-mono"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    {...register('password')}
                   />
                   <button
                     type="button"
@@ -97,12 +105,15 @@ export function Login() {
                     )}
                   </button>
                 </div>
+                {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
               </div>
-              {error && <p className="text-sm text-red-500">{error}</p>}
+              {errors.root?.serverError && (
+                <p className="text-sm text-red-500">{errors.root.serverError.message}</p>
+              )}
             </div>
             <CardFooter className="mt-4 flex-col gap-2 p-0">
-              <Button type="submit" className="w-full">
-                Iniciar Sesión
+              <Button type="submit" className="w-full hover:cursor-pointer" disabled={isSubmitting}>
+                {isSubmitting ? 'Iniciando sesión...' : 'Iniciar Sesión'}
               </Button>
             </CardFooter>
           </form>
