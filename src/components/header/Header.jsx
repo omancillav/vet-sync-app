@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useAuth } from '../../contexts/auth'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -16,12 +17,29 @@ import { ModeToggle } from './mode-toggle.jsx'
 import VetsyncLogo from '@/assets/vetsync_logo.webp'
 
 export function Header() {
-  const [avatar, setAvatar] = useState(false)
+  const { isAuthenticated, user, logout } = useAuth()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
   }
+
+  const handleLogout = () => {
+    logout()
+    // Cierra el menú en móvil si está abierto al cerrar sesión
+    if (isMenuOpen) {
+      toggleMenu()
+    }
+  }
+
+  // Cierra el menú móvil al hacer clic en un enlace de navegación
+  const handleMobileLinkClick = () => {
+    if (isMenuOpen) {
+      toggleMenu()
+    }
+  }
+
+  const userInitials = user?.nombre ? user.nombre.charAt(0).toUpperCase() : 'U'
 
   return (
     <header className="py-4 px-5 shadow-sm">
@@ -46,21 +64,21 @@ export function Header() {
           {/* Avatar & Auth Section */}
           <section className="flex-1 flex justify-end">
             <div className="flex items-center gap-2">
-              {avatar ? (
+              {isAuthenticated ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="relative h-10 w-10 rounded-full">
                       <Avatar className="hover:cursor-pointer">
                         <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback>CN</AvatarFallback>
+                        <AvatarFallback>{userInitials}</AvatarFallback>
                       </Avatar>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-56" align="end" forceMount>
                     <DropdownMenuLabel className="font-normal">
                       <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">Nombre Usuario</p>
-                        <p className="text-xs leading-none text-muted-foreground">correo@example.com</p>
+                        <p className="text-sm font-medium leading-none">{user?.nombre}</p>
+                        <p className="text-xs leading-none text-muted-foreground">{user?.email}</p>
                       </div>
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
@@ -68,7 +86,7 @@ export function Header() {
                       <User /> Mi Perfil
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem className="hover:cursor-pointer" onClick={() => setAvatar(false)}>
+                    <DropdownMenuItem className="hover:cursor-pointer" onClick={logout}>
                       <LogOut /> Cerrar sesión
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -148,29 +166,29 @@ export function Header() {
             <div className="p-6 space-y-6">
               {/* Navigation */}
               <nav>
-                <NavItems onNavItemClick={toggleMenu} />
+                <NavItems onNavItemClick={handleMobileLinkClick} />
               </nav>
 
               {/* Auth Buttons / Profile Section */}
               <div className="pt-6 border-t border-border/20">
-                {avatar ? (
+                {isAuthenticated ? (
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <Avatar>
                         <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback>CN</AvatarFallback>
+                        <AvatarFallback>{userInitials}</AvatarFallback>
                       </Avatar>
-                      <span className="font-semibold">Nombre Usuario</span>
+                      <span className="font-semibold">{user?.nombre}</span>
                     </div>
-                    <button onClick={() => setAvatar(false)} className="text-sm text-muted-foreground hover:underline">Cerrar sesión</button>
+                    <button onClick={handleLogout} className="text-sm text-muted-foreground hover:underline">Cerrar sesión</button>
                   </div>
                 ) : (
                   <div className="flex flex-col gap-2">
                     <Button asChild variant="outline" className="w-full hover:scale-105 transition-transform py-5">
-                      <Link to="/login">Iniciar sesión</Link>
+                      <Link to="/login" onClick={handleMobileLinkClick}>Iniciar sesión</Link>
                     </Button>
                     <Button asChild className="w-full hover:scale-105 transition-transform py-5">
-                      <Link to="/register">Registrarse</Link>
+                      <Link to="/register" onClick={handleMobileLinkClick}>Registrarse</Link>
                     </Button>
                   </div>
                 )}

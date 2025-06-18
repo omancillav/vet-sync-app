@@ -7,10 +7,29 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ModeToggle } from '@/components/header/mode-toggle.jsx'
 import { ArrowLeft, Eye, EyeOff } from 'lucide-react'
+import { login as loginRequest } from '../../services/api/auth.jsx'
+import { useAuth } from '../../contexts/auth.jsx'
 
 export function Login() {
   const navigate = useNavigate()
+  const { login } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setError('')
+    try {
+      const data = await loginRequest({ input: { email, password } })
+      login(data) // Llama a la función login del contexto
+      navigate('/')
+    } catch (err) {
+      console.error(err)
+      setError('Correo o contraseña inválidos. Por favor, inténtalo de nuevo.')
+    }
+  }
 
   return (
     <div className="relative flex min-h-screen w-full flex-col items-center justify-start gap-4 p-4 pt-20 md:justify-center md:pt-4">
@@ -37,11 +56,18 @@ export function Login() {
         </CardHeader>
 
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Correo electrónico</Label>
-                <Input id="email" type="email" placeholder="m@example.com" required />
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="m@example.com"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
@@ -51,7 +77,14 @@ export function Login() {
                   </a>
                 </div>
                 <div className="relative">
-                  <Input id="password" type={showPassword ? 'text' : 'password'} className="pr-10 font-mono" required />
+                  <Input
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    className="pr-10 font-mono"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
@@ -65,15 +98,15 @@ export function Login() {
                   </button>
                 </div>
               </div>
+              {error && <p className="text-sm text-red-500">{error}</p>}
             </div>
+            <CardFooter className="mt-4 flex-col gap-2 p-0">
+              <Button type="submit" className="w-full">
+                Iniciar Sesión
+              </Button>
+            </CardFooter>
           </form>
         </CardContent>
-
-        <CardFooter className="flex-col gap-2">
-          <Button type="submit" className="w-full" onClick={() => navigate('/')}>
-            Login
-          </Button>
-        </CardFooter>
       </Card>
 
       <Link to="/register">
