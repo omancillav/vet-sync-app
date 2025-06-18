@@ -95,7 +95,17 @@ export function Register() {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="telefono">Teléfono (Opcional)</Label>
-                <Input id="telefono" type="tel" placeholder="1234567890" {...register('telefono')} />
+                <Input
+                  id="telefono"
+                  type="tel"
+                  placeholder="1234567890"
+                  {...register('telefono')}
+                  onChange={(e) => {
+                    const { value } = e.target
+                    e.target.value = value.replace(/[^0-9]/g, '').slice(0, 10)
+                    register('telefono').onChange(e)
+                  }}
+                />
                 {errors.telefono && <p className="text-sm text-red-500">{errors.telefono.message}</p>}
               </div>
               <div className="grid gap-2">

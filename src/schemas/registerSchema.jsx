@@ -22,7 +22,8 @@ export const registerSchema = z.object({
 
   telefono: z
     .string()
-    .max(20, 'El teléfono no debe exceder los 20 caracteres.')
+    .max(10, 'El teléfono no debe exceder los 10 caracteres.')
+    .regex(/^[0-9]*$/, { message: 'El teléfono solo debe contener números.' })
     .trim()
     .optional()
     .or(z.literal('')), // Permite que el campo sea opcional o una cadena vacía
