@@ -43,7 +43,7 @@ export function Login() {
   }
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-start gap-4 p-4 pt-20 md:justify-center md:pt-4">
+    <div className="relative flex min-h-screen w-full max-w-[1400px] flex-col items-center justify-start gap-4 p-4 pt-20 md:justify-center md:pt-4">
       <Link to="/" className="absolute left-4 top-4">
         <Button className="hover:cursor-pointer" variant="outline">
           <ArrowLeft className="h-4 w-4" />
