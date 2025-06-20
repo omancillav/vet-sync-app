@@ -7,11 +7,11 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { loginSchema } from '../../schemas/loginSchema'
+import { loginSchema } from '@/schemas/loginSchema'
 import { ModeToggle } from '@/components/header/mode-toggle.jsx'
 import { ArrowLeft, Eye, EyeOff } from 'lucide-react'
-import { login as loginRequest } from '../../services/api/auth.jsx'
-import { useAuth } from '../../contexts/auth.jsx'
+import { login as loginRequest } from '@/services/api/auth.jsx'
+import { useAuth } from '@/contexts/auth.jsx'
 
 export function Login() {
   const navigate = useNavigate()
