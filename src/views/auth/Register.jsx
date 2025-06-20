@@ -89,7 +89,7 @@ export function Register() {
                 </div>
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">Correo electrónico</Label>
                 <Input id="email" type="email" placeholder="correo@ejemplo.com" {...register('email')} />
                 {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
               </div>
