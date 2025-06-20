@@ -65,16 +65,19 @@ export function MobileMenu({ isOpen, onClose }) {
                     <AvatarImage src="https://github.com/shadcn.png" />
                     <AvatarFallback>{userInitials}</AvatarFallback>
                   </Avatar>
-                  <span className="font-semibold text-sm">{user?.nombre + ' ' + user?.apellido}</span>
+                  <section className='flex flex-col'>
+                    <span className="font-semibold text-sm">{user?.nombre + ' ' + user?.apellido}</span>
+                    <span className="text-xs text-muted-foreground">{user?.email}</span>
+                  </section>
                 </div>
                 <button onClick={handleLogout} className="text-sm text-muted-foreground hover:underline">Cerrar sesión</button>
               </div>
             ) : (
               <div className="flex flex-col gap-2">
-                <Button asChild variant="outline" className="w-full hover:scale-105 transition-transform py-5">
+                <Button asChild variant="outline" className="w-full transition-transform py-5">
                   <Link to="/login" onClick={handleLinkClick}>Iniciar sesión</Link>
                 </Button>
-                <Button asChild className="w-full hover:scale-105 transition-transform py-5">
+                <Button asChild className="w-full transition-transform py-5">
                   <Link to="/register" onClick={handleLinkClick}>Registrarse</Link>
                 </Button>
               </div>
