@@ -1,10 +1,10 @@
 import { useAuth } from '../../contexts/auth'
 import { Button } from '@/components/ui/button'
+import VetsyncLogo from '@/assets/vetsync_logo.webp'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Link } from 'react-router-dom'
 import { X } from 'lucide-react'
 import { NavItems } from './NavItems'
-import VetsyncLogo from '@/assets/vetsync_logo.webp'
 
 export function MobileMenu({ isOpen, onClose }) {
   const { isAuthenticated, user, logout } = useAuth()

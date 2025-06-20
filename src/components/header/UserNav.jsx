@@ -1,4 +1,3 @@
-import { useAuth } from '../../contexts/auth'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -11,6 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Link } from 'react-router-dom'
 import { User, LogOut } from 'lucide-react'
+import { useAuth } from '@/contexts/auth.jsx'
 
 export function UserNav() {
   const { isAuthenticated, user, logout } = useAuth()
