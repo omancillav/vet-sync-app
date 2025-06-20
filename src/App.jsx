@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
-import { Login } from './views/auth/Login.jsx'
-import { Register } from './views/auth/Register.jsx'
-import { Header } from './components/header/Header'
-import { Home } from './views/Home'
-import { Pets } from './views/Pets'
-import { Appointments } from './views/Appointments'
-import { Services } from './views/Services'
+import { Login } from '@/views/auth/Login.jsx'
+import { Register } from '@/views/auth/Register.jsx'
+import { Header } from '@/components/header/Header.jsx'
+import { Home } from '@/views/Home.jsx'
+import { Pets } from '@/views/Pets.jsx'
+import { Appointments } from '@/views/Appointments.jsx'
+import { Services } from '@/views/Services.jsx'
 
 function AppContent() {
   const location = useLocation()

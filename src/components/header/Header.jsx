@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import VetsyncLogo from '@/assets/vetsync_logo.webp'
 import { Button } from '@/components/ui/button'
 import { Menu } from 'lucide-react'
 import { NavItems } from './NavItems'
 import { ModeToggle } from './mode-toggle.jsx'
-import VetsyncLogo from '@/assets/vetsync_logo.webp'
 import { UserNav } from './UserNav'
 import { MobileMenu } from './MobileMenu'
 

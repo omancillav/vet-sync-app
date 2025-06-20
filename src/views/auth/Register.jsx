@@ -1,17 +1,17 @@
+import { Link, useNavigate } from 'react-router-dom'
 import VetsyncLogo from '@/assets/vetsync_logo.webp'
-import { Button } from '@/components/ui/button'
+import { ArrowLeft, Eye, EyeOff } from 'lucide-react'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { ModeToggle } from '@/components/header/mode-toggle.jsx'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { registerSchema } from '../../schemas/registerSchema'
-import { ModeToggle } from '@/components/header/mode-toggle.jsx'
-import { ArrowLeft, Eye, EyeOff } from 'lucide-react'
-import { register as registerRequest, login as loginRequest } from '../../services/api/auth.jsx'
-import { useAuth } from '../../contexts/auth.jsx'
+import { registerSchema } from '@/schemas/registerSchema'
+import { register as registerRequest, login as loginRequest } from '@/services/api/auth.jsx'
+import { useAuth } from '@/contexts/auth.jsx'
 
 export function Register() {
   const navigate = useNavigate()
@@ -62,15 +62,13 @@ export function Register() {
         <ModeToggle />
       </div>
 
-      <Card className="mx-auto w-full max-w-sm">
+      <Card className="mx-auto w-full max-w-md">
         <Link to="/" className="flex items-center justify-center">
           <img src={VetsyncLogo} className="w-12 lg:w-18" alt="Vetsync Logo" />
         </Link>
 
         <CardHeader>
-          <CardTitle className="text-center uppercase font-bold">
-            Crea una cuenta
-          </CardTitle>
+          <CardTitle className="text-center uppercase font-bold">Crea una cuenta</CardTitle>
         </CardHeader>
 
         <CardContent>
@@ -88,25 +86,27 @@ export function Register() {
                   {errors.apellido && <p className="text-sm text-red-500">{errors.apellido.message}</p>}
                 </div>
               </div>
-              <div className="grid gap-2">
-                <Label htmlFor="email">Correo electrónico</Label>
-                <Input id="email" type="email" placeholder="correo@ejemplo.com" {...register('email')} />
-                {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="telefono">Teléfono (Opcional)</Label>
-                <Input
-                  id="telefono"
-                  type="tel"
-                  placeholder="1234567890"
-                  {...register('telefono')}
-                  onChange={(e) => {
-                    const { value } = e.target
-                    e.target.value = value.replace(/[^0-9]/g, '').slice(0, 10)
-                    register('telefono').onChange(e)
-                  }}
-                />
-                {errors.telefono && <p className="text-sm text-red-500">{errors.telefono.message}</p>}
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-10">
+                <div className="grid gap-2 md:col-span-6">
+                  <Label htmlFor="email">Correo electrónico</Label>
+                  <Input id="email" type="email" placeholder="correo@ejemplo.com" {...register('email')} />
+                  {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
+                </div>
+                <div className="grid gap-2 md:col-span-4">
+                  <Label htmlFor="telefono">Teléfono (Opcional)</Label>
+                  <Input
+                    id="telefono"
+                    type="tel"
+                    placeholder="1234567890"
+                    {...register('telefono')}
+                    onChange={(e) => {
+                      const { value } = e.target
+                      e.target.value = value.replace(/[^0-9]/g, '').slice(0, 10)
+                      register('telefono').onChange(e)
+                    }}
+                  />
+                  {errors.telefono && <p className="text-sm text-red-500">{errors.telefono.message}</p>}
+                </div>
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="password">Contraseña</Label>
@@ -133,12 +133,15 @@ export function Register() {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="direccion">Dirección (Opcional)</Label>
-                <Input id="direccion" type="text" placeholder="Calle 123, Colonia, Ciudad, Estado" {...register('direccion')} />
+                <Input
+                  id="direccion"
+                  type="text"
+                  placeholder="Calle 123, Colonia, Ciudad, Estado"
+                  {...register('direccion')}
+                />
                 {errors.direccion && <p className="text-sm text-red-500">{errors.direccion.message}</p>}
               </div>
-              {errors.root?.serverError && (
-                <p className="text-sm text-red-500">{errors.root.serverError.message}</p>
-              )}
+              {errors.root?.serverError && <p className="text-sm text-red-500">{errors.root.serverError.message}</p>}
             </div>
             <CardFooter className="mt-4 flex-col gap-2 p-0">
               <Button type="submit" className="w-full" disabled={isSubmitting}>

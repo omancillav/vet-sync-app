@@ -29,6 +29,11 @@ export const NavItems = ({ onNavItemClick }) => (
       </NavButton>
     </li>
     <li className="w-full md:w-auto">
+      <NavButton to="/servicios" onClick={onNavItemClick}>
+        Servicios
+      </NavButton>
+    </li>
+    <li className="w-full md:w-auto">
       <NavButton to="/mascotas" onClick={onNavItemClick}>
         Mascotas
       </NavButton>
@@ -36,11 +41,6 @@ export const NavItems = ({ onNavItemClick }) => (
     <li className="w-full md:w-auto">
       <NavButton to="/citas" onClick={onNavItemClick}>
         Citas
-      </NavButton>
-    </li>
-    <li className="w-full md:w-auto">
-      <NavButton to="/servicios" onClick={onNavItemClick}>
-        Servicios
       </NavButton>
     </li>
   </ul>
