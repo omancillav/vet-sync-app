@@ -10,7 +10,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { registerSchema } from '@/schemas/registerSchema'
-import { register as registerRequest, login as loginRequest } from '@/services/api/auth.jsx'
+import { register as registerRequest } from '@/services/api/auth.jsx'
 import { useAuth } from '@/contexts/auth.jsx'
 
 export function Register() {
@@ -29,19 +29,15 @@ export function Register() {
 
   const onSubmit = async (data) => {
     try {
-      // 1. Intenta registrar al usuario
-      await registerRequest({ input: data })
+      // 1. Intenta registrar al usuario y obtener la sesión
+      const sessionData = await registerRequest({ input: data })
 
-      // 2. Si el registro es exitoso, inicia sesión para obtener los tokens
-      const { email, password } = data
-      const sessionData = await loginRequest({ input: { email, password } })
-
-      // 3. Guarda la sesión en el contexto y redirige
+      // 2. Guarda la sesión en el contexto y redirige
       login(sessionData)
       navigate('/')
     } catch (err) {
       console.error(err)
-      // Maneja errores tanto del registro (ej. email ya existe) como del login
+      // Maneja errores del registro (ej. email ya existe)
       setError('root.serverError', {
         type: 'manual',
         message: err.response?.data?.message || 'Hubo un error durante el registro. Por favor, inténtalo de nuevo.'
