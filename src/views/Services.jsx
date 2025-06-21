@@ -1,21 +1,10 @@
-import { useEffect } from 'react'
-import { useState } from 'react'
-import { getServices } from '@/services/api/services.jsx'
+import { useServices } from '@/hooks/useServices.js'
 
 export function Services() {
-  const [services, setServices] = useState([])
+  const { services, loading, error } = useServices()
 
-  useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const response = await getServices()
-        setServices(response.data)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-    fetchServices()
-  }, [])
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error: {error.message}</p>
 
   return (
     <div className="container mx-auto px-4 py-8">
