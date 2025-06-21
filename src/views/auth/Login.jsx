@@ -47,7 +47,7 @@ export function Login() {
       <Link to="/" className="absolute left-4 top-4">
         <Button className="hover:cursor-pointer" variant="outline">
           <ArrowLeft className="h-4 w-4" />
-          Inicio
+          Volver
         </Button>
       </Link>
 
