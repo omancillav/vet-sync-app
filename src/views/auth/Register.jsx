@@ -10,7 +10,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { registerSchema } from '@/schemas/registerSchema'
-import { register as registerRequest } from '@/services/api/auth.jsx'
+import { register as registerRequest } from '@/services/api/auth.js'
 import { useAuth } from '@/contexts/auth.jsx'
 
 export function Register() {
@@ -50,7 +50,7 @@ export function Register() {
       <Link to="/" className="absolute left-4 top-4">
         <Button className="hover:cursor-pointer" variant="outline">
           <ArrowLeft className="h-4 w-4" />
-          Inicio
+          Volver
         </Button>
       </Link>
 
