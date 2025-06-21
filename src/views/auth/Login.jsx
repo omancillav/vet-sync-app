@@ -10,7 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { loginSchema } from '@/schemas/loginSchema'
 import { ModeToggle } from '@/components/header/mode-toggle.jsx'
 import { ArrowLeft, Eye, EyeOff } from 'lucide-react'
-import { login as loginRequest } from '@/services/api/auth.jsx'
+import { login as loginRequest } from '@/services/api/auth.js'
 import { useAuth } from '@/contexts/auth.jsx'
 
 export function Login() {

@@ -10,7 +10,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { registerSchema } from '@/schemas/registerSchema'
-import { register as registerRequest } from '@/services/api/auth.jsx'
+import { register as registerRequest } from '@/services/api/auth.js'
 import { useAuth } from '@/contexts/auth.jsx'
 
 export function Register() {

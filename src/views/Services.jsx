@@ -1,11 +1,21 @@
 import { useServices } from '@/hooks/useServices.js'
 import { AppointmentCard } from '@/components/Appointments/AppointmentCard.jsx'
+import { LoadingSpinner } from '@/components/LoadingSpinner'
+import { ErrorCard } from '@/components/ErrorCard'
 
 export function Services() {
   const { services, loading, error } = useServices()
 
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error: {error.message}</p>
+  if (loading) return <LoadingSpinner message="Cargando servicios..." className="min-h-[60vh]" />
+  if (error) return (
+    <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <ErrorCard
+        title="Error al cargar los servicios"
+        message={error.message || 'Ocurrió un error al intentar cargar los servicios. Por favor, inténtalo de nuevo más tarde.'}
+        className="my-8"
+      />
+    </div>
+  )
 
   return (
     <div className="container mx-auto px-4 py-8">

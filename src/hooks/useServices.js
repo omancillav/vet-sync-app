@@ -8,7 +8,6 @@ export function useServices() {
 
   const fetchServices = useCallback(async () => {
     try {
-      console.log('Fetching services...')
       setLoading(true)
       const response = await getServices()
       setServices(response.data)
