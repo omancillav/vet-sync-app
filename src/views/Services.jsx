@@ -30,17 +30,19 @@ export function Services() {
   return (
     <div className="w-full px-4 py-8 mx-auto max-w-7xl">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Nuestros Servicios</h1>
-          <p className="text-muted-foreground">Servicios veterinarios completos para el cuidado de tu mascota</p>
-        </div>
+        <Tabs defaultValue="Veterinaria" className="w-full gap-3 md:gap-6">
+          <div className="flex flex-col lg:flex-row lg:items-end gap-6 mb-2 md:mb-2.5 lg:mb-5">
+            <div className="lg:w-1/2">
+              <h1 className="text-3xl font-bold text-foreground mb-2">Nuestros Servicios</h1>
+              <p className="text-muted-foreground">Servicios veterinarios completos para el cuidado de tu mascota</p>
+            </div>
 
-        <Tabs defaultValue="Veterinaria" className="w-full mx-auto items-center gap-3 md:gap-5">
-          <div className="w-full mx-auto flex justify-center">
-            <TabsList className="w-full max-w-2xl h-10">
-              <TabsTrigger value="Veterinaria" className="hover:cursor-pointer">Veterinaria</TabsTrigger>
-              <TabsTrigger value="Estética" className="hover:cursor-pointer">Estética</TabsTrigger>
-            </TabsList>
+            <div className="lg:w-1/2">
+              <TabsList className="w-full">
+                <TabsTrigger value="Veterinaria" className="hover:cursor-pointer w-1/2">Veterinaria</TabsTrigger>
+                <TabsTrigger value="Estética" className="hover:cursor-pointer w-1/2">Estética</TabsTrigger>
+              </TabsList>
+            </div>
           </div>
 
           <TabsContent value="Veterinaria" className="w-full">
