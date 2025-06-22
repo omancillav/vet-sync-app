@@ -9,14 +9,14 @@ export function ServicesCard({ service }) {
         <CardDescription className="line-clamp-2 text-sm md:text-base">{service.descripcion}</CardDescription>
       </CardHeader>
       <CardContent className="mt-auto">
-        <section className="flex justify-between mb-4 bg-accent px-5 py-3 rounded-md text-center">
+        <section className="flex justify-between mb-4 bg-accent px-8 py-3 rounded-md text-center">
           <div className="flex flex-col justify-center">
             <p className="text-sm">Duración</p>
-            <p className="font-semibold">{service.duracion_estimada} min</p>
+            <p className="font-semibold text-md">{service.duracion_estimada} min</p>
           </div>
           <div className="flex flex-col justify-center">
             <p className="text-sm">Precio</p>
-            <p className="font-semibold">${service.precio}</p>
+            <p className="font-semibold text-md">${service.precio}</p>
           </div>
         </section>
         <Button className="w-full bg-primary text-primary-foreground py-2 rounded-md hover:bg-primary/90 transition-colors text-sm hover:cursor-pointer">
