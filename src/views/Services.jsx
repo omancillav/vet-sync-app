@@ -1,6 +1,6 @@
 import { useServices } from '@/hooks/useServices.js'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { AppointmentCard } from '@/components/Appointments/AppointmentCard.jsx'
+import { ServicesCard } from '@/components/Services/ServicesCard.jsx'
 import { LoadingSpinner } from '@/components/LoadingSpinner'
 import { ErrorCard } from '@/components/ErrorCard'
 import { filterServicesByCategory } from '@/lib/utils'
@@ -49,7 +49,7 @@ export function Services() {
             {filterServicesByCategory(services, 'Veterinaria').length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
                 {filterServicesByCategory(services, 'Veterinaria').map((service, index) => (
-                  <AppointmentCard key={index} service={service} />
+                  <ServicesCard key={index} service={service} />
                 ))}
               </div>
             ) : (
@@ -63,7 +63,7 @@ export function Services() {
             {filterServicesByCategory(services, 'Estética').length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
                 {filterServicesByCategory(services, 'Estética').map((service, index) => (
-                  <AppointmentCard key={index} service={service} />
+                  <ServicesCard key={index} service={service} />
                 ))}
               </div>
             ) : (
