@@ -36,10 +36,12 @@ export function Services() {
         </div>
 
         <Tabs defaultValue="Veterinaria" className="w-full mx-auto items-center gap-10">
-          <TabsList>
-            <TabsTrigger value="Veterinaria">Veterinaria</TabsTrigger>
-            <TabsTrigger value="Estética">Estética</TabsTrigger>
-          </TabsList>
+          <div className="w-full mx-auto flex justify-center">
+            <TabsList className="w-full max-w-2xl h-10">
+              <TabsTrigger value="Veterinaria" className="hover:cursor-pointer">Veterinaria</TabsTrigger>
+              <TabsTrigger value="Estética" className="hover:cursor-pointer">Estética</TabsTrigger>
+            </TabsList>
+          </div>
 
           <TabsContent value="Veterinaria" className="w-full">
             {filterServicesByCategory('Veterinaria').length > 0 ? (
