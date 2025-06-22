@@ -3,14 +3,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { AppointmentCard } from '@/components/Appointments/AppointmentCard.jsx'
 import { LoadingSpinner } from '@/components/LoadingSpinner'
 import { ErrorCard } from '@/components/ErrorCard'
+import { filterServicesByCategory } from '@/lib/utils'
 
 export function Services() {
   const { services, loading, error } = useServices()
-
-  const filterServicesByCategory = (category) =>
-    services.filter((service) =>
-      category === 'Veterinaria' ? service.categoria_id === 1 : service.categoria_id === 2
-    )
 
   if (loading) return <LoadingSpinner message="Cargando servicios..." className="min-h-[60vh]" />
   if (error)
@@ -39,16 +35,20 @@ export function Services() {
 
             <div className="lg:w-1/2">
               <TabsList className="w-full">
-                <TabsTrigger value="Veterinaria" className="hover:cursor-pointer w-1/2">Veterinaria</TabsTrigger>
-                <TabsTrigger value="Estética" className="hover:cursor-pointer w-1/2">Estética</TabsTrigger>
+                <TabsTrigger value="Veterinaria" className="hover:cursor-pointer w-1/2">
+                  Veterinaria
+                </TabsTrigger>
+                <TabsTrigger value="Estética" className="hover:cursor-pointer w-1/2">
+                  Estética
+                </TabsTrigger>
               </TabsList>
             </div>
           </div>
 
           <TabsContent value="Veterinaria" className="w-full">
-            {filterServicesByCategory('Veterinaria').length > 0 ? (
+            {filterServicesByCategory(services, 'Veterinaria').length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-                {filterServicesByCategory('Veterinaria').map((service, index) => (
+                {filterServicesByCategory(services, 'Veterinaria').map((service, index) => (
                   <AppointmentCard key={index} service={service} />
                 ))}
               </div>
@@ -60,9 +60,9 @@ export function Services() {
           </TabsContent>
 
           <TabsContent value="Estética" className="w-full">
-            {filterServicesByCategory('Estética').length > 0 ? (
+            {filterServicesByCategory(services, 'Estética').length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-                {filterServicesByCategory('Estética').map((service, index) => (
+                {filterServicesByCategory(services, 'Estética').map((service, index) => (
                   <AppointmentCard key={index} service={service} />
                 ))}
               </div>
