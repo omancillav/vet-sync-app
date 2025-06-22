@@ -35,7 +35,7 @@ export function Services() {
           <p className="text-muted-foreground">Servicios veterinarios completos para el cuidado de tu mascota</p>
         </div>
 
-        <Tabs defaultValue="Veterinaria" className="w-full mx-auto items-center gap-10">
+        <Tabs defaultValue="Veterinaria" className="w-full mx-auto items-center gap-3 md:gap-5">
           <div className="w-full mx-auto flex justify-center">
             <TabsList className="w-full max-w-2xl h-10">
               <TabsTrigger value="Veterinaria" className="hover:cursor-pointer">Veterinaria</TabsTrigger>
