@@ -8,21 +8,6 @@ import { filterServicesByCategory } from '@/lib/utils'
 export function Services() {
   const { services, loading, error } = useServices()
 
-  if (loading) return <LoadingSpinner message="Cargando servicios..." className="min-h-[60vh]" />
-  if (error)
-    return (
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        <ErrorCard
-          title="Error al cargar los servicios"
-          message={
-            error.message ||
-            'Ocurrió un error al intentar cargar los servicios. Por favor, inténtalo de nuevo más tarde.'
-          }
-          className="my-8"
-        />
-      </div>
-    )
-
   return (
     <div className="w-full px-4 py-8 mx-auto max-w-7xl">
       <div className="max-w-6xl mx-auto">
@@ -35,43 +20,68 @@ export function Services() {
 
             <div className="lg:w-1/2">
               <TabsList className="w-full">
-                <TabsTrigger value="Veterinaria" className="hover:cursor-pointer w-1/2">
+                <TabsTrigger value="Veterinaria" className="hover:cursor-pointer w-1/2" disabled={loading || error}>
                   Veterinaria
                 </TabsTrigger>
-                <TabsTrigger value="Estética" className="hover:cursor-pointer w-1/2">
+                <TabsTrigger value="Estética" className="hover:cursor-pointer w-1/2" disabled={loading || error}>
                   Estética
                 </TabsTrigger>
               </TabsList>
             </div>
           </div>
 
-          <TabsContent value="Veterinaria" className="w-full">
-            {filterServicesByCategory(services, 'Veterinaria').length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-                {filterServicesByCategory(services, 'Veterinaria').map((service, index) => (
-                  <ServicesCard key={index} service={service} />
-                ))}
-              </div>
-            ) : (
-              <p className="text-center text-muted-foreground py-8">
-                No hay servicios de veterinaria disponibles en este momento.
-              </p>
-            )}
-          </TabsContent>
+          {/* Mostrar loader si está cargando */}
+          {loading && (
+            <div className="my-8">
+              <LoadingSpinner message="Cargando servicios..." className="min-h-[40vh]" />
+            </div>
+          )}
 
-          <TabsContent value="Estética" className="w-full">
-            {filterServicesByCategory(services, 'Estética').length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-                {filterServicesByCategory(services, 'Estética').map((service, index) => (
-                  <ServicesCard key={index} service={service} />
-                ))}
-              </div>
-            ) : (
-              <p className="text-center text-muted-foreground py-8">
-                No hay servicios de estética disponibles en este momento.
-              </p>
-            )}
-          </TabsContent>
+          {/* Mostrar error si hay un error */}
+          {error && (
+            <div className="my-8">
+              <ErrorCard
+                title="Error al cargar los servicios"
+                message={
+                  error.message ||
+                  'Ocurrió un error al intentar cargar los servicios. Por favor, inténtalo de nuevo más tarde.'
+                }
+              />
+            </div>
+          )}
+
+          {/* Mostrar contenido solo si no hay loading ni error */}
+          {!loading && !error && (
+            <>
+              <TabsContent value="Veterinaria" className="w-full">
+                {filterServicesByCategory(services, 'Veterinaria').length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+                    {filterServicesByCategory(services, 'Veterinaria').map((service, index) => (
+                      <ServicesCard key={index} service={service} />
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-center text-muted-foreground py-8">
+                    No hay servicios de veterinaria disponibles en este momento.
+                  </p>
+                )}
+              </TabsContent>
+
+              <TabsContent value="Estética" className="w-full">
+                {filterServicesByCategory(services, 'Estética').length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+                    {filterServicesByCategory(services, 'Estética').map((service, index) => (
+                      <ServicesCard key={index} service={service} />
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-center text-muted-foreground py-8">
+                    No hay servicios de estética disponibles en este momento.
+                  </p>
+                )}
+              </TabsContent>
+            </>
+          )}
         </Tabs>
       </div>
     </div>
