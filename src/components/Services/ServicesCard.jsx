@@ -5,19 +5,28 @@ export function ServicesCard({ service }) {
   return (
     <Card key={service.id} className={`h-full flex flex-col overflow-hidden ${service.img_url ? 'pt-0' : ''}`}>
       {service.img_url && (
-        <div className="w-full aspect-video overflow-hidden -mt-6">
+        <div className="relative w-full aspect-video overflow-hidden -mt-6">
           <img
             src={service.img_url}
             alt={service.nombre}
             className="w-full h-full object-cover"
           />
+          <div className="absolute inset-0 bg-black/40"></div>
+          <div className="absolute inset-0 flex items-end p-4">
+            <h3 className="text-white text-lg md:text-2xl font-semibold drop-shadow-xl">
+              {service.nombre}
+            </h3>
+          </div>
         </div>
       )}
       <div className="flex-1 flex flex-col">
         <CardHeader className="pb-2">
-          <CardTitle className="text-md md:text-lg font-semibold">{service.nombre}</CardTitle>
+          {!service.img_url && (
+            <CardTitle className="text-md md:text-xl font-semibold">{service.nombre}</CardTitle>
+          )}
           <CardDescription className="line-clamp-2 text-sm md:text-base">{service.descripcion}</CardDescription>
         </CardHeader>
+
         <CardContent className="mt-auto">
           <section className="flex justify-between mb-4 bg-accent px-8 py-3 rounded-md text-center">
             <div className="flex flex-col justify-center">
