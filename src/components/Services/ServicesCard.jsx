@@ -34,7 +34,7 @@ export function ServicesCard({ service }) {
               <p className="font-semibold text-md">${service.precio}</p>
             </div>
           </section>
-          <Button className="w-full bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors text-md hover:cursor-pointer">
+          <Button className="w-full bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors text-sm md:text-md hover:cursor-pointer">
             Agendar Cita
           </Button>
         </CardContent>
