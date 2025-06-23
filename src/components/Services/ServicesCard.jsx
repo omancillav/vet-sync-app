@@ -5,11 +5,11 @@ export function ServicesCard({ service }) {
   return (
     <Card key={service.id} className={`h-full flex flex-col overflow-hidden group ${service.img_url ? 'pt-0' : ''}`}>
       {service.img_url && (
-        <div className="relative w-full aspect-video overflow-hidden -mt-6">
+        <div className="relative w-full aspect-[3/2] overflow-hidden">
           <img
             src={service.img_url}
             alt={service.nombre}
-            className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-102"
+            className="w-full h-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-102"
           />
           <div className="absolute inset-0 bg-black/42"></div>
           <div className="absolute inset-0 flex items-end p-4">
