@@ -5,7 +5,7 @@ export function ServicesCard({ service }) {
   return (
     <Card key={service.id} className={`h-full flex flex-col overflow-hidden group ${service.img_url ? 'pt-0' : ''}`}>
       {service.img_url && (
-        <div className="relative w-full aspect-video overflow-hidden">
+        <div className="relative w-full aspect-[3/2] overflow-hidden">
           <img
             src={service.img_url}
             alt={service.nombre}
