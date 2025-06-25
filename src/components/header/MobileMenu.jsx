@@ -53,7 +53,7 @@ export function MobileMenu({ isOpen, onClose }) {
         </div>
 
         <div className="p-6 space-y-6">
-          <nav>
+          <nav className="flex justify-center">
             <NavItems onNavItemClick={handleLinkClick} />
           </nav>
 
