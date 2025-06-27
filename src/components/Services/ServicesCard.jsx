@@ -1,25 +1,57 @@
+import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
 export function ServicesCard({ service }) {
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const [imageError, setImageError] = useState(false)
+
+  const handleImageLoad = () => {
+    setImageLoaded(true)
+  }
+
+  const handleImageError = () => {
+    setImageError(true)
+  }
+
   return (
     <Card key={service.id} className={`h-full flex flex-col overflow-hidden group ${service.img_url ? 'pt-0' : ''}`}>
-      {service.img_url && (
+      {service.img_url && !imageError && (
         <div className="relative w-full aspect-video overflow-hidden">
+          {/* Skeleton/placeholder mientras carga la imagen */}
+          {!imageLoaded && (
+            <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
+              <div className="text-gray-400 text-sm">Cargando...</div>
+            </div>
+          )}
+
           <img
             src={service.img_url}
             alt={service.nombre}
-            className="w-full h-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-102"
+            loading="lazy"
+            onLoad={handleImageLoad}
+            onError={handleImageError}
+            className={`w-full h-full object-cover object-center transition-all duration-500 ease-out group-hover:scale-102 ${
+              imageLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
           />
-          <div className="absolute inset-0 bg-black/42"></div>
-          <div className="absolute inset-0 flex items-end p-4">
-            <h3 className="text-white text-xl md:text-2xl font-semibold">{service.nombre}</h3>
-          </div>
+
+          {imageLoaded && (
+            <>
+              <div className="absolute inset-0 bg-black/42"></div>
+              <div className="absolute inset-0 flex items-end p-4">
+                <h3 className="text-white text-xl md:text-2xl font-semibold">{service.nombre}</h3>
+              </div>
+            </>
+          )}
         </div>
       )}
+
       <div className="flex-1 flex flex-col">
         <CardHeader className="pb-2">
-          {!service.img_url && <CardTitle className="text-md md:text-xl font-semibold">{service.nombre}</CardTitle>}
+          {(!service.img_url || imageError) && (
+            <CardTitle className="text-md md:text-xl font-semibold">{service.nombre}</CardTitle>
+          )}
           <CardDescription className="line-clamp-2 text-sm md:text-base">{service.descripcion}</CardDescription>
         </CardHeader>
 
