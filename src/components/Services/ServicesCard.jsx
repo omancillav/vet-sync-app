@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import LazyLoad from 'react-lazyload'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
@@ -15,48 +14,37 @@ export function ServicesCard({ service }) {
     setImageError(true)
   }
 
-  const ImagePlaceholder = () => (
-    <div className="w-full aspect-video bg-gray-200 animate-pulse flex items-center justify-center">
-      <div className="text-gray-400 text-sm">Cargando...</div>
-    </div>
-  )
-
   return (
     <Card key={service.id} className={`h-full flex flex-col overflow-hidden group ${service.img_url ? 'pt-0' : ''}`}>
       {service.img_url && !imageError && (
-        <LazyLoad
-          height={200}
-          offset={100}
-          placeholder={<ImagePlaceholder />}
-          once
-        >
-          <div className="relative w-full aspect-video overflow-hidden">
-            {!imageLoaded && (
-              <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
-                <div className="text-gray-400 text-sm">Cargando...</div>
+        <div className="relative w-full aspect-video overflow-hidden">
+          {/* Skeleton/placeholder mientras carga la imagen */}
+          {!imageLoaded && (
+            <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
+              <div className="text-gray-400 text-sm">Cargando...</div>
+            </div>
+          )}
+
+          <img
+            src={service.img_url}
+            alt={service.nombre}
+            loading="lazy"
+            onLoad={handleImageLoad}
+            onError={handleImageError}
+            className={`w-full h-full object-cover object-center transition-all duration-500 ease-out group-hover:scale-102 ${
+              imageLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
+
+          {imageLoaded && (
+            <>
+              <div className="absolute inset-0 bg-black/42"></div>
+              <div className="absolute inset-0 flex items-end p-4">
+                <h3 className="text-white text-xl md:text-2xl font-semibold">{service.nombre}</h3>
               </div>
-            )}
-
-            <img
-              src={service.img_url}
-              alt={service.nombre}
-              onLoad={handleImageLoad}
-              onError={handleImageError}
-              className={`w-full h-full object-cover object-center transition-all duration-500 ease-out group-hover:scale-102 ${
-                imageLoaded ? 'opacity-100' : 'opacity-0'
-              }`}
-            />
-
-            {imageLoaded && (
-              <>
-                <div className="absolute inset-0 bg-black/42"></div>
-                <div className="absolute inset-0 flex items-end p-4">
-                  <h3 className="text-white text-xl md:text-2xl font-semibold">{service.nombre}</h3>
-                </div>
-              </>
-            )}
-          </div>
-        </LazyLoad>
+            </>
+          )}
+        </div>
       )}
 
       <div className="flex-1 flex flex-col">
