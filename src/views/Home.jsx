@@ -10,7 +10,8 @@ import {
   Star,
   ArrowRight,
   PawPrint,
-  CheckCircle
+  CheckCircle,
+  Sparkles
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
@@ -152,44 +153,60 @@ export function Home() {
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Servicios Veterinarios</h2>
-            <p className="text-lg md:text-xl text-muted-foreground">Cuidado integral para todas las necesidades de tus mascotas</p>
+            <p className="text-lg md:text-xl text-muted-foreground">
+              Cuidado integral para todas las necesidades de tus mascotas
+            </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            <Card className="p-8">
-              <h3 className="text-xl md:text-2xl font-bold text-foreground mb-6">Veterinaria</h3>
-              <div className="space-y-4">
-                {[
-                  'Consulta Médica General',
-                  'Vacunación Completa',
-                  'Desparasitación',
-                  'Esterilización',
-                  'Análisis de Sangre'
-                ].map((service, index) => (
-                  <div key={index} className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary" />
-                    <span className="text-sm md:text-base text-muted-foreground">{service}</span>
-                  </div>
-                ))}
-              </div>
+            <Card className="transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+              <CardHeader className="flex flex-row items-center gap-4">
+                <div className="bg-primary/10 p-3 rounded-lg">
+                  <Stethoscope className="w-8 h-8 text-primary" />
+                </div>
+                <CardTitle className="text-xl md:text-2xl">Veterinaria</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {[
+                    'Consulta Médica General',
+                    'Vacunación Completa',
+                    'Desparasitación',
+                    'Esterilización',
+                    'Análisis de Sangre'
+                  ].map((service, index) => (
+                    <div key={index} className="flex items-center gap-3">
+                      <CheckCircle className="w-5 h-5 text-primary" />
+                      <span className="text-sm md:text-base text-muted-foreground">{service}</span>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
             </Card>
 
-            <Card className="p-8">
-              <h3 className="text-xl md:text-2xl font-bold text-foreground mb-6">Estética</h3>
-              <div className="space-y-4">
-                {[
-                  'Baño Básico',
-                  'Corte de Pelo',
-                  'Limpieza de Oídos',
-                  'Cepillado de Dientes',
-                  'Tratamiento Antpulgas'
-                ].map((service, index) => (
-                  <div key={index} className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary" />
-                    <span className="text-sm md:text-base text-muted-foreground">{service}</span>
-                  </div>
-                ))}
-              </div>
+            <Card className="transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+              <CardHeader className="flex flex-row items-center gap-4">
+                <div className="bg-primary/10 p-3 rounded-lg">
+                  <Sparkles className="w-8 h-8 text-primary" />
+                </div>
+                <CardTitle className="text-xl md:text-2xl">Estética</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {[
+                    'Baño Básico',
+                    'Corte de Pelo',
+                    'Limpieza de Oídos',
+                    'Cepillado de Dientes',
+                    'Tratamiento Antpulgas'
+                  ].map((service, index) => (
+                    <div key={index} className="flex items-center gap-3">
+                      <CheckCircle className="w-5 h-5 text-primary" />
+                      <span className="text-sm md:text-base text-muted-foreground">{service}</span>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
             </Card>
           </div>
 
@@ -205,9 +222,9 @@ export function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-15 px-4 bg-primary">
+      <section className="py-6 md:py-8 px-4 bg-primary">
         <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-primary-foreground mb-4">
+          <h2 className="text-xl md:text-2xl font-bold text-primary-foreground mb-4">
             ¿Listo para simplificar el cuidado de tus mascotas?
           </h2>
           <p className="text-base md:text-lg text-primary-foreground/80">
