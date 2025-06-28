@@ -48,13 +48,13 @@ export function Home() {
               </div>
             </div>
 
-            <div className="relative flex justify-center items-center">
+            <div className="relative flex justify-center items-center px-4 lg:px-0">
               <div className="relative w-full max-w-md aspect-[3/2]">
-                <div className="absolute -top-4 -left-4 w-full h-full bg-primary/20 rounded-3xl transform -rotate-3 transition-transform duration-500 group-hover:rotate-0"></div>
+                <div className="absolute -top-2 -left-2 lg:-top-4 lg:-left-4 w-full h-full bg-primary/20 rounded-3xl transform -rotate-1 lg:-rotate-3 transition-transform duration-500 group-hover:rotate-0"></div>
                 <img
                   src="https://loxqcjbiwieeukymlbdp.supabase.co/storage/v1/object/sign/imagenes/hero.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81Y2Q3YTZkZS05OTMwLTQxODItODY2Ny02YjAzZDZkYmZiMWQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZW5lcy9oZXJvLmpwZWciLCJpYXQiOjE3NTEwOTkwNTMsImV4cCI6MjA2NjQ1OTA1M30.jKJ39qk5tkrIep3bR1Zs0REvRfHQKvtiHToSkNc3rXQ"
                   alt="Veterinaria cuidando a un perro"
-                  className="relative w-full h-full rounded-3xl shadow-lg object-cover"
+                  className="relative w-full h-full rounded-3xl shadow-lg object-cover z-10"
                 />
               </div>
             </div>
