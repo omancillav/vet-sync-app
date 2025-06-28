@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom'
 
 export function HeroSection() {
   return (
-    <section className="w-full py-18 px-4 bg-background">
+    <section className="w-full py-12 md:py-20 px-4 bg-background">
       <div className="container mx-auto max-w-6xl">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-[6fr_4fr] gap-14 items-center">
           <div className="text-center lg:text-left">
             <Badge variant="secondary" className="mb-4 text-sm">
               <PawPrint className="w-4 h-4 mr-1" />
@@ -24,8 +24,8 @@ export function HeroSection() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button asChild size="lg" className="text-base md:text-lg px-8 py-3">
                 <Link to="/register">
-                  Crear Cuenta
-                  <ArrowRight className="ml-2 w-5 h-5" />
+                  Registrarse
+                  <ArrowRight className="ml-1 w-5 h-5" />
                 </Link>
               </Button>
               <Button asChild variant="secondary" size="lg" className="text-base md:text-lg px-8 py-3">

@@ -8,6 +8,11 @@ export function Home() {
       <HeroSection />
       <FeaturesSection />
       <ServicesSection />
+      <footer className="flex items-center justify-center pb-10 px-4">
+        <p className="text-foreground/50 text-center text-sm md:text-base">
+          © 2025 Vet-Sync App. Las imágenes son para fines ilustrativos y pueden estar sujetas a derechos de autor.
+        </p>
+      </footer>
     </div>
   )
 }
