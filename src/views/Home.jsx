@@ -207,10 +207,10 @@ export function Home() {
       {/* CTA Section */}
       <section className="py-15 px-4 bg-primary">
         <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-primary-foreground mb-4">
             ¿Listo para simplificar el cuidado de tus mascotas?
           </h2>
-          <p className="text-lg md:text-xl text-primary-foreground/80">
+          <p className="text-base md:text-lg text-primary-foreground/80">
             Únete a miles de dueños de mascotas que ya confían en VetSync para el cuidado de sus compañeros
           </p>
         </div>
