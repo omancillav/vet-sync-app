@@ -26,7 +26,7 @@ export function Home() {
                 <PawPrint className="w-4 h-4 mr-1" />
                 Plataforma Veterinaria Digital
               </Badge>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
+              <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-6 leading-tight">
                 El cuidado de tus mascotas,
                 <span className="text-primary block">simplificado</span>
               </h1>
