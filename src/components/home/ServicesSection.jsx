@@ -67,7 +67,7 @@ export function ServicesSection() {
         </div>
 
         <div className="text-center mt-12">
-          <Button asChild size="lg" className="text-base md:text-lg px-8 py-3">
+          <Button asChild size="lg" className="text-base">
             <Link to="/servicios">
               Ver Todos los Servicios
               <ArrowRight className="ml-2 w-5 h-5" />
