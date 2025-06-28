@@ -1,47 +1,62 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Calendar, Stethoscope, Users, Clock, Shield, Star, ArrowRight, PawPrint, CheckCircle } from 'lucide-react'
+import {
+  Calendar,
+  Stethoscope,
+  Users,
+  Clock,
+  Shield,
+  Star,
+  ArrowRight,
+  PawPrint,
+  CheckCircle
+} from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 export function Home() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen pt-0.5">
       {/* Hero Section */}
-      <section
-        className="relative w-full flex items-center justify-center text-center bg-cover bg-center min-h-[60vh] py-24"
-        style={{
-          backgroundImage:
-            'url(https://loxqcjbiwieeukymlbdp.supabase.co/storage/v1/object/sign/imagenes/hero.webp?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81Y2Q3YTZkZS05OTMwLTQxODItODY2Ny02YjAzZDZkYmZiMWQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZW5lcy9oZXJvLndlYnAiLCJpYXQiOjE3NTEwOTY2MjIsImV4cCI6MjA2NjQ1NjYyMn0.TN9W0zKNPQFcoo6sKDTnKPzawHNRNt6ZLCa8TEDng7A)'
-        }}
-      >
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="relative z-10 container mx-auto max-w-4xl px-4">
-          <Badge
-            variant="secondary"
-            className="mb-4 text-sm bg-white/20 text-white border-white/30 hover:bg-white/30 transition-all duration-300"
-          >
-            <PawPrint className="w-4 h-4 mr-1" />
-            Plataforma Veterinaria Digital
-          </Badge>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-            El cuidado de tus mascotas,
-            <span className="text-primary block">simplificado</span>
-          </h1>
-          <p className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed max-w-3xl mx-auto">
-            VetSync conecta a dueños de mascotas con servicios veterinarios de calidad. Gestiona citas, historial médico
-            y servicios en una sola plataforma.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" className="text-lg px-8 py-3">
-              <Link to="/register">
-                Crear Cuenta
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Link>
-            </Button>
-            <Button asChild variant="secondary" size="lg" className="text-lg px-8 py-3">
-              <Link to="/login">Iniciar Sesión</Link>
-            </Button>
+      <section className="w-full py-18 px-4 bg-background">
+        <div className="container mx-auto max-w-6xl">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="text-center lg:text-left">
+              <Badge variant="secondary" className="mb-4 text-sm">
+                <PawPrint className="w-4 h-4 mr-1" />
+                Plataforma Veterinaria Digital
+              </Badge>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
+                El cuidado de tus mascotas,
+                <span className="text-primary block">simplificado</span>
+              </h1>
+              <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed">
+                VetSync conecta a dueños de mascotas con servicios veterinarios de calidad. Gestiona citas, historial
+                médico y servicios en una sola plataforma.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <Button asChild size="lg" className="text-base md:text-lg px-8 py-3">
+                  <Link to="/register">
+                    Crear Cuenta
+                    <ArrowRight className="ml-2 w-5 h-5" />
+                  </Link>
+                </Button>
+                <Button asChild variant="secondary" size="lg" className="text-base md:text-lg px-8 py-3">
+                  <Link to="/login">Iniciar Sesión</Link>
+                </Button>
+              </div>
+            </div>
+
+            <div className="relative flex justify-center items-center">
+              <div className="relative w-full max-w-md aspect-[3/2]">
+                <div className="absolute -top-4 -left-4 w-full h-full bg-primary/20 rounded-3xl transform -rotate-3 transition-transform duration-500 group-hover:rotate-0"></div>
+                <img
+                  src="https://loxqcjbiwieeukymlbdp.supabase.co/storage/v1/object/sign/imagenes/hero.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81Y2Q3YTZkZS05OTMwLTQxODItODY2Ny02YjAzZDZkYmZiMWQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZW5lcy9oZXJvLmpwZWciLCJpYXQiOjE3NTEwOTkwNTMsImV4cCI6MjA2NjQ1OTA1M30.jKJ39qk5tkrIep3bR1Zs0REvRfHQKvtiHToSkNc3rXQ"
+                  alt="Veterinaria cuidando a un perro"
+                  className="relative w-full h-full rounded-3xl shadow-lg object-cover"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -137,9 +152,7 @@ export function Home() {
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Servicios Veterinarios</h2>
-            <p className="text-lg md:text-xl text-muted-foreground">
-              Cuidado integral para todas las necesidades de tus mascotas
-            </p>
+            <p className="text-lg md:text-xl text-muted-foreground">Cuidado integral para todas las necesidades de tus mascotas</p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
@@ -181,7 +194,7 @@ export function Home() {
           </div>
 
           <div className="text-center mt-12">
-            <Button asChild size="lg" className="text-base px-8 py-3">
+            <Button asChild size="lg" className="text-base md:text-lg px-8 py-3">
               <Link to="/servicios">
                 Ver Todos los Servicios
                 <ArrowRight className="ml-2 w-5 h-5" />
@@ -194,10 +207,10 @@ export function Home() {
       {/* CTA Section */}
       <section className="py-15 px-4 bg-primary">
         <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-primary-foreground mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
             ¿Listo para simplificar el cuidado de tus mascotas?
           </h2>
-          <p className="text-base md:text-lg text-primary-foreground/80">
+          <p className="text-lg md:text-xl text-primary-foreground/80">
             Únete a miles de dueños de mascotas que ya confían en VetSync para el cuidado de sus compañeros
           </p>
         </div>
