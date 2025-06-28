@@ -205,9 +205,9 @@ export function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-15 px-4 bg-primary">
+      <section className="py-6 md:py-8 px-4 bg-primary">
         <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-primary-foreground mb-4">
+          <h2 className="text-xl md:text-2xl font-bold text-primary-foreground mb-4">
             ¿Listo para simplificar el cuidado de tus mascotas?
           </h2>
           <p className="text-base md:text-lg text-primary-foreground/80">
