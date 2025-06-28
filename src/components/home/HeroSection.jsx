@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 export function HeroSection() {
   return (
-    <section className="w-full py-12 md:py-20 px-4 bg-background">
+    <section className="w-full py-12 md:min-h-[90vh] px-4 bg-background flex items-center justify-center">
       <div className="container mx-auto max-w-6xl">
         <div className="grid lg:grid-cols-[6fr_4fr] gap-14 items-center">
           <div className="text-center lg:text-left">
@@ -13,7 +13,7 @@ export function HeroSection() {
               <PawPrint className="w-4 h-4 mr-1" />
               Plataforma Veterinaria Digital
             </Badge>
-            <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-5xl font-bold text-foreground/85 mb-6 leading-tight">
               El cuidado de tus mascotas,
               <span className="text-primary block">simplificado</span>
             </h1>
@@ -22,13 +22,13 @@ export function HeroSection() {
               médico y servicios en una sola plataforma.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button asChild size="lg" className="text-base md:text-lg px-8 py-3">
+              <Button asChild size="lg" className="text-base">
                 <Link to="/register">
                   Registrarse
                   <ArrowRight className="ml-1 w-5 h-5" />
                 </Link>
               </Button>
-              <Button asChild variant="secondary" size="lg" className="text-base md:text-lg px-8 py-3">
+              <Button asChild variant="secondary" size="lg" className="text-base">
                 <Link to="/login">Iniciar Sesión</Link>
               </Button>
             </div>
