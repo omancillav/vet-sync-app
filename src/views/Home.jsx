@@ -159,14 +159,11 @@ export function Home() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            <Card className="transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-              <CardHeader className="flex flex-row items-center gap-4">
-                <div className="bg-primary/10 p-3 rounded-lg">
-                  <Stethoscope className="w-8 h-8 text-primary" />
-                </div>
+            <Card className="relative group transition-shadow duration-300 hover:shadow-lg">
+              <CardHeader>
                 <CardTitle className="text-xl md:text-2xl">Veterinaria</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-2">
                 <div className="space-y-4">
                   {[
                     'Consulta Médica General',
@@ -182,16 +179,14 @@ export function Home() {
                   ))}
                 </div>
               </CardContent>
+              <Stethoscope className="absolute top-6 right-6 w-10 h-10 text-primary/20 group-hover:text-primary/50 transition-colors duration-300" />
             </Card>
 
-            <Card className="transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-              <CardHeader className="flex flex-row items-center gap-4">
-                <div className="bg-primary/10 p-3 rounded-lg">
-                  <Sparkles className="w-8 h-8 text-primary" />
-                </div>
+            <Card className="relative group transition-shadow duration-300 hover:shadow-lg">
+              <CardHeader>
                 <CardTitle className="text-xl md:text-2xl">Estética</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-2">
                 <div className="space-y-4">
                   {[
                     'Baño Básico',
@@ -207,6 +202,7 @@ export function Home() {
                   ))}
                 </div>
               </CardContent>
+              <Sparkles className="absolute top-6 right-6 w-10 h-10 text-primary/20 group-hover:text-primary/50 transition-colors duration-300" />
             </Card>
           </div>
 
