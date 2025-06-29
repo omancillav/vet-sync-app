@@ -6,10 +6,8 @@ import { Menu } from 'lucide-react'
 import { NavItems } from './NavItems'
 import { ModeToggle } from './mode-toggle.jsx'
 import { UserNav } from './UserNav'
-import { MobileMenu } from './MobileMenu'
 
-export function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+export function Header({ toggleMenu }) {
   const [visible, setVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
 
@@ -30,10 +28,6 @@ export function Header() {
       window.removeEventListener('scroll', controlHeaderVisibility)
     }
   }, [lastScrollY])
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
 
   return (
     <header
@@ -85,8 +79,6 @@ export function Header() {
             </div>
           </div>
         </section>
-
-        <MobileMenu isOpen={isMenuOpen} onClose={toggleMenu} />
       </div>
     </header>
   )

@@ -25,13 +25,13 @@ export function MobileMenu({ isOpen, onClose }) {
 
   return (
     <section
-      className={`lg:hidden fixed inset-0 z-40 bg-black/30 backdrop-blur-sm transition-all duration-300 ${
+      className={`lg:hidden fixed inset-0 z-[100] bg-black/40 backdrop-blur-xs transition-all duration-300 ${
         isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
       }`}
       onClick={onClose}
     >
       <div
-        className={`absolute top-0 left-0 right-0 bg-background/90 backdrop-blur-md border-b shadow-lg transition-transform duration-300 ease-out ${
+        className={`absolute top-0 left-0 right-0 bg-background/90 border-b backdrop-blur-2xl transition-transform duration-300 ease-out ${
           isOpen ? 'translate-y-0' : '-translate-y-full'
         }`}
         onClick={(e) => e.stopPropagation()}
