@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import VetsyncLogo from '@/assets/vetsync_logo.webp'
 import { Button } from '@/components/ui/button'
@@ -6,17 +6,35 @@ import { Menu } from 'lucide-react'
 import { NavItems } from './NavItems'
 import { ModeToggle } from './mode-toggle.jsx'
 import { UserNav } from './UserNav'
-import { MobileMenu } from './MobileMenu'
 
-export function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+export function Header({ toggleMenu }) {
+  const [visible, setVisible] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
+  useEffect(() => {
+    const controlHeaderVisibility = () => {
+      // Hide header on scroll down, show on scroll up
+      if (window.scrollY > lastScrollY && window.scrollY > 100) {
+        setVisible(false)
+      } else {
+        setVisible(true)
+      }
+      setLastScrollY(window.scrollY)
+    }
+
+    window.addEventListener('scroll', controlHeaderVisibility)
+
+    return () => {
+      window.removeEventListener('scroll', controlHeaderVisibility)
+    }
+  }, [lastScrollY])
 
   return (
-    <header className="py-4 px-5 shadow-sm">
+    <header
+      className={`sticky top-0 z-50 w-full bg-background/85 py-4 px-5 shadow-sm backdrop-blur-sm transition-transform duration-300 ease-in-out ${
+        visible ? 'translate-y-0' : '-translate-y-full'
+      }`}
+    >
       <div className="max-w-[1400px] mx-auto">
         {/* Desktop Layout */}
         <section className="hidden lg:flex items-center relative">
@@ -61,8 +79,6 @@ export function Header() {
             </div>
           </div>
         </section>
-
-        <MobileMenu isOpen={isMenuOpen} onClose={toggleMenu} />
       </div>
     </header>
   )
