@@ -39,9 +39,9 @@ export function ServicesCard({ service }) {
 
           {imageLoaded && (
             <>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 to-transparent" />
               <div className="absolute inset-0 flex items-end px-4 py-3 md:py-4">
-                <Badge className='border-transparent bg-muted-foreground/50 dark:bg-primary-foreground/40 backdrop-blur-xs rounded-full px-3 py-0.5'>
+                <Badge className='border-transparent bg-muted-foreground/40 dark:bg-primary-foreground/30 backdrop-blur-xs rounded-full px-3 py-0.5'>
                   <h3 className="text-primary-foreground dark:text-primary text-lg md:text-xl font-semibold">{service.nombre}</h3>
                 </Badge>
               </div>
