@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 
 export function ServicesCard({ service }) {
   const [imageLoaded, setImageLoaded] = useState(false)
@@ -38,9 +39,11 @@ export function ServicesCard({ service }) {
 
           {imageLoaded && (
             <>
-              <div className="absolute inset-0 bg-black/42"></div>
-              <div className="absolute inset-0 flex items-end p-4">
-                <h3 className="text-white text-xl md:text-2xl font-semibold">{service.nombre}</h3>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+              <div className="absolute inset-0 flex items-end px-4 py-3 md:py-4">
+                <Badge className='border-transparent bg-muted-foreground/40 dark:bg-primary-foreground/30 backdrop-blur-xs rounded-full px-3 py-0.5'>
+                  <h3 className="text-primary-foreground dark:text-primary text-lg md:text-xl font-semibold">{service.nombre}</h3>
+                </Badge>
               </div>
             </>
           )}
