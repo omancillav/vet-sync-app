@@ -18,25 +18,17 @@ export function Appointments() {
         {isAuthenticated ? (
           <div className="grid gap-6">
             {/* Próximas citas */}
-            <div className="bg-card border rounded-lg p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold">Citas Próximas</h3>
-                <button className="bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90 transition-colors text-sm">
-                  Nueva Cita
-                </button>
-              </div>
 
-              {appointments.length === 0 ? (
-                <NoAppointments
-                  onNewAppointment={() => {
-                    /* TODO new appointment */
-                  }}
-                />
-              ) : (
-                // TODO: render appointments list here once data is fetched
-                <div>{/* Aquí irá la lista de citas */}</div>
-              )}
-            </div>
+            {appointments.length === 0 ? (
+              <NoAppointments
+                onNewAppointment={() => {
+                  /* TODO new appointment */
+                }}
+              />
+            ) : (
+            // TODO: render appointments list here once data is fetched
+              <div>{/* Aquí irá la lista de citas */}</div>
+            )}
           </div>
         ) : (
           <AuthPrompt icon="📅" message="Debes iniciar sesión para agendar y ver tus citas" />

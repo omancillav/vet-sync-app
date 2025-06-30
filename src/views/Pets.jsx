@@ -14,7 +14,6 @@ export function Pets() {
     const fetchPets = async () => {
       try {
         const newPets = await getPets()
-        console.log(newPets)
         setPets(newPets)
       } catch (err) {
         console.error('Failed to fetch pets:', err)
