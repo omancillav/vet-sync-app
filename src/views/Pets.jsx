@@ -1,28 +1,34 @@
+import { useState } from 'react'
+import { useAuth } from '@/contexts/auth'
+import { AuthPrompt } from '@/components/AuthPrompt'
+import { NoPets } from '@/components/pets/NoPets'
+
 export function Pets() {
+  const [pets, setPets] = useState([])
+  const { isAuthenticated } = useAuth()
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
-            Mis Mascotas
-          </h1>
-          <p className="text-muted-foreground">
-            Gestiona la información de todas tus mascotas
-          </p>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Mis Mascotas</h1>
+          <p className="text-muted-foreground">Gestiona la información de todas tus mascotas</p>
         </div>
 
-        <div className="bg-card border rounded-lg p-8 text-center">
-          <div className="w-16 h-16 bg-muted rounded-full mx-auto mb-4 flex items-center justify-center">
-            🐾
-          </div>
-          <h3 className="text-xl font-semibold mb-2">No tienes mascotas registradas</h3>
-          <p className="text-muted-foreground mb-6">
-            Comienza agregando información sobre tus queridas mascotas
-          </p>
-          <button className="bg-primary text-primary-foreground px-6 py-2 rounded-md hover:bg-primary/90 transition-colors">
-            Agregar Mascota
-          </button>
-        </div>
+        {isAuthenticated ? (
+          pets.length === 0 ? (
+            <NoPets
+              onAddPet={() => {
+                /* TODO: open create pet modal */
+              }}
+            />
+          ) : (
+            // TODO: render pets list here once data is fetched
+            <div>{/* Aquí irá la lista de mascotas */}</div>
+          )
+        ) : (
+          <AuthPrompt icon="🐾" message="Debes iniciar sesión para registrar tus mascotas" />
+        )}
       </div>
     </div>
   )
