@@ -2,8 +2,10 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { PawPrint, ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 
 export function HeroSection() {
+  const [imgLoaded, setImgLoaded] = useState(false)
   return (
     <section className="w-full py-12 md:min-h-[90vh] px-4 bg-background flex items-center justify-center">
       <div className="container mx-auto max-w-6xl">
@@ -37,10 +39,15 @@ export function HeroSection() {
           <div className="relative flex justify-center items-center px-4 lg:px-0">
             <div className="relative w-full max-w-md aspect-[3/2]">
               <div className="absolute -top-2 -left-2 lg:-top-4 lg:-left-4 w-full h-full bg-primary/20 rounded-3xl transform -rotate-1 lg:-rotate-3 transition-transform duration-500 group-hover:rotate-0"></div>
+              {!imgLoaded && (
+                <div className="absolute inset-0 bg-gray-300 rounded-3xl animate-pulse"></div>
+              )}
               <img
+                loading="lazy"
+                onLoad={() => setImgLoaded(true)}
                 src="https://loxqcjbiwieeukymlbdp.supabase.co/storage/v1/object/sign/imagenes/hero.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81Y2Q3YTZkZS05OTMwLTQxODItODY2Ny02YjAzZDZkYmZiMWQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZW5lcy9oZXJvLmpwZWciLCJpYXQiOjE3NTEwOTkwNTMsImV4cCI6MjA2NjQ1OTA1M30.jKJ39qk5tkrIep3bR1Zs0REvRfHQKvtiHToSkNc3rXQ"
                 alt="Veterinaria cuidando a un perro"
-                className="relative w-full h-full rounded-3xl shadow-lg object-cover z-10 transform rotate-2 transition-transform duration-500 group-hover:rotate-0"
+                className={`relative w-full h-full rounded-3xl shadow-lg object-cover z-10 transform rotate-2 transition-transform duration-500 group-hover:rotate-0 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
               />
             </div>
           </div>
