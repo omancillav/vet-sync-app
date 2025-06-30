@@ -71,7 +71,7 @@ export function FeaturesSection() {
             Todo lo que necesitas para cuidar a tus mascotas
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Una plataforma completa que simplifica la gestión veterinaria para dueños y profesionales
+            Una plataforma completa que simplifica la gestión veterinaria para dueños y profesionales.
           </p>
         </div>
 
