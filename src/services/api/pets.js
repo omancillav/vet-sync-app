@@ -1,20 +1,12 @@
-import axios from 'axios'
+import api from './client'
 import Cookies from 'js-cookie'
-const API_BASE = import.meta.env.VITE_API_BASE_URL
-
-const accessToken = Cookies.get('accessToken')
-const userDataCookie = Cookies.get('userData')
-const userData = JSON.parse(userDataCookie)
-const clienteId = userData.id
 
 export const getPets = async () => {
   try {
-    const response = await axios.get(`${API_BASE}/pets/detail`, {
-      params: { clienteId },
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    })
+    const userDataCookie = Cookies.get('userData')
+    const userData = userDataCookie ? JSON.parse(userDataCookie) : null
+    const clienteId = userData?.id
+    const response = await api.get('/pets/detail', { params: { clienteId } })
 
     if (response.data && response.data.error === 'Pets not found') {
       return []
