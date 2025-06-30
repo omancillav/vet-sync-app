@@ -15,7 +15,7 @@ export function HeroSection() {
             </Badge>
             <h1 className="text-4xl sm:text-5xl font-bold text-foreground/85 mb-6 leading-tight">
               El cuidado de tus mascotas,
-              <span className="text-primary block">simplificado</span>
+              <span className="text-primary block">simplificado.</span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed">
               VetSync conecta a dueños de mascotas con servicios veterinarios de calidad. Gestiona citas, historial

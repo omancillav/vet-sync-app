@@ -26,7 +26,7 @@ export function ServicesSection() {
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Servicios Veterinarios</h2>
           <p className="text-lg md:text-xl text-muted-foreground">
-            Cuidado integral para todas las necesidades de tus mascotas
+            Cuidado integral para todas las necesidades de tus mascotas.
           </p>
         </div>
 
