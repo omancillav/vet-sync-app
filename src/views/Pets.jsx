@@ -1,11 +1,28 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '@/contexts/auth'
 import { AuthPrompt } from '@/components/AuthPrompt'
 import { NoPets } from '@/components/pets/NoPets'
+import { getPets } from '@/services/api/pets'
 
 export function Pets() {
   const [pets, setPets] = useState([])
   const { isAuthenticated } = useAuth()
+
+  useEffect(() => {
+    if (!isAuthenticated) return
+
+    const fetchPets = async () => {
+      try {
+        const newPets = await getPets()
+        console.log(newPets)
+        setPets(newPets)
+      } catch (err) {
+        console.error('Failed to fetch pets:', err)
+      }
+    }
+
+    fetchPets()
+  }, [isAuthenticated])
 
   return (
     <div className="container mx-auto px-4 py-8">
