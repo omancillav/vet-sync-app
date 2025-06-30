@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
+import axios from 'axios'
 import { AuthContext } from './auth'
 
 export const AuthProvider = ({ children }) => {
@@ -8,7 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const checkLogin = () => {
+    const checkLogin = async () => {
       const token = Cookies.get('accessToken')
       const userData = Cookies.get('userData')
 
@@ -26,8 +27,49 @@ export const AuthProvider = ({ children }) => {
           setUser(null)
         }
       } else {
-        setIsAuthenticated(false)
-        setUser(null)
+        // Intentar renovar usando refreshToken
+        const refreshToken = Cookies.get('refreshToken')
+        if (refreshToken) {
+          try {
+            const API_BASE = import.meta.env.VITE_API_BASE_URL
+            const { data } = await axios.post(`${API_BASE}/auth/refresh`, { refreshToken })
+            const { accessToken: newAccessToken, refreshToken: newRefreshToken } = data
+
+            // Guardar nuevas cookies
+            const accessExpires = new Date(Date.now() + 15 * 60 * 1000)
+            Cookies.set('accessToken', newAccessToken, {
+              expires: accessExpires,
+              secure: true,
+              sameSite: 'strict'
+            })
+            const refreshExpires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+            Cookies.set('refreshToken', newRefreshToken, {
+              expires: refreshExpires,
+              secure: true,
+              sameSite: 'strict'
+            })
+
+            // Derivar userData decodificando el JWT (payload base64)
+            const payload = JSON.parse(atob(newAccessToken.split('.')[1]))
+            Cookies.set('userData', JSON.stringify(payload), {
+              expires: accessExpires,
+              secure: true,
+              sameSite: 'strict'
+            })
+
+            setIsAuthenticated(true)
+            setUser(payload)
+          } catch (err) {
+            console.error('Refresh token failed on mount:', err)
+            // refresh inválido → limpiar todo
+            Cookies.remove('refreshToken')
+            setIsAuthenticated(false)
+            setUser(null)
+          }
+        } else {
+          setIsAuthenticated(false)
+          setUser(null)
+        }
       }
       setLoading(false)
     }
