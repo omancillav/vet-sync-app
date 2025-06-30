@@ -2,10 +2,6 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useNavigate } from 'react-router-dom'
 
-/**
- * Reusable prompt shown when the user is not authenticated.
- * Receives icon/title/message to tailor the context (pets, appointments, etc.)
- */
 export function AuthPrompt({ icon, message }) {
   const navigate = useNavigate()
 

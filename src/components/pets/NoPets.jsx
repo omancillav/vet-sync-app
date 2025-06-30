@@ -9,9 +9,7 @@ export function NoPets({ onAddPet }) {
       </div>
       <CardContent className="flex flex-col items-center gap-4 p-0">
         <h3 className="text-xl font-semibold">No tienes mascotas registradas</h3>
-        <p className="text-muted-foreground mb-2">
-          Comienza agregando información sobre tus queridas mascotas
-        </p>
+        <p className="text-muted-foreground mb-2">Comienza agregando información sobre tus queridas mascotas</p>
         <Button onClick={onAddPet}>Agregar Mascota</Button>
       </CardContent>
     </Card>

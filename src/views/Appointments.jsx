@@ -1,8 +1,10 @@
+import { useState } from 'react'
 import { useAuth } from '@/contexts/auth'
 import { AuthPrompt } from '@/components/AuthPrompt'
 import { NoAppointments } from '@/components/appointments/NoAppointments'
 
 export function Appointments() {
+  const [appointments, setAppointments] = useState([])
   const { isAuthenticated } = useAuth()
 
   return (
@@ -24,19 +26,20 @@ export function Appointments() {
                 </button>
               </div>
 
-              <NoAppointments onNewAppointment={() => {/* TODO new appointment */}} />
-            </div>
-
-            {/* Historial */}
-            <div className="bg-card border rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4">Historial de Citas</h3>
+              {appointments.length === 0 ? (
+                <NoAppointments
+                  onNewAppointment={() => {
+                    /* TODO new appointment */
+                  }}
+                />
+              ) : (
+                // TODO: render appointments list here once data is fetched
+                <div>{/* Aquí irá la lista de citas */}</div>
+              )}
             </div>
           </div>
         ) : (
-          <AuthPrompt
-            icon="📅"
-            message="Debes iniciar sesión para ver tus citas"
-          />
+          <AuthPrompt icon="📅" message="Debes iniciar sesión para agendar y ver tus citas" />
         )}
       </div>
     </div>

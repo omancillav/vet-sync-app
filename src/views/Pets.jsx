@@ -1,8 +1,10 @@
+import { useState } from 'react'
 import { useAuth } from '@/contexts/auth'
 import { AuthPrompt } from '@/components/AuthPrompt'
 import { NoPets } from '@/components/pets/NoPets'
 
 export function Pets() {
+  const [pets, setPets] = useState([])
   const { isAuthenticated } = useAuth()
 
   return (
@@ -14,12 +16,18 @@ export function Pets() {
         </div>
 
         {isAuthenticated ? (
-          <NoPets onAddPet={() => {/* TODO: open create pet modal */}} />
+          pets.length === 0 ? (
+            <NoPets
+              onAddPet={() => {
+                /* TODO: open create pet modal */
+              }}
+            />
+          ) : (
+            // TODO: render pets list here once data is fetched
+            <div>{/* Aquí irá la lista de mascotas */}</div>
+          )
         ) : (
-          <AuthPrompt
-            icon="🐾"
-            message="Debes iniciar sesión para ver tus mascotas"
-          />
+          <AuthPrompt icon="🐾" message="Debes iniciar sesión para registrar tus mascotas" />
         )}
       </div>
     </div>
