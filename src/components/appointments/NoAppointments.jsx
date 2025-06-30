@@ -9,9 +9,7 @@ export function NoAppointments({ onNewAppointment }) {
       </div>
       <CardContent className="flex flex-col items-center gap-4 p-0">
         <h3 className="text-xl font-semibold">No tienes citas programadas</h3>
-        <p className="text-muted-foreground mb-2">
-          Programa tu primera cita veterinaria
-        </p>
+        <p className="text-muted-foreground mb-2">Programa tu primera cita veterinaria</p>
         <Button onClick={onNewAppointment}>Nueva Cita</Button>
       </CardContent>
     </Card>
