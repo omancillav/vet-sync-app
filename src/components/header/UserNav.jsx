@@ -14,7 +14,9 @@ import { useAuth } from '@/contexts/auth.jsx'
 
 export function UserNav() {
   const { isAuthenticated, user, logout } = useAuth()
-  const userInitials = user?.nombre ? user.nombre.charAt(0).toUpperCase() : 'U'
+  const userInitials = user?.nombre && user?.apellido
+    ? `${user.nombre.charAt(0).toUpperCase()}${user.apellido.charAt(0).toUpperCase()}`
+    : 'U'
 
   if (isAuthenticated) {
     return (
@@ -22,7 +24,7 @@ export function UserNav() {
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="relative h-10 w-10 rounded-full">
             <Avatar className="hover:cursor-pointer">
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage src={`https://api.dicebear.com/9.x/glass/svg?seed=${user.email}`} />
               <AvatarFallback>{userInitials}</AvatarFallback>
             </Avatar>
           </Button>
