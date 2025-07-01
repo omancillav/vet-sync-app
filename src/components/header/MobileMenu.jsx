@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Link } from 'react-router-dom'
 import { X } from 'lucide-react'
 import { NavItems } from './NavItems'
+import { LogoutDialog } from './LogoutDialog'
 
 export function MobileMenu({ isOpen, onClose }) {
   const { isAuthenticated, user, logout } = useAuth()
@@ -14,13 +15,6 @@ export function MobileMenu({ isOpen, onClose }) {
       : 'U'
 
   const handleLinkClick = () => {
-    if (isOpen) {
-      onClose()
-    }
-  }
-
-  const handleLogout = () => {
-    logout()
     if (isOpen) {
       onClose()
     }
@@ -73,9 +67,19 @@ export function MobileMenu({ isOpen, onClose }) {
                     <span className="text-xs text-muted-foreground">{user?.email}</span>
                   </section>
                 </div>
-                <button onClick={handleLogout} className="text-sm text-muted-foreground hover:underline">
-                  Cerrar sesión
-                </button>
+                <LogoutDialog onConfirm={() => {
+                  onClose()
+                  logout()
+                }}>
+                  <button
+                    className="text-sm text-muted-foreground hover:underline"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                    }}
+                  >
+                    Cerrar sesión
+                  </button>
+                </LogoutDialog>
               </div>
             ) : (
               <div className="flex flex-col gap-2">
