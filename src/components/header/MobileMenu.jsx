@@ -8,7 +8,10 @@ import { NavItems } from './NavItems'
 
 export function MobileMenu({ isOpen, onClose }) {
   const { isAuthenticated, user, logout } = useAuth()
-  const userInitials = user?.nombre ? user.nombre.charAt(0).toUpperCase() : 'U'
+  const userInitials =
+    user?.nombre && user?.apellido
+      ? `${user.nombre.charAt(0).toUpperCase()}${user.apellido.charAt(0).toUpperCase()}`
+      : 'U'
 
   const handleLinkClick = () => {
     if (isOpen) {
@@ -62,23 +65,29 @@ export function MobileMenu({ isOpen, onClose }) {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarImage src={`https://api.dicebear.com/9.x/glass/svg?seed=${user.email}`} />
                     <AvatarFallback>{userInitials}</AvatarFallback>
                   </Avatar>
-                  <section className='flex flex-col'>
+                  <section className="flex flex-col">
                     <span className="font-semibold text-sm">{user?.nombre + ' ' + user?.apellido}</span>
                     <span className="text-xs text-muted-foreground">{user?.email}</span>
                   </section>
                 </div>
-                <button onClick={handleLogout} className="text-sm text-muted-foreground hover:underline">Cerrar sesión</button>
+                <button onClick={handleLogout} className="text-sm text-muted-foreground hover:underline">
+                  Cerrar sesión
+                </button>
               </div>
             ) : (
               <div className="flex flex-col gap-2">
                 <Button asChild variant="outline" className="w-full transition-transform py-5">
-                  <Link to="/login" onClick={handleLinkClick}>Iniciar sesión</Link>
+                  <Link to="/login" onClick={handleLinkClick}>
+                    Iniciar sesión
+                  </Link>
                 </Button>
                 <Button asChild className="w-full transition-transform py-5">
-                  <Link to="/register" onClick={handleLinkClick}>Registrarse</Link>
+                  <Link to="/register" onClick={handleLinkClick}>
+                    Registrarse
+                  </Link>
                 </Button>
               </div>
             )}
