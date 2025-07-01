@@ -67,8 +67,16 @@ export function MobileMenu({ isOpen, onClose }) {
                     <span className="text-xs text-muted-foreground">{user?.email}</span>
                   </section>
                 </div>
-                <LogoutDialog onConfirm={() => { logout(); onClose() }} onOpenChange={(o) => { if (o) onClose() }}>
-                  <button className="text-sm text-muted-foreground hover:underline">
+                <LogoutDialog onConfirm={() => {
+                  onClose()
+                  logout()
+                }}>
+                  <button
+                    className="text-sm text-muted-foreground hover:underline"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                    }}
+                  >
                     Cerrar sesión
                   </button>
                 </LogoutDialog>

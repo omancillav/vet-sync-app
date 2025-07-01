@@ -1,22 +1,9 @@
 import { useState } from 'react'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter
-} from '@/components/ui/dialog'
-import {
-  Drawer,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger
-} from '@/components/ui/drawer'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog'
+import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer'
+import { ArrowRightToLine, CircleX } from 'lucide-react'
 
 export function LogoutDialog({ children, onConfirm, open: controlledOpen, onOpenChange }) {
   const [internalOpen, setInternalOpen] = useState(false)
@@ -37,11 +24,15 @@ export function LogoutDialog({ children, onConfirm, open: controlledOpen, onOpen
           <DialogHeader>
             <DialogTitle>¿Estás seguro que deseas cerrar sesión?</DialogTitle>
           </DialogHeader>
-          <DialogFooter className="pt-2">
-            <Button variant="outline" onClick={() => setOpen(false)}>
+          <DialogFooter className="pt-4 gap-4">
+            <Button variant="secondary" onClick={() => setOpen(false)}>
               Cancelar
+              <CircleX className="mr-2 h-4 w-4" />
             </Button>
-            <Button onClick={handleConfirm}>Cerrar sesión</Button>
+            <Button variant="destructive" onClick={handleConfirm}>
+              Cerrar sesión
+              <ArrowRightToLine className="mr-2 h-4 w-4" />
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -55,11 +46,15 @@ export function LogoutDialog({ children, onConfirm, open: controlledOpen, onOpen
         <DrawerHeader className="text-left">
           <DrawerTitle>¿Estás seguro que deseas cerrar sesión?</DrawerTitle>
         </DrawerHeader>
-        <DrawerFooter className="pt-2">
-          <Button variant="outline" onClick={() => setOpen(false)}>
+        <DrawerFooter className="pt-4 gap-2">
+          <Button variant="secondary" onClick={() => setOpen(false)}>
             Cancelar
+            <CircleX className="mr-2 h-4 w-4" />
           </Button>
-          <Button onClick={handleConfirm}>Cerrar sesión</Button>
+          <Button variant="destructive" onClick={handleConfirm}>
+            Cerrar sesión
+            <ArrowRightToLine className="mr-2 h-4 w-4" />
+          </Button>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

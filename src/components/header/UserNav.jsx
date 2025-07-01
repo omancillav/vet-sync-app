@@ -16,9 +16,10 @@ import { useAuth } from '@/contexts/auth.jsx'
 
 export function UserNav() {
   const { isAuthenticated, user, logout } = useAuth()
-  const userInitials = user?.nombre && user?.apellido
-    ? `${user.nombre.charAt(0).toUpperCase()}${user.apellido.charAt(0).toUpperCase()}`
-    : 'U'
+  const userInitials =
+    user?.nombre && user?.apellido
+      ? `${user.nombre.charAt(0).toUpperCase()}${user.apellido.charAt(0).toUpperCase()}`
+      : 'U'
 
   const [menuOpen, setMenuOpen] = useState(false)
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false)
@@ -60,10 +61,7 @@ export function UserNav() {
               <span>Mi Perfil</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              className="hover:cursor-pointer"
-              onClick={handleLogoutClick}
-            >
+            <DropdownMenuItem className="hover:cursor-pointer" onClick={handleLogoutClick}>
               <LogOut className="mr-2 h-4 w-4" />
               <span>Cerrar sesión</span>
             </DropdownMenuItem>
@@ -74,9 +72,7 @@ export function UserNav() {
           open={logoutDialogOpen}
           onOpenChange={setLogoutDialogOpen}
           onConfirm={handleLogoutConfirm}
-        >
-          {/* No necesitamos children aquí ya que controlamos la apertura manualmente */}
-        </LogoutDialog>
+        ></LogoutDialog>
       </>
     )
   }
