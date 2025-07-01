@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogFooter } from '@/components/ui/dialog'
 import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer'
 import { ArrowRightToLine, CircleX } from 'lucide-react'
 
@@ -22,16 +22,19 @@ export function LogoutDialog({ children, onConfirm, open: controlledOpen, onOpen
         <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent className="sm:max-w-[425px] z-[200]">
           <DialogHeader>
-            <DialogTitle>¿Estás seguro que deseas cerrar sesión?</DialogTitle>
+            <DialogTitle className="font-semibold text-xl">¿Estás seguro que deseas cerrar sesión?</DialogTitle>
           </DialogHeader>
+          <DialogDescription className="text-md">
+            Si cierras sesión, perderás el acceso a tus datos y tendrás que iniciar sesión de nuevo para acceder a ellos.
+          </DialogDescription>
           <DialogFooter className="pt-4 gap-4">
-            <Button variant="secondary" onClick={() => setOpen(false)}>
+            <Button variant="secondary" className='text-md' onClick={() => setOpen(false)}>
               Cancelar
-              <CircleX className="mr-2 h-4 w-4" />
+              <CircleX className="h-4 w-4" />
             </Button>
-            <Button variant="destructive" onClick={handleConfirm}>
+            <Button variant="destructive" className='text-md' onClick={handleConfirm}>
               Cerrar sesión
-              <ArrowRightToLine className="mr-2 h-4 w-4" />
+              <ArrowRightToLine className="h-4 w-4" />
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -49,11 +52,11 @@ export function LogoutDialog({ children, onConfirm, open: controlledOpen, onOpen
         <DrawerFooter className="pt-4 gap-2">
           <Button variant="secondary" onClick={() => setOpen(false)}>
             Cancelar
-            <CircleX className="mr-2 h-4 w-4" />
+            <CircleX className="h-4 w-4" />
           </Button>
           <Button variant="destructive" onClick={handleConfirm}>
             Cerrar sesión
-            <ArrowRightToLine className="mr-2 h-4 w-4" />
+            <ArrowRightToLine className="h-4 w-4" />
           </Button>
         </DrawerFooter>
       </DrawerContent>
