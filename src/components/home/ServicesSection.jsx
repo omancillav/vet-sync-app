@@ -30,7 +30,7 @@ export function ServicesSection() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 md:gap-8 gap-6">
           <Card className="relative group transition-shadow duration-300 hover:shadow-lg">
             <CardHeader>
               <CardTitle className="text-xl md:text-2xl">Veterinaria</CardTitle>
