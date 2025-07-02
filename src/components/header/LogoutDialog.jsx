@@ -19,7 +19,6 @@ import {
   DrawerDescription,
   DrawerTrigger
 } from '@/components/ui/drawer'
-import { ArrowRightToLine, CircleX } from 'lucide-react'
 
 export function LogoutDialog({ children, onConfirm, open: controlledOpen, onOpenChange }) {
   const [internalOpen, setInternalOpen] = useState(false)
@@ -30,6 +29,19 @@ export function LogoutDialog({ children, onConfirm, open: controlledOpen, onOpen
   const handleConfirm = () => {
     if (onConfirm) onConfirm()
     setOpen(false)
+  }
+
+  const Buttons = () => {
+    return (
+      <>
+        <Button variant="outline" className="text-md" onClick={() => setOpen(false)}>
+          Cancelar
+        </Button>
+        <Button className="text-md" onClick={handleConfirm}>
+          Cerrar sesión
+        </Button>
+      </>
+    )
   }
 
   if (isDesktop) {
@@ -46,14 +58,7 @@ export function LogoutDialog({ children, onConfirm, open: controlledOpen, onOpen
             Perderás acceso a tus datos. Inicia sesión de nuevo para acceder a ellos.
           </AlertDialogDescription>
           <AlertDialogFooter className="pt-4 gap-4">
-            <Button variant="secondary" className="text-md" onClick={() => setOpen(false)}>
-              Cancelar
-              <CircleX className="h-4 w-4" />
-            </Button>
-            <Button className="text-md" onClick={handleConfirm}>
-              Cerrar sesión
-              <ArrowRightToLine className="h-4 w-4" />
-            </Button>
+            <Buttons />
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -66,20 +71,15 @@ export function LogoutDialog({ children, onConfirm, open: controlledOpen, onOpen
       <DrawerContent className="z-[200] w-full">
         <div className="mx-auto w-full max-w-[600px] px-4">
           <DrawerHeader className="px-0">
-            <DrawerTitle className="text-lg font-semibold text-center">¿Estás seguro que deseas cerrar sesión?</DrawerTitle>
+            <DrawerTitle className="text-lg font-semibold text-center">
+              ¿Estás seguro que deseas cerrar sesión?
+            </DrawerTitle>
           </DrawerHeader>
           <DrawerDescription className="text-md text-center">
             Perderás acceso a tus datos. Inicia sesión de nuevo para acceder a ellos.
           </DrawerDescription>
           <DrawerFooter className="px-0 pt-6 gap-3">
-            <Button variant="secondary" className="text-md" onClick={() => setOpen(false)}>
-              Cancelar
-              <CircleX className="h-4 w-4" />
-            </Button>
-            <Button className="text-md" onClick={handleConfirm}>
-              Cerrar sesión
-              <ArrowRightToLine className="h-4 w-4" />
-            </Button>
+            <Buttons />
           </DrawerFooter>
         </div>
       </DrawerContent>
