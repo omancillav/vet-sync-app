@@ -14,7 +14,7 @@ export function HeroSection() {
       <div className="container mx-auto max-w-6xl">
         <div className="grid lg:grid-cols-[6fr_4fr] gap-14 items-center">
           <div className="text-center lg:text-left">
-            <Badge variant="secondary" className="mb-4 text-sm">
+            <Badge variant="secondary" className="mb-6 text-sm">
               <PawPrint className="w-4 h-4 mr-1" />
               Plataforma Veterinaria Digital
             </Badge>
