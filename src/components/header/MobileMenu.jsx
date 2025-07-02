@@ -1,4 +1,4 @@
-import { useAuth } from '../../contexts/auth'
+import { useAuth } from '@/contexts/auth'
 import { Button } from '@/components/ui/button'
 import VetsyncLogo from '@/assets/vetsync_logo.webp'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -9,6 +9,7 @@ import { LogoutDialog } from './LogoutDialog'
 
 export function MobileMenu({ isOpen, onClose }) {
   const { isAuthenticated, user, logout } = useAuth()
+
   const userInitials =
     user?.nombre && user?.apellido
       ? `${user.nombre.charAt(0).toUpperCase()}${user.apellido.charAt(0).toUpperCase()}`
