@@ -32,20 +32,6 @@ export function LogoutDialog({ children, onConfirm, open: controlledOpen, onOpen
     setOpen(false)
   }
 
-  const Buttons = () => {
-    return (
-      <>
-        <Button variant="secondary" className="text-md" onClick={() => setOpen(false)}>
-          Cancelar
-        </Button>
-        <Button className="text-md dark:text-red-700" onClick={handleConfirm}>
-          Cerrar sesión
-          <LogOut className="w-4 h-4" />
-        </Button>
-      </>
-    )
-  }
-
   if (isDesktop) {
     return (
       <AlertDialog open={open} onOpenChange={setOpen}>
@@ -63,7 +49,13 @@ export function LogoutDialog({ children, onConfirm, open: controlledOpen, onOpen
             Perderás acceso a tus datos. Inicia sesión de nuevo para acceder a ellos.
           </AlertDialogDescription>
           <AlertDialogFooter className="pt-4 gap-3">
-            <Buttons />
+            <Button variant="secondary" className="text-md" onClick={() => setOpen(false)}>
+              Cancelar
+            </Button>
+            <Button className="text-md dark:text-red-700" onClick={handleConfirm}>
+              Cerrar sesión
+              <LogOut className="w-4 h-4" />
+            </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -87,7 +79,13 @@ export function LogoutDialog({ children, onConfirm, open: controlledOpen, onOpen
             Perderás acceso a tus datos. Inicia sesión de nuevo para acceder a ellos.
           </DrawerDescription>
           <DrawerFooter className="px-0 pt-6 gap-3">
-            <Buttons />
+            <Button variant="secondary" className="text-md" onClick={() => setOpen(false)}>
+              Cancelar
+            </Button>
+            <Button className="text-md dark:text-red-700 py-5" onClick={handleConfirm}>
+              Cerrar sesión
+              <LogOut className="w-4 h-4" />
+            </Button>
           </DrawerFooter>
         </div>
       </DrawerContent>
