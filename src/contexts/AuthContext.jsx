@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
-import axios from 'axios'
 import { AuthContext } from './auth'
+import { logout as apiLogout } from '../services/api/auth'
+import { refreshToken as apiRefreshToken } from '../services/api/auth'
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -31,8 +32,7 @@ export const AuthProvider = ({ children }) => {
         const refreshToken = Cookies.get('refreshToken')
         if (refreshToken) {
           try {
-            const API_BASE = import.meta.env.VITE_API_BASE_URL
-            const { data } = await axios.post(`${API_BASE}/auth/refresh`, { refreshToken })
+            const data = await apiRefreshToken({ refreshToken })
             const { accessToken: newAccessToken, refreshToken: newRefreshToken } = data
 
             // Guardar nuevas cookies
@@ -91,7 +91,15 @@ export const AuthProvider = ({ children }) => {
     setUser(userData)
   }
 
-  const logout = () => {
+  const logout = async () => {
+    const refreshToken = Cookies.get('refreshToken')
+    try {
+      if (refreshToken) {
+        await apiLogout({ refreshToken })
+      }
+    } catch (error) {
+      console.error('Error calling logout API:', error)
+    }
     Cookies.remove('accessToken')
     Cookies.remove('refreshToken')
     Cookies.remove('userData')

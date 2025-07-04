@@ -24,13 +24,15 @@ api.interceptors.request.use((config) => {
     config.headers['x-api-key'] = API_KEY
   }
 
-  if (config.auth) {
+  if (config.requiresAuth) {
     const token = Cookies.get('accessToken')
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
   }
 
+  // Eliminamos la propiedad personalizada para que no se envíe al backend
+  delete config.requiresAuth
   return config
 })
 
