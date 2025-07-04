@@ -1,9 +1,8 @@
-import axios from 'axios'
-const API_BASE = import.meta.env.VITE_API_BASE_URL
+import api from './client'
 
 export const login = async ({ input }) => {
   try {
-    const response = await axios.post(`${API_BASE}/auth/login`, input)
+    const response = await api.post('/auth/login', input)
     return response.data
   } catch (error) {
     console.log(error)
@@ -13,7 +12,7 @@ export const login = async ({ input }) => {
 
 export const register = async ({ input }) => {
   try {
-    const response = await axios.post(`${API_BASE}/auth/register`, input)
+    const response = await api.post('/auth/register', input)
     return response.data
   } catch (error) {
     console.log(error)

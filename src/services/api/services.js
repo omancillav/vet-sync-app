@@ -1,9 +1,8 @@
-import axios from 'axios'
-const API_BASE = import.meta.env.VITE_API_BASE_URL
+import api from './client'
 
 export const getServices = async () => {
   try {
-    const response = await axios.get(`${API_BASE}/services/active/true`)
+    const response = await api.get('/services/active/true')
     return response.data
   } catch (error) {
     console.log(error)
