@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { loginSchema } from '@/schemas/loginSchema'
 import { ModeToggle } from '@/components/header/mode-toggle.jsx'
-import { ArrowLeft, Eye, EyeOff } from 'lucide-react'
+import { ArrowLeft, Eye, EyeOff, LoaderCircle } from 'lucide-react'
 import { login as loginRequest } from '@/services/api/auth.js'
 import { useAuth } from '@/contexts/auth.jsx'
 
@@ -61,9 +61,7 @@ export function Login() {
         </Link>
 
         <CardHeader>
-          <CardTitle className="text-center uppercase font-bold">
-            Inicia sesión
-          </CardTitle>
+          <CardTitle className="text-center uppercase font-bold">Inicia sesión</CardTitle>
         </CardHeader>
 
         <CardContent>
@@ -71,12 +69,7 @@ export function Login() {
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Correo electrónico</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="correo@ejemplo.com"
-                  {...register('email')}
-                />
+                <Input id="email" type="email" placeholder="correo@ejemplo.com" {...register('email')} />
                 {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
               </div>
               <div className="grid gap-2">
@@ -107,13 +100,17 @@ export function Login() {
                 </div>
                 {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
               </div>
-              {errors.root?.serverError && (
-                <p className="text-sm text-red-500">{errors.root.serverError.message}</p>
-              )}
+              {errors.root?.serverError && <p className="text-sm text-red-500">{errors.root.serverError.message}</p>}
             </div>
             <CardFooter className="mt-4 flex-col gap-2 p-0">
               <Button type="submit" className="w-full hover:cursor-pointer" disabled={isSubmitting}>
-                {isSubmitting ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+                {isSubmitting ? (
+                  <>
+                    <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                  </>
+                ) : (
+                  'Iniciar Sesión'
+                )}
               </Button>
             </CardFooter>
           </form>

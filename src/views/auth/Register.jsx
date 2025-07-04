@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import VetsyncLogo from '@/assets/vetsync_logo.webp'
-import { ArrowLeft, Eye, EyeOff } from 'lucide-react'
+import { ArrowLeft, Eye, EyeOff, LoaderCircle } from 'lucide-react'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -141,7 +141,7 @@ export function Register() {
             </div>
             <CardFooter className="mt-4 flex-col gap-2 p-0">
               <Button type="submit" className="w-full" disabled={isSubmitting}>
-                {isSubmitting ? 'Creando cuenta...' : 'Registrarse'}
+                {isSubmitting ? <LoaderCircle /> : 'Registrarse'}
               </Button>
             </CardFooter>
           </form>
