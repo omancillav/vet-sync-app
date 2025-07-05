@@ -4,11 +4,11 @@ import { Ellipsis, Calendar1, Mars, Venus, UserRound } from 'lucide-react'
 
 export function PetsCard({ pet }) {
   return (
-    <Card className="p-0 overflow-hidden">
-      <CardContent className="flex gap-4 relative p-0">
+    <Card className="px-2 md:p-0 overflow-hidden">
+      <CardContent className="flex md:flex-row flex-col gap-4 relative md:p-0">
         <Ellipsis className="absolute top-4 right-4 text-muted-foreground hover:cursor-pointer" size={22} />
         <div className="flex items-center">
-          <img className="md:w-40 w-24 aspect-square object-cover" src={pet.img_url} alt={pet.nombre} />
+          <img className="md:w-40 w-28 aspect-square object-cover rounded-full md:rounded-none" src={pet.img_url} alt={pet.nombre} />
         </div>
 
         <article className="flex flex-col py-2 gap-4">
