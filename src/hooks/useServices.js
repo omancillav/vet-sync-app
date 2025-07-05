@@ -9,8 +9,8 @@ export function useServices() {
   const fetchServices = useCallback(async () => {
     try {
       setLoading(true)
-      const response = await getServices()
-      setServices(response.data)
+      const { data } = await getServices()
+      setServices(data)
     } catch (error) {
       console.error(error)
       setError(error)
