@@ -40,7 +40,9 @@ export function Pets() {
     return (
       <>
         {pets.map((pet) => (
-          <PetsCard key={pet.id} pet={pet} />
+          <section key={pet.id} className='grid grid-cols-1 md:grid-cols-2'>
+            <PetsCard pet={pet} />
+          </section>
         ))}
       </>
     )
