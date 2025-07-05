@@ -6,13 +6,12 @@ export const getPets = async () => {
     const userDataCookie = Cookies.get('userData')
     const userData = userDataCookie ? JSON.parse(userDataCookie) : null
     const clienteId = userData?.id
-    const response = await api.get('/pets/detail', { params: { clienteId }, requiresAuth: true })
+    const { data } = await api.get('/pets/detail', { params: { clienteId }, requiresAuth: true })
 
-    if (response.data && response.data.error === 'Pets not found') {
+    if (data && data.error === 'Pets not found') {
       return []
     }
-    console.log(response.data)
-    return response.data
+    return data
   } catch (error) {
     if (error.response?.data?.error === 'Pets not found') {
       return []

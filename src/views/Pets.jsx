@@ -1,27 +1,52 @@
-import { useState, useEffect } from 'react'
 import { useAuth } from '@/contexts/auth'
 import { AuthPrompt } from '@/components/AuthPrompt'
 import { NoPets } from '@/components/pets/NoPets'
-import { getPets } from '@/services/api/pets'
+import { usePets } from '@/hooks/usePets'
+import { LoadingSpinner } from '@/components/LoadingSpinner'
+import { ErrorCard } from '@/components/ErrorCard'
+import { PetsCard } from '@/components/pets/PetsCard'
 
 export function Pets() {
-  const [pets, setPets] = useState([])
+  const { pets, loading, error } = usePets()
   const { isAuthenticated } = useAuth()
 
-  useEffect(() => {
-    if (!isAuthenticated) return
-
-    const fetchPets = async () => {
-      try {
-        const newPets = await getPets()
-        setPets(newPets)
-      } catch (err) {
-        console.error('Failed to fetch pets:', err)
-      }
+  const renderContent = () => {
+    if (!isAuthenticated) {
+      return <AuthPrompt icon="🐾" message="Debes iniciar sesión para ver tus mascotas" />
     }
 
-    fetchPets()
-  }, [isAuthenticated])
+    if (loading) {
+      return (
+        <div className="flex justify-center items-center h-64">
+          <LoadingSpinner />
+        </div>
+      )
+    }
+
+    if (error) {
+      return <ErrorCard message="No se pudieron cargar tus mascotas. Inténtalo de nuevo." />
+    }
+
+    if (pets.length === 0) {
+      return (
+        <NoPets
+          onAddPet={() => {
+            /* TODO: open create pet modal */
+          }}
+        />
+      )
+    }
+
+    return (
+      <>
+        {pets.map((pet) => (
+          <section key={pet.id} className='grid grid-cols-1 md:grid-cols-2'>
+            <PetsCard pet={pet} />
+          </section>
+        ))}
+      </>
+    )
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -31,20 +56,7 @@ export function Pets() {
           <p className="text-muted-foreground">Gestiona la información de todas tus mascotas</p>
         </div>
 
-        {isAuthenticated ? (
-          pets.length === 0 ? (
-            <NoPets
-              onAddPet={() => {
-                /* TODO: open create pet modal */
-              }}
-            />
-          ) : (
-            // TODO: render pets list here once data is fetched
-            <div>{/* Aquí irá la lista de mascotas */}</div>
-          )
-        ) : (
-          <AuthPrompt icon="🐾" message="Debes iniciar sesión para registrar tus mascotas" />
-        )}
+        {renderContent()}
       </div>
     </div>
   )
