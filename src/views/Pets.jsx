@@ -41,7 +41,7 @@ export function Pets() {
       <>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           {pets.map((pet) => (
-            <PetsCard pet={pet} />
+            <PetsCard key={pet.id} pet={pet} />
           ))}
         </div>
       </>

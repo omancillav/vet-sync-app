@@ -4,17 +4,31 @@ import { Ellipsis, Calendar1, Mars, Venus, UserRound } from 'lucide-react'
 
 export function PetsCard({ pet }) {
   return (
-    <Card className="px-2 md:p-0 overflow-hidden">
-      <CardContent className="flex md:flex-row flex-col gap-4 relative md:p-0">
-        <Ellipsis className="absolute top-4 right-4 text-muted-foreground hover:cursor-pointer" size={22} />
-        <div className="flex items-center">
-          <img className="md:w-40 w-28 aspect-square object-cover rounded-full md:rounded-none" src={pet.img_url} alt={pet.nombre} />
+    <Card className="py-2 overflow-hidden">
+      <CardContent className="flex md:flex-row flex-col gap-3 md:gap-6 relative">
+        <Ellipsis className="absolute top-2 right-4 text-muted-foreground hover:cursor-pointer" size={22} />
+
+        {/* Desktop layout */}
+        <div className="hidden md:flex items-center">
+          <img className="w-40 aspect-square object-cover rounded-full" src={pet.img_url} alt={pet.nombre} />
+        </div>
+
+        {/* Mobile layout */}
+        <div className="flex md:hidden items-center gap-4">
+          <img className="w-22 aspect-square object-cover rounded-full flex-shrink-0" src={pet.img_url} alt={pet.nombre} />
+          <div className="flex-1 min-w-0">
+            <CardTitle className="text-lg">{pet.nombre}</CardTitle>
+            <p className="text-sm text-muted-foreground">
+              {pet.nombre_especie} • {pet.nombre_raza}
+            </p>
+          </div>
         </div>
 
         <article className="flex flex-col py-2 gap-4">
-          <header>
-            <CardTitle className="md:text-xl text-lg">{pet.nombre}</CardTitle>
-            <p className="md:text-base text-sm text-muted-foreground">
+          {/* Desktop header */}
+          <header className="hidden md:block">
+            <CardTitle className="text-xl">{pet.nombre}</CardTitle>
+            <p className="text-base text-muted-foreground">
               {pet.nombre_especie} • {pet.nombre_raza}
             </p>
           </header>
@@ -36,7 +50,7 @@ export function PetsCard({ pet }) {
 
             <div className="flex items-center gap-2">
               <UserRound className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
-              {pet.nombre_cliente}
+              {pet.nombre_cliente.split(' ')[0]}
             </div>
           </div>
 
