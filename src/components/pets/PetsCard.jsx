@@ -10,25 +10,25 @@ import { Ellipsis, Calendar1, Mars, Venus, UserRound, PenLine, Trash } from 'luc
 
 export function PetsCard({ pet }) {
   return (
-    <Card className="overflow-hidden">
-      <CardContent className="flex md:flex-row flex-col gap-3 md:gap-6 relative">
-        <div className="absolute top-2 right-4">
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Ellipsis className="text-muted-foreground hover:cursor-pointer" size={22} />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem className="hover:cursor-pointer my-0.5">
-                <PenLine className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
+    <Card className="overflow-hidden relative">
+      <div className="absolute top-4 right-4">
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Ellipsis className="text-muted-foreground hover:cursor-pointer" size={22} />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem className="hover:cursor-pointer my-0.5">
+              <PenLine className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
                 Editar
-              </DropdownMenuItem>
-              <DropdownMenuItem className="hover:cursor-pointer my-0.5" variant="destructive">
-                <Trash className="w-5 h-5" aria-hidden="true" />
+            </DropdownMenuItem>
+            <DropdownMenuItem className="hover:cursor-pointer my-0.5" variant="destructive">
+              <Trash className="w-5 h-5" aria-hidden="true" />
                 Eliminar
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <CardContent className="flex md:flex-row flex-col gap-3 md:gap-6">
 
         {/* Desktop layout */}
         <div className="hidden md:flex items-center">
