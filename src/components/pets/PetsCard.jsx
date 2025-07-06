@@ -15,7 +15,11 @@ export function PetsCard({ pet }) {
 
         {/* Mobile layout */}
         <div className="flex md:hidden items-center gap-4">
-          <img className="w-22 aspect-square object-cover rounded-full flex-shrink-0" src={pet.img_url} alt={pet.nombre} />
+          <img
+            className="w-22 aspect-square object-cover rounded-full flex-shrink-0"
+            src={pet.img_url}
+            alt={pet.nombre}
+          />
           <div className="flex-1 min-w-0">
             <CardTitle className="text-lg">{pet.nombre}</CardTitle>
             <p className="text-sm text-muted-foreground">
