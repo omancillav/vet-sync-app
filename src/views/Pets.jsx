@@ -10,8 +10,12 @@ import { Plus } from 'lucide-react'
 import { PetsForm } from '@/components/pets/PetsForm'
 
 export function Pets() {
-  const { pets, loading, error } = usePets()
+  const { pets, loading, error, noPets } = usePets()
   const { isAuthenticated } = useAuth()
+
+  const handlePetAdded = () => {
+    console.log('Mascota agregada exitosamente!')
+  }
 
   const renderContent = () => {
     if (!isAuthenticated) {
@@ -30,15 +34,7 @@ export function Pets() {
       return <ErrorCard message="No se pudieron cargar tus mascotas. Inténtalo de nuevo." />
     }
 
-    if (pets.length === 0) {
-      return (
-        <NoPets
-          onAddPet={() => {
-            /* TODO: open create pet modal */
-          }}
-        />
-      )
-    }
+    if (noPets) return <NoPets />
 
     return (
       <>
@@ -60,7 +56,7 @@ export function Pets() {
             <p className="text-muted-foreground">Gestiona la información de todas tus mascotas</p>
           </section>
           <section className="w-full md:w-1/2 md:flex md:justify-end">
-            <PetsForm>
+            <PetsForm onSuccess={handlePetAdded}>
               <Button className="w-full md:w-auto">
                 Agregar Mascota
                 <Plus className="h-4 w-4 ml-2" />
