@@ -5,6 +5,8 @@ import { usePets } from '@/hooks/usePets'
 import { LoadingSpinner } from '@/components/LoadingSpinner'
 import { ErrorCard } from '@/components/ErrorCard'
 import { PetsCard } from '@/components/pets/PetsCard'
+import { Button } from '@/components/ui/button'
+import { Plus } from 'lucide-react'
 
 export function Pets() {
   const { pets, loading, error } = usePets()
@@ -51,11 +53,18 @@ export function Pets() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Mis Mascotas</h1>
-          <p className="text-muted-foreground">Gestiona la información de todas tus mascotas</p>
+        <div className="flex flex-col md:flex-row md:items-end">
+          <section className="mb-4 md:mb-8 md:w-1/2">
+            <h1 className="text-3xl font-bold text-foreground mb-2">Mis Mascotas</h1>
+            <p className="text-muted-foreground">Gestiona la información de todas tus mascotas</p>
+          </section>
+          <section className="mb-6 w-full md:w-1/2 md:flex md:justify-end">
+            <Button className="w-full md:w-auto">
+              Agregar Mascota
+              <Plus className="h-4 w-4 ml-2" />
+            </Button>
+          </section>
         </div>
-
         {renderContent()}
       </div>
     </div>

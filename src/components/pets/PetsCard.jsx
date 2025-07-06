@@ -1,12 +1,34 @@
 import { Card, CardContent, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Ellipsis, Calendar1, Mars, Venus, UserRound } from 'lucide-react'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import { Ellipsis, Calendar1, Mars, Venus, UserRound, PenLine, Trash } from 'lucide-react'
 
 export function PetsCard({ pet }) {
   return (
     <Card className="py-2 overflow-hidden">
       <CardContent className="flex md:flex-row flex-col gap-3 md:gap-6 relative">
-        <Ellipsis className="absolute top-2 right-4 text-muted-foreground hover:cursor-pointer" size={22} />
+        <div className="absolute top-2 right-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Ellipsis className="text-muted-foreground hover:cursor-pointer" size={22} />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem className="hover:cursor-pointer my-0.5">
+                <PenLine className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
+                Editar
+              </DropdownMenuItem>
+              <DropdownMenuItem className="hover:cursor-pointer my-0.5" variant="destructive">
+                <Trash className="w-5 h-5" aria-hidden="true" />
+                Eliminar
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
 
         {/* Desktop layout */}
         <div className="hidden md:flex items-center">
@@ -15,7 +37,11 @@ export function PetsCard({ pet }) {
 
         {/* Mobile layout */}
         <div className="flex md:hidden items-center gap-4">
-          <img className="w-22 aspect-square object-cover rounded-full flex-shrink-0" src={pet.img_url} alt={pet.nombre} />
+          <img
+            className="w-22 aspect-square object-cover rounded-full flex-shrink-0"
+            src={pet.img_url}
+            alt={pet.nombre}
+          />
           <div className="flex-1 min-w-0">
             <CardTitle className="text-lg">{pet.nombre}</CardTitle>
             <p className="text-sm text-muted-foreground">
