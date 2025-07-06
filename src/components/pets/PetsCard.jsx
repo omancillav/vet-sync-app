@@ -10,7 +10,7 @@ import { Ellipsis, Calendar1, Mars, Venus, UserRound, PenLine, Trash } from 'luc
 
 export function PetsCard({ pet }) {
   return (
-    <Card className="py-2 overflow-hidden">
+    <Card className="overflow-hidden">
       <CardContent className="flex md:flex-row flex-col gap-3 md:gap-6 relative">
         <div className="absolute top-2 right-4">
           <DropdownMenu>
