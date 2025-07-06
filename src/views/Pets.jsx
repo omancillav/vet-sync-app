@@ -7,6 +7,7 @@ import { ErrorCard } from '@/components/ErrorCard'
 import { PetsCard } from '@/components/pets/PetsCard'
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
+import { PetsForm } from '@/components/pets/PetsForm'
 
 export function Pets() {
   const { pets, loading, error } = usePets()
@@ -59,10 +60,12 @@ export function Pets() {
             <p className="text-muted-foreground">Gestiona la información de todas tus mascotas</p>
           </section>
           <section className="w-full md:w-1/2 md:flex md:justify-end">
-            <Button className="w-full md:w-auto">
-              Agregar Mascota
-              <Plus className="h-4 w-4 ml-2" />
-            </Button>
+            <PetsForm>
+              <Button className="w-full md:w-auto">
+                Agregar Mascota
+                <Plus className="h-4 w-4 ml-2" />
+              </Button>
+            </PetsForm>
           </section>
         </div>
         {renderContent()}
