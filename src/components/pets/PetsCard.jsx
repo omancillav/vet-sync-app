@@ -33,7 +33,7 @@ export function PetsCard({ pet }) {
             </p>
           </header>
 
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap md:gap-1 gap-2">
             <div className="flex items-center gap-2">
               <Calendar1 className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
               {pet.edad} años
@@ -55,7 +55,7 @@ export function PetsCard({ pet }) {
           </div>
 
           <div>
-            <Badge className="bg-sky-100 text-sky-800 rounded-lg px-3 py-1 text-sm font-normal">
+            <Badge className="bg-sky-100 text-sky-800 rounded-lg px-3 py-1 text-sm font-normal w-full">
               {pet.sexo === 'M' ? 'Registrado' : 'Registrada'} el{' '}
               {new Date(pet.fecha_registro).toLocaleDateString('es-MX', {
                 day: 'numeric',
