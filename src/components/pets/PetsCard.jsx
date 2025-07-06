@@ -33,7 +33,7 @@ export function PetsCard({ pet }) {
             </p>
           </header>
 
-          <div className="flex flex-wrap md:gap-1 gap-2">
+          <div className="flex flex-wrap md:gap-1 gap-2 px-1 md:px-0 justify-between md:justify-start">
             <div className="flex items-center gap-2">
               <Calendar1 className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
               {pet.edad} años
