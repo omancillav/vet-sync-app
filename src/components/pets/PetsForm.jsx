@@ -14,14 +14,22 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { petSchema } from '@/schemas/petSchema'
-import { PawPrint, LoaderCircle } from 'lucide-react'
+import { PawPrint, LoaderCircle, Check, ChevronsUpDown } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { useBreeds } from '@/hooks/useBreeds'
 
-export function PetsForm({ children, onSuccess }) {
+export function PetsForm({ children }) {
   const [isOpen, setIsOpen] = useState(false)
+  const [selectedSpecies, setSelectedSpecies] = useState(null)
+  const [breedComboOpen, setBreedComboOpen] = useState(false)
+  const [selectedBreed, setSelectedBreed] = useState(null)
   const isDesktop = useMediaQuery('(min-width: 64rem)')
+  const { breeds, species, loading, error } = useBreeds()
 
   const {
     register,
@@ -38,6 +46,23 @@ export function PetsForm({ children, onSuccess }) {
     }
   })
 
+  const filteredBreeds = selectedSpecies ? breeds.filter((breed) => breed.especie_id === selectedSpecies) : []
+
+  const handleSpeciesChange = (value) => {
+    const speciesId = Number(value)
+    setSelectedSpecies(speciesId)
+    setValue('especie_id', speciesId)
+
+    setSelectedBreed(null)
+    setValue('raza_id', '')
+  }
+
+  const handleBreedSelect = (breedId, breedName) => {
+    setSelectedBreed({ id: breedId, nombre: breedName })
+    setValue('raza_id', breedId)
+    setBreedComboOpen(false)
+  }
+
   const onSubmit = async (data) => {
     try {
       console.log('Datos de la mascota:', data)
@@ -45,13 +70,21 @@ export function PetsForm({ children, onSuccess }) {
       // await createPet(data)
       setIsOpen(false)
       reset()
-      if (onSuccess) onSuccess()
+      setSelectedSpecies(null)
+      setSelectedBreed(null)
     } catch (error) {
       console.error('Error al registrar la mascota:', error)
       setError('root', {
         message: 'Ocurrió un error al registrar la mascota. Inténtalo de nuevo.'
       })
     }
+  }
+
+  const handleCancel = () => {
+    reset()
+    setSelectedSpecies(null)
+    setSelectedBreed(null)
+    setIsOpen(false)
   }
 
   const formContent = (
@@ -77,16 +110,16 @@ export function PetsForm({ children, onSuccess }) {
           {/* Especie */}
           <div className="grid gap-2 w-full">
             <Label htmlFor="especie_id">Especie</Label>
-            <Select
-              onValueChange={(value) => setValue('especie_id', Number(value))}
-            >
+            <Select onValueChange={handleSpeciesChange} disabled={loading}>
               <SelectTrigger className={`w-full ${errors.especie_id ? 'border-red-500' : ''}`}>
-                <SelectValue placeholder="Selecciona una especie" />
+                <SelectValue placeholder={loading ? 'Cargando...' : 'Selecciona una especie'} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="1">Perro</SelectItem>
-                <SelectItem value="2">Gato</SelectItem>
-                <SelectItem value="3">Ave</SelectItem>
+                {species.map((especie) => (
+                  <SelectItem key={especie.id} value={especie.id.toString()}>
+                    {especie.nombre}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
             {errors.especie_id && <p className="text-sm text-red-500">{errors.especie_id.message}</p>}
@@ -95,19 +128,51 @@ export function PetsForm({ children, onSuccess }) {
           {/* Raza */}
           <div className="grid gap-2 w-full">
             <Label htmlFor="raza_id">Raza</Label>
-            <Select
-              onValueChange={(value) => setValue('raza_id', Number(value))}
-            >
-              <SelectTrigger className={`w-full ${errors.raza_id ? 'border-red-500' : ''}`}>
-                <SelectValue placeholder="Selecciona una raza" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1">Labrador</SelectItem>
-                <SelectItem value="2">Pastor Alemán</SelectItem>
-                <SelectItem value="3">Siamés</SelectItem>
-                <SelectItem value="4">Persa</SelectItem>
-              </SelectContent>
-            </Select>
+            <Popover open={breedComboOpen} onOpenChange={setBreedComboOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={breedComboOpen}
+                  className={cn(
+                    'w-full justify-between text-left font-normal h-10 px-3 overflow-hidden',
+                    errors.raza_id && 'border-red-500'
+                  )}
+                  disabled={loading || !selectedSpecies || filteredBreeds.length === 0}
+                >
+                  <span className="truncate flex-1 min-w-0">
+                    {selectedBreed ? selectedBreed.nombre : loading ? 'Cargando...' : 'Buscar raza...'}
+                  </span>
+                  <ChevronsUpDown className="ml-2 h-4 w-4 flex-shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[--radix-popover-trigger-width] p-0 overflow-hidden">
+                <Command className="max-h-[280px]">
+                  <CommandInput placeholder="Buscar raza..." className="h-9" />
+                  <CommandList className="overflow-y-auto">
+                    <CommandEmpty>No se encontraron razas.</CommandEmpty>
+                    <CommandGroup>
+                      {filteredBreeds.map((breed) => (
+                        <CommandItem
+                          key={breed.id}
+                          value={breed.nombre}
+                          onSelect={() => handleBreedSelect(breed.id, breed.nombre)}
+                          className="flex items-center justify-between px-2 py-1.5"
+                        >
+                          <span className="truncate flex-1 min-w-0 pr-2">{breed.nombre}</span>
+                          <Check
+                            className={cn(
+                              'h-4 w-4 flex-shrink-0',
+                              selectedBreed?.id === breed.id ? 'opacity-100' : 'opacity-0'
+                            )}
+                          />
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
             {errors.raza_id && <p className="text-sm text-red-500">{errors.raza_id.message}</p>}
           </div>
         </div>
@@ -148,22 +213,21 @@ export function PetsForm({ children, onSuccess }) {
         </div>
       </div>
 
+      {/* Error de carga */}
+      {error && (
+        <div className="mt-4 rounded-md bg-red-50 p-4 text-red-600">
+          Error al cargar las opciones. Por favor, intenta de nuevo.
+        </div>
+      )}
+
       {/* Error general */}
       {errors.root && <div className="mt-4 rounded-md bg-red-50 p-4 text-red-600">{errors.root.message}</div>}
 
       <div className="grid grid-cols-1 justify-end gap-3 pt-4">
-        <Button
-          type="button"
-          variant="secondary"
-          onClick={() => {
-            reset()
-            setIsOpen(false)
-          }}
-          disabled={isSubmitting}
-        >
+        <Button type="button" variant="secondary" onClick={handleCancel} disabled={isSubmitting}>
           Cancelar
         </Button>
-        <Button type="submit" disabled={isSubmitting}>
+        <Button type="submit" disabled={isSubmitting || loading}>
           {isSubmitting ? 'Guardando...' : 'Guardar Mascota'}
           {isSubmitting ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <PawPrint className="w-4 h-4" />}
         </Button>
