@@ -7,11 +7,13 @@ export function usePets() {
   const [pets, setPets] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [noPets, setNoPets] = useState(false)
 
   const fetchPets = useCallback(async () => {
     try {
       setLoading(true)
       const { data } = await getPets()
+      if (data.length === 0) setNoPets(true)
       setPets(data)
     } catch (error) {
       console.error(error)
@@ -30,6 +32,8 @@ export function usePets() {
   return {
     pets,
     loading,
-    error
+    error,
+    noPets,
+    fetchPets // Expose fetchPets to allow manual refetching
   }
 }
