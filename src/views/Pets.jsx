@@ -11,7 +11,7 @@ import { PetsForm } from '@/components/pets/PetsForm'
 import { useBreeds } from '@/hooks/useBreeds'
 
 export function Pets() {
-  const { pets, loading, error, noPets } = usePets()
+  const { pets, loading, error, noPets, fetchPets } = usePets()
   const { breeds, species, loading: breedsLoading, error: breedsError } = useBreeds()
   const { isAuthenticated } = useAuth()
 
@@ -55,7 +55,13 @@ export function Pets() {
           </section>
           <section className="w-full md:w-1/2 md:flex md:justify-end">
             {isAuthenticated && (
-              <PetsForm breeds={breeds} species={species} loading={breedsLoading} error={breedsError}>
+              <PetsForm
+                breeds={breeds}
+                species={species}
+                loading={breedsLoading}
+                error={breedsError}
+                onPetAdded={fetchPets}
+              >
                 <Button className="w-full md:w-auto" disabled={breedsLoading || breedsError}>
                   {breedsLoading ? '' : 'Agregar Mascota'}
                   {breedsLoading ? (

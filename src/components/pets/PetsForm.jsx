@@ -20,9 +20,10 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { petSchema } from '@/schemas/petSchema'
 import { PawPrint, LoaderCircle, Check, ChevronsUpDown, HeartPlus } from 'lucide-react'
+import { addPet } from '@/services/api/pets'
 import { cn } from '@/lib/utils'
 
-export function PetsForm({ children, breeds, species, loading, error }) {
+export function PetsForm({ children, breeds, species, loading, error, onPetAdded }) {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedSpecies, setSelectedSpecies] = useState(null)
   const [breedComboOpen, setBreedComboOpen] = useState(false)
@@ -64,12 +65,16 @@ export function PetsForm({ children, breeds, species, loading, error }) {
   const onSubmit = async (data) => {
     try {
       console.log('Datos de la mascota:', data)
-      // Aquí iría la llamada a la API
-      // await createPet(data)
+      const response = await addPet(data)
+      console.log('Respuesta de la API:', response)
       setIsOpen(false)
       reset()
       setSelectedSpecies(null)
       setSelectedBreed(null)
+
+      if (onPetAdded) {
+        await onPetAdded()
+      }
     } catch (error) {
       console.error('Error al registrar la mascota:', error)
       setError('root', {

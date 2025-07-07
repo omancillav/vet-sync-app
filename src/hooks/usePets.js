@@ -33,6 +33,7 @@ export function usePets() {
     pets,
     loading,
     error,
-    noPets
+    noPets,
+    fetchPets // Expose fetchPets to allow manual refetching
   }
 }
