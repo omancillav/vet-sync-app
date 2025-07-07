@@ -84,8 +84,39 @@ function CommandList({
   className,
   ...props
 }: React.ComponentProps<typeof CommandPrimitive.List>) {
+  const listRef = React.useRef<HTMLDivElement>(null)
+  
+  React.useEffect(() => {
+    const listElement = listRef.current
+    if (!listElement) return
+
+    // Prevenir el scroll en el body cuando se hace scroll en la lista
+    const preventBodyScroll = (e: TouchEvent) => {
+      const target = e.target as HTMLElement
+      if (listElement.contains(target)) {
+        e.stopPropagation()
+      }
+    }
+
+    // Mejorar el scroll táctil en iOS
+    const handleTouchMove = (e: TouchEvent) => {
+      if (listElement.contains(e.target as HTMLElement)) {
+        e.stopPropagation()
+      }
+    }
+
+    document.addEventListener('touchmove', preventBodyScroll, { passive: false })
+    document.addEventListener('touchmove', handleTouchMove, { passive: false })
+
+    return () => {
+      document.removeEventListener('touchmove', preventBodyScroll)
+      document.removeEventListener('touchmove', handleTouchMove)
+    }
+  }, [])
+
   return (
     <CommandPrimitive.List
+      ref={listRef}
       data-slot="command-list"
       className={cn(
         "max-h-[300px] overflow-y-auto overflow-x-hidden",
@@ -94,11 +125,21 @@ function CommandList({
       style={{
         scrollbarWidth: 'thin',
         scrollbarColor: '#cbd5e1 transparent',
+        WebkitOverflowScrolling: 'touch', // Scroll suave en iOS
+        overscrollBehavior: 'contain', // Prevenir scroll en el body
       }}
       onWheel={(e) => {
         e.stopPropagation()
         const target = e.currentTarget
         target.scrollTop += e.deltaY
+      }}
+      onTouchStart={(e) => {
+        // Asegurar que el elemento sea scrollable
+        e.stopPropagation()
+      }}
+      onTouchMove={(e) => {
+        // Permitir scroll táctil
+        e.stopPropagation()
       }}
       {...props}
     />
