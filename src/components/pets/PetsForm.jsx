@@ -145,7 +145,7 @@ export function PetsForm({ children, breeds, species, loading, error }) {
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-[--radix-popover-trigger-width] p-0 overflow-hidden">
-                <Command className="max-h-[280px]">
+                <Command className="max-h-[160px] lg:max-h-[280px]">
                   <CommandInput placeholder="Buscar raza..." className="h-9" />
                   <CommandList className="overflow-y-auto">
                     <CommandEmpty>No se encontraron razas.</CommandEmpty>
