@@ -1,34 +1,22 @@
 import { useState } from 'react'
-import { useMediaQuery } from '@/hooks/use-media-query'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogTrigger
-} from '@/components/ui/dialog'
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { petSchema } from '@/schemas/petSchema'
-import { PawPrint, LoaderCircle, Check, ChevronsUpDown, HeartPlus } from 'lucide-react'
+import { LoaderCircle, Check, ChevronsUpDown, HeartPlus } from 'lucide-react'
 import { addPet } from '@/services/api/pets'
 import { cn } from '@/lib/utils'
 
-export function PetsForm({ children, breeds, species, loading, error, onPetAdded }) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [selectedSpecies, setSelectedSpecies] = useState(null)
+export function FormContent({ breeds, species, loading, error, onPetAdded, setIsOpen }) {
   const [breedComboOpen, setBreedComboOpen] = useState(false)
+  const [selectedSpecies, setSelectedSpecies] = useState(null)
   const [selectedBreed, setSelectedBreed] = useState(null)
-  const isDesktop = useMediaQuery('(min-width: 64rem)')
 
   const {
     register,
@@ -90,7 +78,7 @@ export function PetsForm({ children, breeds, species, loading, error, onPetAdded
     setIsOpen(false)
   }
 
-  const formContent = (
+  return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="grid gap-6">
         {/* Nombre */}
@@ -236,38 +224,5 @@ export function PetsForm({ children, breeds, species, loading, error, onPetAdded
         </Button>
       </div>
     </form>
-  )
-
-  if (isDesktop) {
-    return (
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogTrigger asChild>{children}</DialogTrigger>
-        <DialogContent className="sm:max-w-[500px] gap-8">
-          <DialogHeader className="gap-3">
-            <div className="flex items-center gap-2">
-              <PawPrint className="w-5 h-5" />
-              <DialogTitle>Agregar Mascota</DialogTitle>
-            </div>
-            <DialogDescription>Llena la información de tu mascota para poder guardarla en tu perfil.</DialogDescription>
-          </DialogHeader>
-          {formContent}
-        </DialogContent>
-      </Dialog>
-    )
-  }
-
-  return (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent className="p-4">
-        <SheetHeader>
-          <div className="flex items-center gap-4">
-            <PawPrint className="w-4 h-4 " />
-            <SheetTitle>Agregar Mascota</SheetTitle>
-          </div>
-        </SheetHeader>
-        {formContent}
-      </SheetContent>
-    </Sheet>
   )
 }

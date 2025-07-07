@@ -4,10 +4,10 @@ import { NoPets } from '@/components/pets/NoPets'
 import { usePets } from '@/hooks/usePets'
 import { LoadingSpinner } from '@/components/LoadingSpinner'
 import { ErrorCard } from '@/components/ErrorCard'
-import { PetsCard } from '@/components/pets/PetsCard'
+import { PetsCard } from '@/components/pets/card/PetsCard'
 import { Button } from '@/components/ui/button'
 import { Plus, LoaderCircle } from 'lucide-react'
-import { PetsForm } from '@/components/pets/PetsForm'
+import { PetsForm } from '@/components/pets/form/PetsForm'
 import { useBreeds } from '@/hooks/useBreeds'
 
 export function Pets() {
