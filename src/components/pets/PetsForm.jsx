@@ -21,15 +21,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { petSchema } from '@/schemas/petSchema'
 import { PawPrint, LoaderCircle, Check, ChevronsUpDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { useBreeds } from '@/hooks/useBreeds'
 
-export function PetsForm({ children }) {
+export function PetsForm({ children, breeds, species, loading, error }) {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedSpecies, setSelectedSpecies] = useState(null)
   const [breedComboOpen, setBreedComboOpen] = useState(false)
   const [selectedBreed, setSelectedBreed] = useState(null)
   const isDesktop = useMediaQuery('(min-width: 64rem)')
-  const { breeds, species, loading, error } = useBreeds()
 
   const {
     register,
@@ -147,7 +145,7 @@ export function PetsForm({ children }) {
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-[--radix-popover-trigger-width] p-0 overflow-hidden">
-                <Command className="max-h-[280px]">
+                <Command className="max-h-[160px] lg:max-h-[280px]">
                   <CommandInput placeholder="Buscar raza..." className="h-9" />
                   <CommandList className="overflow-y-auto">
                     <CommandEmpty>No se encontraron razas.</CommandEmpty>
