@@ -141,7 +141,7 @@ export function Register() {
             </div>
             <CardFooter className="mt-4 flex-col gap-2 p-0">
               <Button type="submit" className="w-full" disabled={isSubmitting}>
-                {isSubmitting ? <LoaderCircle /> : 'Registrarse'}
+                {isSubmitting ? <LoaderCircle className="mr-2 h-4 w-4 animate-spin" /> : 'Registrarse'}
               </Button>
             </CardFooter>
           </form>
