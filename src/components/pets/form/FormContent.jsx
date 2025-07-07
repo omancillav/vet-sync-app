@@ -1,33 +1,22 @@
 import { useState } from 'react'
-import { useMediaQuery } from '@/hooks/use-media-query'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogTrigger
-} from '@/components/ui/dialog'
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { petSchema } from '@/schemas/petSchema'
-import { PawPrint, LoaderCircle, Check, ChevronsUpDown } from 'lucide-react'
+import { LoaderCircle, Check, ChevronsUpDown, HeartPlus } from 'lucide-react'
+import { addPet } from '@/services/api/pets'
 import { cn } from '@/lib/utils'
 
-export function PetsForm({ children, breeds, species, loading, error }) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [selectedSpecies, setSelectedSpecies] = useState(null)
+export function FormContent({ breeds, species, loading, error, onPetAdded, setIsOpen }) {
   const [breedComboOpen, setBreedComboOpen] = useState(false)
+  const [selectedSpecies, setSelectedSpecies] = useState(null)
   const [selectedBreed, setSelectedBreed] = useState(null)
-  const isDesktop = useMediaQuery('(min-width: 64rem)')
 
   const {
     register,
@@ -64,12 +53,16 @@ export function PetsForm({ children, breeds, species, loading, error }) {
   const onSubmit = async (data) => {
     try {
       console.log('Datos de la mascota:', data)
-      // Aquí iría la llamada a la API
-      // await createPet(data)
+      const response = await addPet(data)
+      console.log('Respuesta de la API:', response)
       setIsOpen(false)
       reset()
       setSelectedSpecies(null)
       setSelectedBreed(null)
+
+      if (onPetAdded) {
+        await onPetAdded()
+      }
     } catch (error) {
       console.error('Error al registrar la mascota:', error)
       setError('root', {
@@ -85,7 +78,7 @@ export function PetsForm({ children, breeds, species, loading, error }) {
     setIsOpen(false)
   }
 
-  const formContent = (
+  return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="grid gap-6">
         {/* Nombre */}
@@ -226,37 +219,10 @@ export function PetsForm({ children, breeds, species, loading, error }) {
           Cancelar
         </Button>
         <Button type="submit" disabled={isSubmitting || loading}>
-          {isSubmitting ? 'Guardando...' : 'Guardar Mascota'}
-          {isSubmitting ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <PawPrint className="w-4 h-4" />}
+          {isSubmitting ? 'Registrando...' : 'Registrar Mascota'}
+          {isSubmitting ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <HeartPlus className="w-4 h-4" />}
         </Button>
       </div>
     </form>
-  )
-
-  if (isDesktop) {
-    return (
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogTrigger asChild>{children}</DialogTrigger>
-        <DialogContent className="sm:max-w-[500px] gap-8">
-          <DialogHeader>
-            <DialogTitle>Agregar Mascota</DialogTitle>
-            <DialogDescription>Llena la información de tu mascota para poder guardarla en tu perfil.</DialogDescription>
-          </DialogHeader>
-          {formContent}
-        </DialogContent>
-      </Dialog>
-    )
-  }
-
-  return (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent className="p-4">
-        <SheetHeader>
-          <SheetTitle>Agregar Mascota</SheetTitle>
-        </SheetHeader>
-        {formContent}
-      </SheetContent>
-    </Sheet>
   )
 }
