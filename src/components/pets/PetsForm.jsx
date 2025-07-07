@@ -56,7 +56,7 @@ export function PetsForm({ children, onSuccess }) {
 
   const formContent = (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div className="grid gap-4">
+      <div className="grid gap-6">
         {/* Nombre */}
         <div className="grid gap-2 w-full">
           <Label htmlFor="nombre">Nombre</Label>
