@@ -19,7 +19,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { petSchema } from '@/schemas/petSchema'
-import { PawPrint, LoaderCircle, Check, ChevronsUpDown } from 'lucide-react'
+import { PawPrint, LoaderCircle, Check, ChevronsUpDown, HeartPlus } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export function PetsForm({ children, breeds, species, loading, error }) {
@@ -226,8 +226,8 @@ export function PetsForm({ children, breeds, species, loading, error }) {
           Cancelar
         </Button>
         <Button type="submit" disabled={isSubmitting || loading}>
-          {isSubmitting ? 'Guardando...' : 'Guardar Mascota'}
-          {isSubmitting ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <PawPrint className="w-4 h-4" />}
+          {isSubmitting ? 'Registrando...' : 'Registrar Mascota'}
+          {isSubmitting ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <HeartPlus className="w-4 h-4" />}
         </Button>
       </div>
     </form>
@@ -238,8 +238,11 @@ export function PetsForm({ children, breeds, species, loading, error }) {
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent className="sm:max-w-[500px] gap-8">
-          <DialogHeader>
-            <DialogTitle>Agregar Mascota</DialogTitle>
+          <DialogHeader className="gap-3">
+            <div className="flex items-center gap-2">
+              <PawPrint className="w-5 h-5" />
+              <DialogTitle>Agregar Mascota</DialogTitle>
+            </div>
             <DialogDescription>Llena la información de tu mascota para poder guardarla en tu perfil.</DialogDescription>
           </DialogHeader>
           {formContent}
@@ -253,7 +256,10 @@ export function PetsForm({ children, breeds, species, loading, error }) {
       <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent className="p-4">
         <SheetHeader>
-          <SheetTitle>Agregar Mascota</SheetTitle>
+          <div className="flex items-center gap-4">
+            <PawPrint className="w-4 h-4 " />
+            <SheetTitle>Agregar Mascota</SheetTitle>
+          </div>
         </SheetHeader>
         {formContent}
       </SheetContent>

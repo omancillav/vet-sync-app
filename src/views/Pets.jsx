@@ -54,12 +54,18 @@ export function Pets() {
             <p className="text-muted-foreground">Gestiona la información de todas tus mascotas</p>
           </section>
           <section className="w-full md:w-1/2 md:flex md:justify-end">
-            <PetsForm breeds={breeds} species={species} loading={breedsLoading} error={breedsError}>
-              <Button className="w-full md:w-auto" disabled={breedsLoading || breedsError}>
-                {breedsLoading ? 'Cargando...' : 'Agregar Mascota'}
-                {breedsLoading ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4 ml-2" />}
-              </Button>
-            </PetsForm>
+            {isAuthenticated && (
+              <PetsForm breeds={breeds} species={species} loading={breedsLoading} error={breedsError}>
+                <Button className="w-full md:w-auto" disabled={breedsLoading || breedsError}>
+                  {breedsLoading ? '' : 'Agregar Mascota'}
+                  {breedsLoading ? (
+                    <LoaderCircle className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Plus className="h-4 w-4 ml-2" />
+                  )}
+                </Button>
+              </PetsForm>
+            )}
           </section>
         </div>
         {renderContent()}
