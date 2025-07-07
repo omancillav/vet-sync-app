@@ -96,7 +96,7 @@ export function PetsForm({ children, breeds, species, loading, error }) {
             type="text"
             placeholder="Nombre de la mascota"
             {...register('nombre')}
-            className={errors.nombre ? 'border-red-500' : ''}
+            className={`text-sm ${errors.nombre ? 'border-red-500' : ''}`}
           />
           {errors.nombre && <p className="text-sm text-red-500">{errors.nombre.message}</p>}
         </div>
@@ -145,7 +145,7 @@ export function PetsForm({ children, breeds, species, loading, error }) {
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-[--radix-popover-trigger-width] p-0 overflow-hidden">
-                <Command className="max-h-[160px] lg:max-h-[280px]">
+                <Command className="max-h-[160px] lg:max-h-[280px] max-w-[280px]">
                   <CommandInput placeholder="Buscar raza..." className="h-9" />
                   <CommandList className="overflow-y-auto">
                     <CommandEmpty>No se encontraron razas.</CommandEmpty>
@@ -184,7 +184,7 @@ export function PetsForm({ children, breeds, species, loading, error }) {
               type="number"
               placeholder="Edad en años"
               {...register('edad', { valueAsNumber: true })}
-              className={errors.edad ? 'border-red-500' : ''}
+              className={`text-sm ${errors.edad ? 'border-red-500' : ''}`}
             />
             {errors.edad && <p className="text-sm text-red-500">{errors.edad.message}</p>}
           </div>
