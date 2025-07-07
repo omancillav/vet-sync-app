@@ -1,43 +1,24 @@
 import { Card, CardContent, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
-import { Ellipsis, Calendar1, Mars, Venus, UserRound, PenLine, Trash } from 'lucide-react'
+import { PetImage } from './PetImage'
+import { Calendar1, Mars, Venus, UserRound } from 'lucide-react'
+import { ActionMenu } from './ActionMenu'
 
 export function PetsCard({ pet }) {
   return (
     <Card className="overflow-hidden relative">
       <div className="absolute top-4 right-4">
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Ellipsis className="text-muted-foreground hover:cursor-pointer" size={22} />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem className="hover:cursor-pointer my-0.5">
-              <PenLine className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
-                Editar
-            </DropdownMenuItem>
-            <DropdownMenuItem className="hover:cursor-pointer my-0.5" variant="destructive">
-              <Trash className="w-5 h-5" aria-hidden="true" />
-                Eliminar
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <ActionMenu />
       </div>
       <CardContent className="flex md:flex-row flex-col gap-3 md:gap-6">
-
         {/* Desktop layout */}
         <div className="hidden md:flex items-center">
-          <img className="w-40 aspect-square object-cover rounded-full" src={pet.img_url} alt={pet.nombre} />
+          <PetImage className="w-40 aspect-square object-cover rounded-full" src={pet.img_url} alt={pet.nombre} />
         </div>
 
         {/* Mobile layout */}
         <div className="flex md:hidden items-center gap-4">
-          <img
+          <PetImage
             className="w-22 aspect-square object-cover rounded-full flex-shrink-0"
             src={pet.img_url}
             alt={pet.nombre}
