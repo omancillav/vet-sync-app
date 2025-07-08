@@ -37,3 +37,13 @@ export const addPet = async (petData) => {
     throw error
   }
 }
+
+export const deletePet = async (petId) => {
+  try {
+    const { data } = await api.delete(`/pets/${petId}`, { requiresAuth: true })
+    return data
+  } catch (error) {
+    console.error('Error deleting pet:', error)
+    throw error
+  }
+}
