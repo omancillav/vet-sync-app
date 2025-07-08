@@ -4,11 +4,11 @@ import { PetImage } from './PetImage'
 import { Calendar1, Mars, Venus, UserRound } from 'lucide-react'
 import { ActionMenu } from './ActionMenu'
 
-export function PetsCard({ pet }) {
+export function PetsCard({ pet, deletePet }) {
   return (
     <Card className="overflow-hidden relative">
       <div className="absolute top-4 right-4">
-        <ActionMenu petId={pet.id} />
+        <ActionMenu petId={pet.id} deletePet={deletePet}/>
       </div>
       <CardContent className="flex md:flex-row flex-col gap-3 md:gap-6">
         {/* Desktop layout */}
@@ -57,7 +57,7 @@ export function PetsCard({ pet }) {
 
             <div className="flex items-center gap-2">
               <UserRound className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
-              {pet.nombre_cliente.split(' ')[0]}
+              {pet.nombre_cliente ? pet.nombre_cliente.split(' ')[0] : 'Sin dueño'}
             </div>
           </div>
 

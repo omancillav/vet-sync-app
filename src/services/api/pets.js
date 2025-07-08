@@ -7,10 +7,14 @@ export const getPets = async () => {
   const clienteId = userData?.id
 
   try {
-    const { data } = await api.get('/pets/detail', { params: { clienteId }, requiresAuth: true })
+    const config = {
+      params: { clienteId },
+      requiresAuth: true
+    }
+    const { data } = await api.get('/pets/detail', config)
     return data
   } catch (error) {
-    console.error(error)
+    console.error('Error getting pets:', error)
     throw error
   }
 }
@@ -19,6 +23,12 @@ export const addPet = async (petData) => {
   const userDataCookie = Cookies.get('userData')
   const userData = userDataCookie ? JSON.parse(userDataCookie) : null
   const clienteId = userData?.id
+
+  if (!clienteId) {
+    const error = new Error('No se pudo obtener el ID del cliente')
+    console.error('Error adding pet:', error)
+    throw error
+  }
 
   const requestBody = {
     nombre: petData.nombre,
@@ -30,7 +40,10 @@ export const addPet = async (petData) => {
   }
 
   try {
-    const { data } = await api.post('/pets', requestBody, { requiresAuth: true })
+    const config = {
+      requiresAuth: true
+    }
+    const { data } = await api.post('/pets', requestBody, config)
     return data
   } catch (error) {
     console.error('Error adding pet:', error)
@@ -39,8 +52,17 @@ export const addPet = async (petData) => {
 }
 
 export const deletePet = async (petId) => {
+  if (!petId) {
+    const error = new Error('Se requiere un ID de mascota válido')
+    console.error('Error deleting pet:', error)
+    throw error
+  }
+
   try {
-    const { data } = await api.delete(`/pets/${petId}`, { requiresAuth: true })
+    const config = {
+      requiresAuth: true
+    }
+    const { data } = await api.delete(`/pets/${petId}`, config)
     return data
   } catch (error) {
     console.error('Error deleting pet:', error)

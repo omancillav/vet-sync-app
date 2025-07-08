@@ -5,7 +5,7 @@ export const getServices = async () => {
     const response = await api.get('/services/active/true')
     return response.data
   } catch (error) {
-    console.log(error)
+    console.error(error)
     throw error
   }
 }

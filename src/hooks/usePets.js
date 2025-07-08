@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
-import { getPets } from '@/services/api/pets'
+import { getPets, addPet as addPetApi, deletePet as deletePetApi } from '@/services/api/pets'
 import { useAuth } from '@/contexts/auth'
 
 export function usePets() {
@@ -13,11 +13,50 @@ export function usePets() {
     try {
       setLoading(true)
       const { data } = await getPets()
-      if (data.length === 0) setNoPets(true)
       setPets(data)
+      setNoPets(data.length === 0)
+      return data
     } catch (error) {
-      console.error(error)
+      console.error('Error fetching pets:', error)
       setError(error)
+      throw error
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  const addPet = useCallback(async (petData) => {
+    try {
+      setLoading(true)
+      const { data: newPet } = await addPetApi(petData)
+      const updatedPets = await fetchPets()
+      setPets(updatedPets)
+      setNoPets(false)
+      return newPet
+    } catch (error) {
+      console.error('Error adding pet:', error)
+      setError(error)
+      throw error
+    } finally {
+      setLoading(false)
+    }
+  }, [fetchPets])
+
+  const deletePet = useCallback(async (petId) => {
+    try {
+      setLoading(true)
+      await deletePetApi(petId)
+      setPets(prevPets => prevPets.filter(pet => pet.id !== petId))
+      setPets(prevPets => {
+        if (prevPets.length === 1) {
+          setNoPets(true)
+        }
+        return prevPets.filter(pet => pet.id !== petId)
+      })
+    } catch (error) {
+      console.error('Error deleting pet:', error)
+      setError(error)
+      throw error
     } finally {
       setLoading(false)
     }
@@ -34,6 +73,8 @@ export function usePets() {
     loading,
     error,
     noPets,
-    fetchPets // Expose fetchPets to allow manual refetching
+    fetchPets,
+    addPet,
+    deletePet
   }
 }
