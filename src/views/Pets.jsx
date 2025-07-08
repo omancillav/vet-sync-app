@@ -11,7 +11,7 @@ import { PetsForm } from '@/components/pets/form/PetsForm'
 import { useBreeds } from '@/hooks/useBreeds'
 
 export function Pets() {
-  const { pets, loading, error, noPets, fetchPets } = usePets()
+  const { pets, loading, error, noPets, deletePet, addPet } = usePets()
   const { breeds, species, loading: breedsLoading, error: breedsError } = useBreeds()
   const { isAuthenticated } = useAuth()
 
@@ -38,7 +38,7 @@ export function Pets() {
       <>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           {pets.map((pet) => (
-            <PetsCard key={pet.id} pet={pet} />
+            <PetsCard key={pet.id} pet={pet} deletePet={deletePet}/>
           ))}
         </div>
       </>
@@ -60,7 +60,10 @@ export function Pets() {
                 species={species}
                 loading={breedsLoading}
                 error={breedsError}
-                onPetAdded={fetchPets}
+                onPetAdded={async (petData) => {
+                  await addPet(petData)
+                  // No es necesario llamar a fetchPets aquí porque addPet ya actualiza el estado local
+                }}
               >
                 <Button className="w-full md:w-auto" disabled={breedsLoading || breedsError}>
                   {breedsLoading ? '' : 'Agregar Mascota'}

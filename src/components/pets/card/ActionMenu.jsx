@@ -6,7 +6,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Ellipsis, PenLine, Trash } from 'lucide-react'
 
-export function ActionMenu() {
+export function ActionMenu({ petId, deletePet }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -17,7 +17,11 @@ export function ActionMenu() {
           <PenLine className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
           Editar
         </DropdownMenuItem>
-        <DropdownMenuItem className="hover:cursor-pointer my-0.5" variant="destructive">
+        <DropdownMenuItem
+          className="hover:cursor-pointer my-0.5"
+          variant="destructive"
+          onClick={() => deletePet(petId)}
+        >
           <Trash className="w-5 h-5" aria-hidden="true" />
           Eliminar
         </DropdownMenuItem>
