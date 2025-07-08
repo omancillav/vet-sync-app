@@ -8,7 +8,7 @@ export function PetsCard({ pet }) {
   return (
     <Card className="overflow-hidden relative">
       <div className="absolute top-4 right-4">
-        <ActionMenu />
+        <ActionMenu petId={pet.id} />
       </div>
       <CardContent className="flex md:flex-row flex-col gap-3 md:gap-6">
         {/* Desktop layout */}
