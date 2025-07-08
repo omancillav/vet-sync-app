@@ -5,6 +5,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Ellipsis, PenLine, Trash } from 'lucide-react'
+import { DeleteDialog } from '../DeleteDialog'
 
 export function ActionMenu({ petId, deletePet }) {
   return (
@@ -17,14 +18,16 @@ export function ActionMenu({ petId, deletePet }) {
           <PenLine className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
           Editar
         </DropdownMenuItem>
-        <DropdownMenuItem
-          className="hover:cursor-pointer my-0.5"
-          variant="destructive"
-          onClick={() => deletePet(petId)}
-        >
-          <Trash className="w-5 h-5" aria-hidden="true" />
-          Eliminar
-        </DropdownMenuItem>
+        <DeleteDialog onConfirm={() => deletePet(petId)}>
+          <DropdownMenuItem
+            className="hover:cursor-pointer my-0.5"
+            variant="destructive"
+            onSelect={(e) => e.preventDefault()}
+          >
+            <Trash className="w-5 h-5" aria-hidden="true" />
+            Eliminar
+          </DropdownMenuItem>
+        </DeleteDialog>
       </DropdownMenuContent>
     </DropdownMenu>
   )

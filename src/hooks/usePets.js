@@ -46,12 +46,10 @@ export function usePets() {
     try {
       setLoading(true)
       await deletePetApi(petId)
-      setPets(prevPets => prevPets.filter(pet => pet.id !== petId))
       setPets(prevPets => {
-        if (prevPets.length === 1) {
-          setNoPets(true)
-        }
-        return prevPets.filter(pet => pet.id !== petId)
+        const updatedPets = prevPets.filter(pet => pet.id !== petId)
+        setNoPets(updatedPets.length === 0)
+        return updatedPets
       })
     } catch (error) {
       console.error('Error deleting pet:', error)
