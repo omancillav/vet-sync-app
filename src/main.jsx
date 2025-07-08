@@ -11,7 +11,7 @@ createRoot(document.getElementById('root')).render(
     <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
       <AuthProvider>
         <App />
-        <Analytics />
+        <Analytics debug={false} />
       </AuthProvider>
     </ThemeProvider>
   </StrictMode>
