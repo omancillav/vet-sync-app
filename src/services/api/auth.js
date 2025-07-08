@@ -5,7 +5,7 @@ export const login = async ({ input }) => {
     const { data } = await api.post('/auth/login', input)
     return data
   } catch (error) {
-    console.log(error)
+    console.error(error)
     throw error
   }
 }
@@ -15,7 +15,7 @@ export const register = async ({ input }) => {
     const { data } = await api.post('/auth/register', input)
     return data
   } catch (error) {
-    console.log(error)
+    console.error(error)
     throw error
   }
 }
@@ -25,7 +25,7 @@ export const refreshToken = async ({ refreshToken }) => {
     const { data } = await api.post('/auth/refresh', { refreshToken })
     return data
   } catch (error) {
-    console.log(error)
+    console.error(error)
     throw error
   }
 }
@@ -35,7 +35,7 @@ export const logout = async ({ refreshToken }) => {
     const { data } = await api.post('/auth/logout', { refreshToken }, { requiresAuth: true })
     return data
   } catch (error) {
-    console.log(error)
+    console.error(error)
     throw error
   }
 }

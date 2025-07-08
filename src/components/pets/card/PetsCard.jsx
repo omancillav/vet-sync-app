@@ -4,20 +4,20 @@ import { PetImage } from './PetImage'
 import { Calendar1, Mars, Venus, UserRound } from 'lucide-react'
 import { ActionMenu } from './ActionMenu'
 
-export function PetsCard({ pet }) {
+export function PetsCard({ pet, deletePet }) {
   return (
     <Card className="overflow-hidden relative">
       <div className="absolute top-4 right-4">
-        <ActionMenu petId={pet.id} />
+        <ActionMenu petId={pet.id} deletePet={deletePet}/>
       </div>
-      <CardContent className="flex md:flex-row flex-col gap-3 md:gap-6">
+      <CardContent className="flex lg:flex-row flex-col gap-3   lg:gap-6">
         {/* Desktop layout */}
-        <div className="hidden md:flex items-center">
+        <div className="hidden lg:flex items-center">
           <PetImage className="w-40 aspect-square object-cover rounded-full" src={pet.img_url} alt={pet.nombre} />
         </div>
 
         {/* Mobile layout */}
-        <div className="flex md:hidden items-center gap-4">
+        <div className="flex lg:hidden items-center gap-4">
           <PetImage
             className="w-22 aspect-square object-cover rounded-full flex-shrink-0"
             src={pet.img_url}
@@ -33,14 +33,14 @@ export function PetsCard({ pet }) {
 
         <article className="flex flex-col py-2 gap-4">
           {/* Desktop header */}
-          <header className="hidden md:block">
+          <header className="hidden lg:block">
             <CardTitle className="text-xl">{pet.nombre}</CardTitle>
             <p className="text-base text-muted-foreground">
               {pet.nombre_especie} • {pet.nombre_raza}
             </p>
           </header>
 
-          <div className="flex flex-wrap md:gap-1 gap-2 px-1 md:px-0 justify-between md:justify-start">
+          <div className="flex flex-wrap lg:gap-1 gap-2 px-1 lg:px-0 justify-between lg:justify-start">
             <div className="flex items-center gap-2">
               <Calendar1 className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
               {pet.edad} años
@@ -57,7 +57,7 @@ export function PetsCard({ pet }) {
 
             <div className="flex items-center gap-2">
               <UserRound className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
-              {pet.nombre_cliente.split(' ')[0]}
+              {pet.nombre_cliente ? pet.nombre_cliente.split(' ')[0] : 'Sin dueño'}
             </div>
           </div>
 
