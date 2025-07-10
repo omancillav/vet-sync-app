@@ -3,16 +3,14 @@ import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import { ThemeProvider } from '@/components/theme-provider'
-import { AuthProvider } from '@/contexts/AuthContext'
-import { Analytics } from '@vercel/analytics/react'
+import { AppWrapper } from '@/components/AppWrapper'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-      <AuthProvider>
+      <AppWrapper>
         <App />
-        <Analytics debug={false} />
-      </AuthProvider>
+      </AppWrapper>
     </ThemeProvider>
   </StrictMode>
 )
