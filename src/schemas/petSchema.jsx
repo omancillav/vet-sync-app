@@ -8,10 +8,6 @@ export const petSchema = z.object({
     .regex(/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/, 'El nombre solo debe contener letras y espacios')
     .trim(),
 
-  cliente_id: z
-    .string()
-    .nonempty('El ID del cliente es obligatorio.'),
-
   especie_id: z
     .number({
       required_error: 'El ID de la especie es obligatorio',

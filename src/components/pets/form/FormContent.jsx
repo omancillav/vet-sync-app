@@ -89,9 +89,6 @@ export function FormContent({ breeds, species, loading, error, onPetAdded, setIs
           {errors.nombre && <p className="text-sm text-red-500">{errors.nombre.message}</p>}
         </div>
 
-        {/* Cliente ID (oculto, se establecerá desde el contexto) */}
-        <input type="hidden" {...register('cliente_id')} value="1" />
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
           {/* Especie */}
           <div className="grid gap-2 w-full">
