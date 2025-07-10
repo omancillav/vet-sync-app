@@ -62,6 +62,7 @@ export function Pets() {
                 error={breedsError}
                 onPetAdded={async (petData) => {
                   await addPet(petData)
+                  // No es necesario llamar a fetchPets aquí porque addPet ya actualiza el estado local
                 }}
               >
                 <Button className="w-full md:w-auto" disabled={breedsLoading || breedsError}>
