@@ -63,7 +63,7 @@ export function HeroSection() {
               <img
                 loading="lazy"
                 onLoad={() => setImgLoaded(true)}
-                src="https://loxqcjbiwieeukymlbdp.supabase.co/storage/v1/object/sign/imagenes/hero.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81Y2Q3YTZkZS05OTMwLTQxODItODY2Ny02YjAzZDZkYmZiMWQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZW5lcy9oZXJvLmpwZWciLCJpYXQiOjE3NTEwOTkwNTMsImV4cCI6MjA2NjQ1OTA1M30.jKJ39qk5tkrIep3bR1Zs0REvRfHQKvtiHToSkNc3rXQ"
+                src="https://gcqimiolagjejzeccaum.supabase.co/storage/v1/object/public/imagenes//hero.webp"
                 alt="Veterinaria cuidando a un perro"
                 className={`relative w-full h-full rounded-3xl shadow-lg object-cover z-10 transform rotate-2 transition-transform duration-500 group-hover:rotate-0 ${
                   imgLoaded ? 'opacity-100' : 'opacity-0'
