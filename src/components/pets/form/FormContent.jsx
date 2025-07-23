@@ -362,11 +362,7 @@ export function FormContent({ breeds, species, loading, error, onPetAdded, setIs
           Cancelar
         </Button>
         <Button type="submit" disabled={isSubmitting || loading}>
-          {isSubmitting
-            ? selectedImage
-              ? 'Registrando mascota y subiendo imagen...'
-              : 'Registrando...'
-            : 'Registrar Mascota'}
+          {isSubmitting ? 'Registrando' : 'Registrar Mascota'}
           {isSubmitting ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <HeartPlus className="w-4 h-4" />}
         </Button>
       </div>
