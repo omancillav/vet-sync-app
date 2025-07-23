@@ -31,7 +31,6 @@ export function usePets() {
       setLoading(true)
 
       const response = await addPetApi(petData)
-      console.log('Respuesta de creación de mascota:', response)
 
       if (imageFile && response.data?.data?.[0]?.id) {
         try {
