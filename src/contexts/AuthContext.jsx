@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
             const { accessToken: newAccessToken, refreshToken: newRefreshToken } = data
 
             // Guardar nuevas cookies
-            const accessExpires = new Date(Date.now() + 15 * 60 * 1000)
+            const accessExpires = new Date(Date.now() + 60 * 60 * 1000) // 1 hora
             Cookies.set('accessToken', newAccessToken, {
               expires: accessExpires,
               secure: true,
@@ -80,9 +80,8 @@ export const AuthProvider = ({ children }) => {
 
   const login = (data) => {
     const { accessToken, refreshToken, userData } = data
-    // expiresIn puede ser '15m'. Necesitamos convertirlo a un valor para la cookie
-    // Por ejemplo, 15 minutos a partir de ahora.
-    const expires = new Date(new Date().getTime() + 15 * 60 * 1000)
+    // Establecer el tiempo de expiración a 1 hora (60 minutos)
+    const expires = new Date(new Date().getTime() + 60 * 60 * 1000)
 
     Cookies.set('accessToken', accessToken, { expires, secure: true, sameSite: 'strict' })
     Cookies.set('refreshToken', refreshToken, { expires: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000), secure: true, sameSite: 'strict' }) // Refresh token por 7 días
