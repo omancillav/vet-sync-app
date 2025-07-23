@@ -181,6 +181,7 @@ export function FormContent({ breeds, species, loading, error, onPetAdded, setIs
           {errors.nombre && <p className="text-sm text-red-500">{errors.nombre.message}</p>}
         </div>
 
+        {/* Imagen */}
         <div className="grid gap-2 w-full">
           <Label htmlFor="pet-image">Imagen (opcional)</Label>
 
@@ -218,13 +219,13 @@ export function FormContent({ breeds, species, loading, error, onPetAdded, setIs
               </label>
             </div>
           ) : (
-            <div className="flex items-center gap-3 w-full p-4 border-2 border-dashed border-border rounded-lg bg-card">
-              <div className="relative w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
+            <div className="flex items-center gap-3 w-full py-2 px-1 lg:px-4 border-2 border-dashed border-border rounded-lg bg-card overflow-hidden">
+              <div className="relative w-15 h-15 lg:w-22 lg:h-22 rounded-lg overflow-hidden flex-shrink-0">
                 <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm text-foreground font-medium truncate">Imagen seleccionada</p>
-                <p className="text-xs text-muted-foreground mt-0.5">Lista para subir</p>
+                <p className="text-sm text-foreground font-medium ">Imagen seleccionada</p>
+                <p className="text-sm text-muted-foreground mt-0.5">Lista para subir</p>
               </div>
               <Button
                 type="button"

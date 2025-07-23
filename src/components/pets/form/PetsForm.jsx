@@ -31,7 +31,7 @@ export function PetsForm({ children, breeds, species, loading, error, onPetAdded
         }}
       >
         <DialogTrigger asChild>{children}</DialogTrigger>
-        <DialogContent className="sm:max-w-[500px] gap-8 max-h-[90vh] overflow-y-auto">
+        <DialogContent className="sm:max-w-[500px] gap-8 max-h-[98vh] overflow-y-auto">
           <DialogHeader className="gap-3">
             <div className="flex items-center gap-2">
               <PawPrint className="w-5 h-5" />
