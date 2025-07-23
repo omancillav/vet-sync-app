@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'
 import { AuthContext } from './auth'
 import { logout as apiLogout } from '../services/api/auth'
 import { refreshToken as apiRefreshToken } from '../services/api/auth'
+import { toast } from 'sonner'
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -97,14 +98,16 @@ export const AuthProvider = ({ children }) => {
       if (refreshToken) {
         await apiLogout({ refreshToken })
       }
+      Cookies.remove('accessToken')
+      Cookies.remove('refreshToken')
+      Cookies.remove('userData')
+      setIsAuthenticated(false)
+      setUser(null)
+      toast.success('Sesión cerrada exitosamente')
     } catch (error) {
       console.error('Error calling logout API:', error)
+      toast.error('Error al cerrar sesión')
     }
-    Cookies.remove('accessToken')
-    Cookies.remove('refreshToken')
-    Cookies.remove('userData')
-    setIsAuthenticated(false)
-    setUser(null)
   }
 
   return (
