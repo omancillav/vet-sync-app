@@ -1,13 +1,6 @@
 import { useState } from 'react'
 import { useMediaQuery } from '@/hooks/use-media-query'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogTrigger
-} from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { PawPrint } from 'lucide-react'
 import { FormContent } from './FormContent'
@@ -44,9 +37,6 @@ export function PetsForm({ children, breeds, species, loading, error, onPetAdded
               <PawPrint className="w-5 h-5" />
               <DialogTitle>Agregar Mascota</DialogTitle>
             </div>
-            <DialogDescription>
-              Llena la información de tu mascota para poder guardarla en tu perfil. Puedes agregar una imagen opcional.
-            </DialogDescription>
           </DialogHeader>
           {formContent}
         </DialogContent>
@@ -58,7 +48,7 @@ export function PetsForm({ children, breeds, species, loading, error, onPetAdded
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent className="p-4 overflow-y-auto">
-        <SheetHeader className="mb-4">
+        <SheetHeader>
           <div className="flex items-center gap-4">
             <PawPrint className="w-4 h-4" />
             <SheetTitle>Agregar Mascota</SheetTitle>

@@ -19,6 +19,7 @@ export function FormContent({ breeds, species, loading, error, onPetAdded, setIs
   const [selectedBreed, setSelectedBreed] = useState(null)
   const [selectedImage, setSelectedImage] = useState(null)
   const [imagePreview, setImagePreview] = useState(null)
+  const [isDragOver, setIsDragOver] = useState(false)
 
   const {
     register,
@@ -52,36 +53,61 @@ export function FormContent({ breeds, species, loading, error, onPetAdded, setIs
     setBreedComboOpen(false)
   }
 
+  const handleDragOver = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragOver(true)
+  }
+
+  const handleDragLeave = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragOver(false)
+  }
+
+  const handleDrop = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragOver(false)
+
+    const files = e.dataTransfer.files
+    if (files && files[0]) {
+      handleImageFile(files[0])
+    }
+  }
+
+  const handleImageFile = (file) => {
+    if (!file.type.startsWith('image/')) {
+      setError('image', {
+        message: 'Por favor selecciona un archivo de imagen válido'
+      })
+      return
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setError('image', {
+        message: 'La imagen no debe superar los 5MB'
+      })
+      return
+    }
+
+    setSelectedImage(file)
+
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      setImagePreview(e.target.result)
+    }
+    reader.readAsDataURL(file)
+
+    if (errors.image) {
+      setError('image', null)
+    }
+  }
+
   const handleImageSelect = (event) => {
     const file = event.target.files[0]
-
     if (file) {
-      if (!file.type.startsWith('image/')) {
-        setError('image', {
-          message: 'Por favor selecciona un archivo de imagen válido'
-        })
-        return
-      }
-
-      if (file.size > 5 * 1024 * 1024) {
-        setError('image', {
-          message: 'La imagen no debe superar los 5MB'
-        })
-        return
-      }
-
-      setSelectedImage(file)
-
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        setImagePreview(e.target.result)
-      }
-      reader.readAsDataURL(file)
-
-      // Limpiar error si existía
-      if (errors.image) {
-        setError('image', null)
-      }
+      handleImageFile(file)
     }
   }
 
@@ -155,40 +181,62 @@ export function FormContent({ breeds, species, loading, error, onPetAdded, setIs
           {errors.nombre && <p className="text-sm text-red-500">{errors.nombre.message}</p>}
         </div>
 
-        {/* Imagen de la mascota */}
         <div className="grid gap-2 w-full">
-          <Label htmlFor="pet-image">Imagen de la mascota (opcional)</Label>
+          <Label htmlFor="pet-image">Imagen (opcional)</Label>
 
           {!imagePreview ? (
-            <div className="flex items-center justify-center w-full">
+            <div
+              className="flex items-center justify-center w-full"
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+            >
               <label
                 htmlFor="pet-image"
-                className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+                className={`flex items-center gap-3 w-full p-2 border-2 border-dashed rounded-lg cursor-pointer bg-card hover:bg-accent transition-all duration-300 ${
+                  isDragOver ? 'border-primary bg-accent scale-[1.02]' : 'border-border hover:border-primary'
+                }`}
               >
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  <Upload className="w-8 h-8 mb-4 text-gray-500" />
-                  <p className="mb-2 text-sm text-gray-500">
-                    <span className="font-semibold">Click para subir</span> o arrastra la imagen
+                <div
+                  className={`flex items-center justify-center w-15 h-15 bg-muted rounded-lg flex-shrink-0 transition-all duration-300 ${
+                    isDragOver ? 'bg-primary' : 'group-hover:bg-primary'
+                  }`}
+                >
+                  <Upload
+                    className={`w-5 h-5 transition-colors duration-300 ${
+                      isDragOver ? 'text-primary-foreground' : 'text-muted-foreground'
+                    }`}
+                  />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm text-foreground font-medium truncate">
+                    {isDragOver ? 'Suelta la imagen aquí' : 'Selecciona una imagen'}
                   </p>
-                  <p className="text-xs text-gray-500">PNG, JPG o GIF (MAX. 5MB)</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">PNG, JPG, WEBP hasta 5MB</p>
                 </div>
                 <input id="pet-image" type="file" className="hidden" accept="image/*" onChange={handleImageSelect} />
               </label>
             </div>
           ) : (
-            <div className="relative w-full h-32 border-2 border-dashed border-gray-300 rounded-lg overflow-hidden">
-              <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
-              <button
+            <div className="flex items-center gap-3 w-full p-4 border-2 border-dashed border-border rounded-lg bg-card">
+              <div className="relative w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
+                <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm text-foreground font-medium truncate">Imagen seleccionada</p>
+                <p className="text-xs text-muted-foreground mt-0.5">Lista para subir</p>
+              </div>
+              <Button
                 type="button"
                 onClick={handleRemoveImage}
-                className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                className="flex items-center justify-center w-8 h-8 rounded-lg transition-colors flex-shrink-0 bg-red-500/80 hover:bg-red-500/90 text-white"
               >
                 <X className="w-4 h-4" />
-              </button>
+              </Button>
             </div>
           )}
 
-          {errors.image && <p className="text-sm text-red-500">{errors.image.message}</p>}
+          {errors.image && <p className="text-sm text-destructive">{errors.image.message}</p>}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
