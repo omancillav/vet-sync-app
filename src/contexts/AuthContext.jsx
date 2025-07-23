@@ -109,18 +109,17 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     const refreshToken = Cookies.get('refreshToken')
     try {
-      if (refreshToken) {
-        await apiLogout({ refreshToken })
-      }
       Cookies.remove('accessToken')
       Cookies.remove('refreshToken')
       Cookies.remove('userData')
       setIsAuthenticated(false)
       setUser(null)
       toast.success('Sesión cerrada exitosamente')
+      if (refreshToken) {
+        await apiLogout({ refreshToken })
+      }
     } catch (error) {
       console.error('Error calling logout API:', error)
-      toast.error('Error al cerrar sesión')
     }
   }
 
