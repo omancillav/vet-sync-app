@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
-import { getPets, addPet as addPetApi, deletePet as deletePetApi } from '@/services/api/pets'
+import { getPets, addPet as addPetApi, uploadPetImage, deletePet as deletePetApi } from '@/services/api/pets'
 import { useAuth } from '@/contexts/auth'
 import { toast } from 'sonner'
 
@@ -26,20 +26,41 @@ export function usePets() {
     }
   }, [])
 
-  const addPet = useCallback(async (petData) => {
+  const addPet = useCallback(async (petData, imageFile = null) => {
     try {
       setLoading(true)
-      const { data: newPet } = await addPetApi(petData)
+
+      const response = await addPetApi(petData)
+
+      if (imageFile && response.data?.data?.[0]?.id) {
+        try {
+          const petId = response.data.data[0].id
+          await uploadPetImage(petId, imageFile)
+          toast.success('Mascota registrada', {
+            description: `${petData.nombre} ha sido registrado(a) con imagen exitosamente.`,
+            duration: 3000
+          })
+        } catch (imageError) {
+          console.error('Error uploading image:', imageError)
+          // La mascota se creó pero falló la imagen
+          toast.warning('Mascota registrada sin imagen', {
+            description: `${petData.nombre} fue registrado(a) pero no se pudo subir la imagen.`,
+            duration: 4000
+          })
+        }
+      } else {
+        toast.success('Mascota registrada', {
+          description: `${petData.nombre} ha sido registrado(a) exitosamente.`,
+          duration: 3000
+        })
+      }
+
+      // 3. Actualizar la lista de mascotas
       const updatedPets = await fetchPets()
       setPets(updatedPets)
       setNoPets(false)
 
-      toast.success('Mascota registrada', {
-        description: `${petData.nombre} ha sido registrado(a) exitosamente.`,
-        duration: 3000
-      })
-
-      return newPet
+      return response
     } catch (error) {
       console.error('Error adding pet:', error)
       setError(error)
@@ -66,6 +87,7 @@ export function usePets() {
         setNoPets(updatedPets.length === 0)
         return updatedPets
       })
+
       if (petToDelete) {
         toast.success('Mascota eliminada', {
           description: `${petToDelete.nombre} ha sido eliminado(a) exitosamente.`,

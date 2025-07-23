@@ -5,7 +5,10 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL
 const API_KEY = import.meta.env.VITE_API_KEY
 
 const api = axios.create({
-  baseURL: API_BASE
+  baseURL: API_BASE,
+  headers: {
+    'Accept': 'application/json'
+  }
 })
 
 let isRefreshing = false
@@ -31,12 +34,10 @@ api.interceptors.request.use((config) => {
     }
   }
 
-  // Eliminamos la propiedad personalizada para que no se envíe al backend
   delete config.requiresAuth
   return config
 })
 
-// === Response interceptor: maneja expiración y refresh ===
 api.interceptors.response.use(
   (response) => response,
   async (error) => {

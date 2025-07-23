@@ -9,13 +9,16 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { petSchema } from '@/schemas/petSchema'
-import { LoaderCircle, Check, ChevronsUpDown, HeartPlus } from 'lucide-react'
+import { LoaderCircle, Check, ChevronsUpDown, HeartPlus, Upload, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { processImage } from '@/services/processImage'
 
 export function FormContent({ breeds, species, loading, error, onPetAdded, setIsOpen }) {
   const [breedComboOpen, setBreedComboOpen] = useState(false)
   const [selectedSpecies, setSelectedSpecies] = useState(null)
   const [selectedBreed, setSelectedBreed] = useState(null)
+  const [selectedImage, setSelectedImage] = useState(null)
+  const [imagePreview, setImagePreview] = useState(null)
 
   const {
     register,
@@ -49,14 +52,76 @@ export function FormContent({ breeds, species, loading, error, onPetAdded, setIs
     setBreedComboOpen(false)
   }
 
+  const handleImageSelect = (event) => {
+    const file = event.target.files[0]
+
+    if (file) {
+      if (!file.type.startsWith('image/')) {
+        setError('image', {
+          message: 'Por favor selecciona un archivo de imagen válido'
+        })
+        return
+      }
+
+      if (file.size > 5 * 1024 * 1024) {
+        setError('image', {
+          message: 'La imagen no debe superar los 5MB'
+        })
+        return
+      }
+
+      setSelectedImage(file)
+
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        setImagePreview(e.target.result)
+      }
+      reader.readAsDataURL(file)
+
+      // Limpiar error si existía
+      if (errors.image) {
+        setError('image', null)
+      }
+    }
+  }
+
+  const handleRemoveImage = () => {
+    setSelectedImage(null)
+    setImagePreview(null)
+    const fileInput = document.getElementById('pet-image')
+    if (fileInput) {
+      fileInput.value = ''
+    }
+  }
+
   const onSubmit = async (data) => {
     try {
       if (onPetAdded) {
-        await onPetAdded(data)
-        setIsOpen(false)
+        let imageToUpload = null
+
+        if (selectedImage) {
+          try {
+            // Procesar la imagen: comprimir y convertir a WebP
+            const processedImage = await processImage(selectedImage)
+            imageToUpload = new File([processedImage], selectedImage.name.replace(/\.[^/.]+$/, '.webp'), {
+              type: 'image/webp'
+            })
+          } catch (imageError) {
+            console.error('Error al procesar la imagen:', imageError)
+            setError('image', {
+              message: 'Error al procesar la imagen. Por favor, intenta con otra imagen.'
+            })
+            return
+          }
+        }
+
+        await onPetAdded(data, imageToUpload)
+
         reset()
         setSelectedSpecies(null)
         setSelectedBreed(null)
+        handleRemoveImage()
+        setIsOpen(false)
       }
     } catch (error) {
       console.error('Error al registrar la mascota:', error)
@@ -70,6 +135,7 @@ export function FormContent({ breeds, species, loading, error, onPetAdded, setIs
     reset()
     setSelectedSpecies(null)
     setSelectedBreed(null)
+    handleRemoveImage()
     setIsOpen(false)
   }
 
@@ -87,6 +153,42 @@ export function FormContent({ breeds, species, loading, error, onPetAdded, setIs
             className={`text-sm ${errors.nombre ? 'border-red-500' : ''}`}
           />
           {errors.nombre && <p className="text-sm text-red-500">{errors.nombre.message}</p>}
+        </div>
+
+        {/* Imagen de la mascota */}
+        <div className="grid gap-2 w-full">
+          <Label htmlFor="pet-image">Imagen de la mascota (opcional)</Label>
+
+          {!imagePreview ? (
+            <div className="flex items-center justify-center w-full">
+              <label
+                htmlFor="pet-image"
+                className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+              >
+                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                  <Upload className="w-8 h-8 mb-4 text-gray-500" />
+                  <p className="mb-2 text-sm text-gray-500">
+                    <span className="font-semibold">Click para subir</span> o arrastra la imagen
+                  </p>
+                  <p className="text-xs text-gray-500">PNG, JPG o GIF (MAX. 5MB)</p>
+                </div>
+                <input id="pet-image" type="file" className="hidden" accept="image/*" onChange={handleImageSelect} />
+              </label>
+            </div>
+          ) : (
+            <div className="relative w-full h-32 border-2 border-dashed border-gray-300 rounded-lg overflow-hidden">
+              <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+              <button
+                type="button"
+                onClick={handleRemoveImage}
+                className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+
+          {errors.image && <p className="text-sm text-red-500">{errors.image.message}</p>}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
@@ -211,7 +313,11 @@ export function FormContent({ breeds, species, loading, error, onPetAdded, setIs
           Cancelar
         </Button>
         <Button type="submit" disabled={isSubmitting || loading}>
-          {isSubmitting ? 'Registrando...' : 'Registrar Mascota'}
+          {isSubmitting
+            ? selectedImage
+              ? 'Registrando mascota y subiendo imagen...'
+              : 'Registrando...'
+            : 'Registrar Mascota'}
           {isSubmitting ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <HeartPlus className="w-4 h-4" />}
         </Button>
       </div>
