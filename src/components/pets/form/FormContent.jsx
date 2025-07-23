@@ -19,6 +19,7 @@ export function FormContent({ breeds, species, loading, error, onPetAdded, setIs
   const [selectedBreed, setSelectedBreed] = useState(null)
   const [selectedImage, setSelectedImage] = useState(null)
   const [imagePreview, setImagePreview] = useState(null)
+  const [isDragOver, setIsDragOver] = useState(false)
 
   const {
     register,
@@ -52,36 +53,61 @@ export function FormContent({ breeds, species, loading, error, onPetAdded, setIs
     setBreedComboOpen(false)
   }
 
+  const handleDragOver = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragOver(true)
+  }
+
+  const handleDragLeave = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragOver(false)
+  }
+
+  const handleDrop = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragOver(false)
+
+    const files = e.dataTransfer.files
+    if (files && files[0]) {
+      handleImageFile(files[0])
+    }
+  }
+
+  const handleImageFile = (file) => {
+    if (!file.type.startsWith('image/')) {
+      setError('image', {
+        message: 'Por favor selecciona un archivo de imagen válido'
+      })
+      return
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setError('image', {
+        message: 'La imagen no debe superar los 5MB'
+      })
+      return
+    }
+
+    setSelectedImage(file)
+
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      setImagePreview(e.target.result)
+    }
+    reader.readAsDataURL(file)
+
+    if (errors.image) {
+      setError('image', null)
+    }
+  }
+
   const handleImageSelect = (event) => {
     const file = event.target.files[0]
-
     if (file) {
-      if (!file.type.startsWith('image/')) {
-        setError('image', {
-          message: 'Por favor selecciona un archivo de imagen válido'
-        })
-        return
-      }
-
-      if (file.size > 5 * 1024 * 1024) {
-        setError('image', {
-          message: 'La imagen no debe superar los 5MB'
-        })
-        return
-      }
-
-      setSelectedImage(file)
-
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        setImagePreview(e.target.result)
-      }
-      reader.readAsDataURL(file)
-
-      // Limpiar error si existía
-      if (errors.image) {
-        setError('image', null)
-      }
+      handleImageFile(file)
     }
   }
 
@@ -155,21 +181,37 @@ export function FormContent({ breeds, species, loading, error, onPetAdded, setIs
           {errors.nombre && <p className="text-sm text-red-500">{errors.nombre.message}</p>}
         </div>
 
-        {/* Imagen de la mascota */}
         <div className="grid gap-2 w-full">
-          <Label htmlFor="pet-image">Imagen de la mascota (opcional)</Label>
+          <Label htmlFor="pet-image">Imagen (opcional)</Label>
 
           {!imagePreview ? (
-            <div className="flex items-center justify-center w-full">
+            <div
+              className="flex items-center justify-center w-full"
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+            >
               <label
                 htmlFor="pet-image"
-                className="flex items-center gap-3 w-full p-2 border-2 border-dashed border-border rounded-lg cursor-pointer bg-card hover:bg-accent hover:border-primary transition-all duration-300"
+                className={`flex items-center gap-3 w-full p-2 border-2 border-dashed rounded-lg cursor-pointer bg-card hover:bg-accent transition-all duration-300 ${
+                  isDragOver ? 'border-primary bg-accent scale-[1.02]' : 'border-border hover:border-primary'
+                }`}
               >
-                <div className="flex items-center justify-center w-15 h-15 bg-muted rounded-lg flex-shrink-0 transition-all duration-300 group-hover:bg-primary">
-                  <Upload className="w-5 h-5 text-muted-foreground" />
+                <div
+                  className={`flex items-center justify-center w-15 h-15 bg-muted rounded-lg flex-shrink-0 transition-all duration-300 ${
+                    isDragOver ? 'bg-primary' : 'group-hover:bg-primary'
+                  }`}
+                >
+                  <Upload
+                    className={`w-5 h-5 transition-colors duration-300 ${
+                      isDragOver ? 'text-primary-foreground' : 'text-muted-foreground'
+                    }`}
+                  />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm text-foreground font-medium truncate">Subir imagen</p>
+                  <p className="text-sm text-foreground font-medium truncate">
+                    {isDragOver ? 'Suelta la imagen aquí' : 'Selecciona una imagen'}
+                  </p>
                   <p className="text-xs text-muted-foreground mt-0.5">PNG, JPG, WEBP hasta 5MB</p>
                 </div>
                 <input id="pet-image" type="file" className="hidden" accept="image/*" onChange={handleImageSelect} />
@@ -267,6 +309,7 @@ export function FormContent({ breeds, species, loading, error, onPetAdded, setIs
             {errors.raza_id && <p className="text-sm text-red-500">{errors.raza_id.message}</p>}
           </div>
         </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
           {/* Edad */}
           <div className="grid gap-2">
