@@ -36,23 +36,14 @@ export function usePets() {
         try {
           const petId = response.data.data[0].id
           await uploadPetImage(petId, imageFile)
-          toast.success('Mascota registrada', {
-            description: `${petData.nombre} ha sido registrado(a) con imagen exitosamente.`,
-            duration: 3000
-          })
+          toast.success(`${petData.nombre} ha sido registrado(a) con imagen exitosamente.`)
         } catch (imageError) {
           console.error('Error uploading image:', imageError)
           // La mascota se creó pero falló la imagen
-          toast.warning('Mascota registrada sin imagen', {
-            description: `${petData.nombre} fue registrado(a) pero no se pudo subir la imagen.`,
-            duration: 4000
-          })
+          toast.warning(`${petData.nombre} fue registrado(a) pero no se pudo subir la imagen.`)
         }
       } else {
-        toast.success('Mascota registrada', {
-          description: `${petData.nombre} ha sido registrado(a) exitosamente.`,
-          duration: 3000
-        })
+        toast.success(`${petData.nombre} ha sido registrado(a) exitosamente.`)
       }
 
       // 3. Actualizar la lista de mascotas
@@ -65,10 +56,7 @@ export function usePets() {
       console.error('Error adding pet:', error)
       setError(error)
 
-      toast.error('Error al registrar mascota', {
-        description: 'No se pudo registrar la mascota. Por favor, inténtalo de nuevo.',
-        duration: 4000
-      })
+      toast.error('No se pudo registrar la mascota. Por favor, inténtalo de nuevo.')
 
       throw error
     } finally {
@@ -89,18 +77,13 @@ export function usePets() {
       })
 
       if (petToDelete) {
-        toast.success('Mascota eliminada', {
-          description: `${petToDelete.nombre} ha sido eliminado(a) exitosamente.`,
-          duration: 3000
+        toast.success('Mascota eliminada correctamente', {
         })
       }
     } catch (error) {
       console.error('Error deleting pet:', error)
       setError(error)
-      toast.error('Error al eliminar mascota', {
-        description: 'No se pudo eliminar la mascota. Por favor, inténtalo de nuevo.',
-        duration: 4000
-      })
+      toast.error('No se pudo eliminar la mascota. Por favor, inténtalo de nuevo.')
 
       throw error
     } finally {
