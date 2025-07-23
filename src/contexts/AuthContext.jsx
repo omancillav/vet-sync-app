@@ -52,14 +52,20 @@ export const AuthProvider = ({ children }) => {
 
             // Derivar userData decodificando el JWT (payload base64)
             const payload = JSON.parse(atob(newAccessToken.split('.')[1]))
-            Cookies.set('userData', JSON.stringify(payload), {
+            const userData = {
+              id: payload.id,
+              email: payload.email,
+              nombre: payload.nombre,
+              apellido: payload.apellido
+            }
+            Cookies.set('userData', JSON.stringify(userData), {
               expires: accessExpires,
               secure: true,
               sameSite: 'strict'
             })
 
             setIsAuthenticated(true)
-            setUser(payload)
+            setUser(userData)
           } catch (err) {
             console.error('Refresh token failed on mount:', err)
             // refresh inválido → limpiar todo
@@ -79,8 +85,17 @@ export const AuthProvider = ({ children }) => {
   }, [])
 
   const login = (data) => {
-    const { accessToken, refreshToken, userData } = data
-    // Establecer el tiempo de expiración a 1 hora (60 minutos)
+    const { accessToken, refreshToken } = data
+
+    // Obtener userData del payload del access token
+    const payload = JSON.parse(atob(accessToken.split('.')[1]))
+    const userData = {
+      id: payload.id,
+      email: payload.email,
+      nombre: payload.nombre,
+      apellido: payload.apellido
+    }
+
     const expires = new Date(new Date().getTime() + 60 * 60 * 1000)
 
     Cookies.set('accessToken', accessToken, { expires, secure: true, sameSite: 'strict' })
