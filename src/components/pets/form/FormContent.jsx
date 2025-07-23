@@ -185,10 +185,9 @@ export function FormContent({ breeds, species, loading, error, onPetAdded, setIs
                 <p className="text-xs text-muted-foreground mt-0.5">Lista para subir</p>
               </div>
               <Button
-                variant="destructive"
                 type="button"
                 onClick={handleRemoveImage}
-                className="flex items-center justify-center w-8 h-8 rounded-lg transition-colors flex-shrink-0"
+                className="flex items-center justify-center w-8 h-8 rounded-lg transition-colors flex-shrink-0 bg-red-500/80 hover:bg-red-500/90 text-white"
               >
                 <X className="w-4 h-4" />
               </Button>
