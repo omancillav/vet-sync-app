@@ -36,7 +36,7 @@ export function usePets() {
         try {
           const petId = response.data.data[0].id
           await uploadPetImage(petId, imageFile)
-          toast.success(`${petData.nombre} ha sido registrado(a) con imagen exitosamente.`)
+          toast.success(`${petData.nombre} ha sido registrado(a) exitosamente.`)
         } catch (imageError) {
           console.error('Error uploading image:', imageError)
           // La mascota se creó pero falló la imagen

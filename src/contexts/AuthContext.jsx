@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'
 import { AuthContext } from './auth'
 import { logout as apiLogout } from '../services/api/auth'
 import { refreshToken as apiRefreshToken } from '../services/api/auth'
+import { toast } from 'sonner'
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -36,7 +37,7 @@ export const AuthProvider = ({ children }) => {
             const { accessToken: newAccessToken, refreshToken: newRefreshToken } = data
 
             // Guardar nuevas cookies
-            const accessExpires = new Date(Date.now() + 15 * 60 * 1000)
+            const accessExpires = new Date(Date.now() + 60 * 60 * 1000) // 1 hora
             Cookies.set('accessToken', newAccessToken, {
               expires: accessExpires,
               secure: true,
@@ -79,9 +80,8 @@ export const AuthProvider = ({ children }) => {
 
   const login = (data) => {
     const { accessToken, refreshToken, userData } = data
-    // expiresIn puede ser '15m'. Necesitamos convertirlo a un valor para la cookie
-    // Por ejemplo, 15 minutos a partir de ahora.
-    const expires = new Date(new Date().getTime() + 15 * 60 * 1000)
+    // Establecer el tiempo de expiración a 1 hora (60 minutos)
+    const expires = new Date(new Date().getTime() + 60 * 60 * 1000)
 
     Cookies.set('accessToken', accessToken, { expires, secure: true, sameSite: 'strict' })
     Cookies.set('refreshToken', refreshToken, { expires: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000), secure: true, sameSite: 'strict' }) // Refresh token por 7 días
@@ -97,14 +97,16 @@ export const AuthProvider = ({ children }) => {
       if (refreshToken) {
         await apiLogout({ refreshToken })
       }
+      Cookies.remove('accessToken')
+      Cookies.remove('refreshToken')
+      Cookies.remove('userData')
+      setIsAuthenticated(false)
+      setUser(null)
+      toast.success('Sesión cerrada exitosamente')
     } catch (error) {
       console.error('Error calling logout API:', error)
+      toast.error('Error al cerrar sesión')
     }
-    Cookies.remove('accessToken')
-    Cookies.remove('refreshToken')
-    Cookies.remove('userData')
-    setIsAuthenticated(false)
-    setUser(null)
   }
 
   return (
