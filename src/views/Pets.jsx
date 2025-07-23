@@ -38,7 +38,7 @@ export function Pets() {
       <>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           {pets.map((pet) => (
-            <PetsCard key={pet.id} pet={pet} deletePet={deletePet}/>
+            <PetsCard key={pet.id} pet={pet} deletePet={deletePet} />
           ))}
         </div>
       </>
@@ -60,9 +60,8 @@ export function Pets() {
                 species={species}
                 loading={breedsLoading}
                 error={breedsError}
-                onPetAdded={async (petData) => {
-                  await addPet(petData)
-                  // No es necesario llamar a fetchPets aquí porque addPet ya actualiza el estado local
+                onPetAdded={async (petData, imageFile) => {
+                  await addPet(petData, imageFile)
                 }}
               >
                 <Button className="w-full md:w-auto" disabled={breedsLoading || breedsError}>

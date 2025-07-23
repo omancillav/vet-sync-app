@@ -44,9 +44,33 @@ export const addPet = async (petData) => {
       requiresAuth: true
     }
     const { data } = await api.post('/pets', requestBody, config)
-    return data
+    return { data: data }
   } catch (error) {
     console.error('Error adding pet:', error)
+    throw error
+  }
+}
+
+export const uploadPetImage = async (petId, imageFile) => {
+  if (!petId || !imageFile) {
+    const error = new Error('Se requiere ID de mascota y archivo de imagen')
+    console.error('Error uploading pet image:', error)
+    throw error
+  }
+
+  try {
+    const formData = new FormData()
+    formData.append('imagen', imageFile)
+
+    const config = {
+      requiresAuth: true,
+      headers: {}
+    }
+
+    const { data } = await api.post(`/pets/${petId}/imagen`, formData, config)
+    return data
+  } catch (error) {
+    console.error('Error uploading pet image:', error)
     throw error
   }
 }
