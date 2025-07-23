@@ -72,8 +72,18 @@ api.interceptors.response.use(
         const { data } = await axios.post(`${API_BASE}/auth/refresh`, { refreshToken })
         const { accessToken, refreshToken: newRefreshToken } = data
 
+        // Extraer userData del nuevo access token
+        const payload = JSON.parse(atob(accessToken.split('.')[1]))
+        const userData = {
+          id: payload.id,
+          email: payload.email,
+          nombre: payload.nombre,
+          apellido: payload.apellido
+        }
+
         const accessExpires = new Date(Date.now() + 60 * 60 * 1000) // 1 hora
         Cookies.set('accessToken', accessToken, { expires: accessExpires, secure: true, sameSite: 'strict' })
+        Cookies.set('userData', JSON.stringify(userData), { expires: accessExpires, secure: true, sameSite: 'strict' })
         const refreshExpires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
         Cookies.set('refreshToken', newRefreshToken, { expires: refreshExpires, secure: true, sameSite: 'strict' })
 
