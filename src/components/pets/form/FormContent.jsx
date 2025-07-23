@@ -11,6 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { petSchema } from '@/schemas/petSchema'
 import { LoaderCircle, Check, ChevronsUpDown, HeartPlus, Upload, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { processImage } from '@/services/processImage'
 
 export function FormContent({ breeds, species, loading, error, onPetAdded, setIsOpen }) {
   const [breedComboOpen, setBreedComboOpen] = useState(false)
@@ -95,12 +96,24 @@ export function FormContent({ breeds, species, loading, error, onPetAdded, setIs
 
   const onSubmit = async (data) => {
     try {
-      console.log('Enviando formulario con imagen:', selectedImage)
-      console.log('Tipo de archivo:', selectedImage?.type)
-      console.log('Tamaño de archivo:', selectedImage?.size)
-
       if (onPetAdded) {
-        const imageToUpload = selectedImage
+        let imageToUpload = null
+
+        if (selectedImage) {
+          try {
+            // Procesar la imagen: comprimir y convertir a WebP
+            const processedImage = await processImage(selectedImage)
+            imageToUpload = new File([processedImage], selectedImage.name.replace(/\.[^/.]+$/, '.webp'), {
+              type: 'image/webp'
+            })
+          } catch (imageError) {
+            console.error('Error al procesar la imagen:', imageError)
+            setError('image', {
+              message: 'Error al procesar la imagen. Por favor, intenta con otra imagen.'
+            })
+            return
+          }
+        }
 
         await onPetAdded(data, imageToUpload)
 
