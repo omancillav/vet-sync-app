@@ -78,25 +78,39 @@ export function PetImageField({ error, onImageChange, onError, currentImageUrl =
     <div className="grid gap-2 w-full">
       <Label htmlFor="pet-image">Imagen (opcional)</Label>
 
+      {/* Input file siempre presente pero oculto */}
+      <input
+        ref={fileInputRef}
+        id="pet-image"
+        type="file"
+        className="hidden"
+        accept="image/*"
+        onChange={handleImageSelect}
+      />
+
       {(currentImageUrl && isCurrentImage) ? (
-        <div className="relative group">
-          <img
-            src={currentImageUrl}
-            alt="Imagen actual de la mascota"
-            className="w-full h-48 object-cover rounded-lg border border-border"
-          />
-          <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 rounded-lg transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-            <Button
-              type="button"
-              variant="destructive"
-              size="sm"
-              className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              onClick={handleRemoveImage}
-            >
-              <X className="w-4 h-4 mr-1" />
-              Cambiar imagen
-            </Button>
+        // Mostrar imagen actual con diseño consistente
+        <div
+          className="flex items-center gap-3 w-full py-2 px-1 lg:px-4 border-2 border-dashed border-border rounded-lg bg-card overflow-hidden cursor-pointer hover:bg-accent/50 transition-colors duration-200"
+          onClick={() => fileInputRef.current?.click()}
+        >
+          <div className="relative w-15 h-15 lg:w-22 lg:h-22 rounded-lg overflow-hidden flex-shrink-0">
+            <img src={currentImageUrl} alt="Imagen actual de la mascota" className="w-full h-full object-cover" />
           </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm text-foreground font-medium">Imagen actual</p>
+            <p className="text-sm text-muted-foreground mt-0.5">Haz clic para cambiar</p>
+          </div>
+          <Button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation()
+              handleRemoveImage()
+            }}
+            className="flex items-center justify-center w-8 h-8 rounded-lg transition-colors flex-shrink-0 bg-red-500/80 hover:bg-red-500/90 text-white"
+          >
+            <X className="w-4 h-4" />
+          </Button>
         </div>
       ) : !imagePreview ? (
         <div
@@ -122,14 +136,6 @@ export function PetImageField({ error, onImageChange, onError, currentImageUrl =
               </p>
               <p className="text-xs text-muted-foreground mt-0.5">PNG, JPG, WEBP hasta 5MB</p>
             </div>
-            <input
-              ref={fileInputRef}
-              id="pet-image"
-              type="file"
-              className="hidden"
-              accept="image/*"
-              onChange={handleImageSelect}
-            />
           </label>
         </div>
       ) : (

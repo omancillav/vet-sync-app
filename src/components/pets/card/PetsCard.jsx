@@ -105,7 +105,8 @@ export function PetsCard({ pet, deletePet, onPetUpdated, updatePet, species = []
           ...pet,
           // Map the pet data to match the form field names
           especie_id: pet.especie_id?.toString(),
-          raza_id: pet.raza_id?.toString()
+          raza_id: pet.raza_id?.toString(),
+          imagen_url: pet.imagen_url || pet.img_url // Handle both img_url and imagen_url for backward compatibility
         }}
         species={species}
         breeds={breeds}

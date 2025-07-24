@@ -23,6 +23,7 @@ export function FormContent({
 }) {
   const [selectedImage, setSelectedImage] = useState(null)
   const [currentImageUrl, setCurrentImageUrl] = useState(initialData?.imagen_url || null)
+  const [imageRemoved, setImageRemoved] = useState(false)
 
   const form = useForm({
     resolver: zodResolver(petSchema),
@@ -45,9 +46,18 @@ export function FormContent({
   } = form
 
   const handleImageChange = (file) => {
-    setSelectedImage(file)
-    if (file && currentImageUrl) {
+    if (file === null) {
+      // Image was removed
+      setSelectedImage(null)
+      setImageRemoved(true)
       setCurrentImageUrl(null)
+    } else {
+      // New image selected
+      setSelectedImage(file)
+      setImageRemoved(false)
+      if (file && currentImageUrl) {
+        setCurrentImageUrl(null)
+      }
     }
   }
 
@@ -77,11 +87,14 @@ export function FormContent({
       if (isEditMode && initialData?.id) {
         // Modo edición
         if (onPetUpdated) {
-          await onPetUpdated(initialData.id, data, imageToUpload)
+          const updateData = imageRemoved && !imageToUpload
+            ? { ...data, img_url: 'null' }
+            : data
+
+          await onPetUpdated(initialData.id, updateData, imageToUpload)
           handleFormReset()
         }
       } else if (onPetAdded) {
-        // Modo creación
         await onPetAdded(data, imageToUpload)
         handleFormReset()
       }
