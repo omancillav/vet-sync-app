@@ -54,7 +54,6 @@ export function PetsCard({
             pet={pet}
             deletePet={deletePet}
             onEdit={() => {
-              console.log('Opening edit form with data:', getInitialFormData())
               setIsEditOpen(true)
             }}
           />
