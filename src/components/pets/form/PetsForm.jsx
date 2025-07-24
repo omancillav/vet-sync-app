@@ -5,9 +5,33 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { PawPrint } from 'lucide-react'
 import { FormContent } from './FormContent'
 
-export function PetsForm({ children, breeds, species, loading, error, onPetAdded }) {
-  const [isOpen, setIsOpen] = useState(false)
+export function PetsForm({
+  children,
+  breeds,
+  species,
+  loading,
+  error,
+  onPetAdded,
+  onPetUpdated,
+  initialData = null,
+  isEditMode = false,
+  isOpen: isOpenProp,
+  onOpenChange: onOpenChangeProp
+}) {
+  const [internalIsOpen, setInternalIsOpen] = useState(false)
   const isDesktop = useMediaQuery('(min-width: 64rem)')
+
+  // Use controlled state if provided, otherwise use internal state
+  const isOpen = isOpenProp !== undefined ? isOpenProp : internalIsOpen
+  const setIsOpen = (open) => {
+    if (onOpenChangeProp) {
+      onOpenChangeProp(open)
+    } else {
+      setInternalIsOpen(open)
+    }
+  }
+
+  const formTitle = isEditMode ? 'Editar Mascota' : 'Agregar Mascota'
 
   const formContent = (
     <FormContent
@@ -16,7 +40,10 @@ export function PetsForm({ children, breeds, species, loading, error, onPetAdded
       loading={loading}
       error={error}
       onPetAdded={onPetAdded}
+      onPetUpdated={onPetUpdated}
       setIsOpen={setIsOpen}
+      initialData={initialData}
+      isEditMode={isEditMode}
     />
   )
 
@@ -35,7 +62,7 @@ export function PetsForm({ children, breeds, species, loading, error, onPetAdded
           <DialogHeader className="gap-3">
             <div className="flex items-center gap-2">
               <PawPrint className="w-5 h-5" />
-              <DialogTitle>Agregar Mascota</DialogTitle>
+              <DialogTitle>{formTitle}</DialogTitle>
             </div>
           </DialogHeader>
           {formContent}
@@ -51,7 +78,7 @@ export function PetsForm({ children, breeds, species, loading, error, onPetAdded
         <SheetHeader>
           <div className="flex items-center gap-4">
             <PawPrint className="w-4 h-4" />
-            <SheetTitle>Agregar Mascota</SheetTitle>
+            <SheetTitle>{formTitle}</SheetTitle>
           </div>
         </SheetHeader>
         {formContent}

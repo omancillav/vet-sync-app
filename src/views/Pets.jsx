@@ -11,7 +11,7 @@ import { PetsForm } from '@/components/pets/form/PetsForm'
 import { useBreeds } from '@/hooks/useBreeds'
 
 export function Pets() {
-  const { pets, loading, error, noPets, deletePet, addPet } = usePets()
+  const { pets, loading, error, noPets, deletePet, addPet, updatePet, fetchPets } = usePets()
   const { breeds, species, loading: breedsLoading, error: breedsError } = useBreeds()
   const { isAuthenticated } = useAuth()
 
@@ -38,7 +38,17 @@ export function Pets() {
       <>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           {pets.map((pet) => (
-            <PetsCard key={pet.id} pet={pet} deletePet={deletePet} />
+            <PetsCard
+              key={pet.id}
+              pet={pet}
+              deletePet={deletePet}
+              updatePet={updatePet}
+              species={species}
+              breeds={breeds}
+              loading={breedsLoading}
+              error={breedsError}
+              onPetUpdated={fetchPets}
+            />
           ))}
         </div>
       </>

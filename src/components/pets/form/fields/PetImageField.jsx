@@ -1,12 +1,18 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Upload, X } from 'lucide-react'
 
-export function PetImageField({ error, onImageChange, onImageError, initialImage = null }) {
-  const [imagePreview, setImagePreview] = useState(initialImage)
+export function PetImageField({ error, onImageChange, onError, currentImageUrl = null }) {
+  const [imagePreview, setImagePreview] = useState(null)
+  const [isCurrentImage, setIsCurrentImage] = useState(!!currentImageUrl)
   const [isDragOver, setIsDragOver] = useState(false)
   const fileInputRef = useRef(null)
+
+  // Update isCurrentImage when currentImageUrl changes
+  useEffect(() => {
+    setIsCurrentImage(!!currentImageUrl)
+  }, [currentImageUrl])
 
   const handleDragOver = (e) => {
     e.preventDefault()
@@ -33,16 +39,17 @@ export function PetImageField({ error, onImageChange, onImageError, initialImage
 
   const handleImageFile = (file) => {
     if (!file.type.startsWith('image/')) {
-      onImageError('Por favor selecciona un archivo de imagen válido')
+      onError('Por favor selecciona un archivo de imagen válido')
       return
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      onImageError('La imagen no debe superar los 5MB')
+      onError('La imagen no debe superar los 5MB')
       return
     }
 
     onImageChange(file)
+    setIsCurrentImage(false)
 
     const reader = new FileReader()
     reader.onload = (e) => {
@@ -61,6 +68,7 @@ export function PetImageField({ error, onImageChange, onImageError, initialImage
   const handleRemoveImage = () => {
     onImageChange(null)
     setImagePreview(null)
+    setIsCurrentImage(false)
     if (fileInputRef.current) {
       fileInputRef.current.value = ''
     }
@@ -70,7 +78,27 @@ export function PetImageField({ error, onImageChange, onImageError, initialImage
     <div className="grid gap-2 w-full">
       <Label htmlFor="pet-image">Imagen (opcional)</Label>
 
-      {!imagePreview ? (
+      {(currentImageUrl && isCurrentImage) ? (
+        <div className="relative group">
+          <img
+            src={currentImageUrl}
+            alt="Imagen actual de la mascota"
+            className="w-full h-48 object-cover rounded-lg border border-border"
+          />
+          <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 rounded-lg transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+            <Button
+              type="button"
+              variant="destructive"
+              size="sm"
+              className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              onClick={handleRemoveImage}
+            >
+              <X className="w-4 h-4 mr-1" />
+              Cambiar imagen
+            </Button>
+          </div>
+        </div>
+      ) : !imagePreview ? (
         <div
           className="flex items-center justify-center w-full"
           onDragOver={handleDragOver}
@@ -83,16 +111,10 @@ export function PetImageField({ error, onImageChange, onImageError, initialImage
               isDragOver ? 'border-primary bg-accent scale-[1.02]' : 'border-border hover:border-primary'
             }`}
           >
-            <div
-              className={`flex items-center justify-center w-15 h-15 bg-muted rounded-lg flex-shrink-0 transition-all duration-300 ${
-                isDragOver ? 'bg-primary' : 'group-hover:bg-primary'
-              }`}
-            >
-              <Upload
-                className={`w-5 h-5 transition-colors duration-300 ${
-                  isDragOver ? 'text-primary-foreground' : 'text-muted-foreground'
-                }`}
-              />
+            <div className={`flex items-center justify-center w-12 h-12 bg-muted rounded-lg flex-shrink-0 transition-all duration-300 ${
+              isDragOver ? 'bg-primary' : 'group-hover:bg-primary'
+            }`}>
+              <Upload className={`w-5 h-5 ${isDragOver ? 'text-primary-foreground' : 'text-muted-foreground'}`} />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm text-foreground font-medium truncate">

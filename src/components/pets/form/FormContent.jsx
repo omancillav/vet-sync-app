@@ -16,11 +16,13 @@ export function FormContent({
   loading,
   error,
   onPetAdded,
+  onPetUpdated,
   setIsOpen,
   initialData = null,
   isEditMode = false
 }) {
   const [selectedImage, setSelectedImage] = useState(null)
+  const [currentImageUrl, setCurrentImageUrl] = useState(initialData?.imagen_url || null)
 
   const form = useForm({
     resolver: zodResolver(petSchema),
@@ -44,6 +46,9 @@ export function FormContent({
 
   const handleImageChange = (file) => {
     setSelectedImage(file)
+    if (file && currentImageUrl) {
+      setCurrentImageUrl(null)
+    }
   }
 
   const handleImageError = (errorMessage) => {
@@ -52,31 +57,40 @@ export function FormContent({
 
   const onSubmit = async (data) => {
     try {
-      if (onPetAdded) {
-        let imageToUpload = null
+      let imageToUpload = null
 
-        if (selectedImage) {
-          try {
-            const processedImage = await processImage(selectedImage)
-            imageToUpload = new File([processedImage], selectedImage.name.replace(/\.[^/.]+$/, '.webp'), {
-              type: 'image/webp'
-            })
-          } catch (imageError) {
-            console.error('Error al procesar la imagen:', imageError)
-            setError('image', {
-              message: 'Error al procesar la imagen. Por favor, intenta con otra imagen.'
-            })
-            return
-          }
+      if (selectedImage) {
+        try {
+          const processedImage = await processImage(selectedImage)
+          imageToUpload = new File([processedImage], selectedImage.name.replace(/\.[^/.]+$/, '.webp'), {
+            type: 'image/webp'
+          })
+        } catch (imageError) {
+          console.error('Error al procesar la imagen:', imageError)
+          setError('image', {
+            message: 'Error al procesar la imagen. Por favor, intenta con otra imagen.'
+          })
+          return
         }
+      }
 
+      if (isEditMode && initialData?.id) {
+        // Modo edición
+        if (onPetUpdated) {
+          await onPetUpdated(initialData.id, data, imageToUpload)
+          handleFormReset()
+        }
+      } else if (onPetAdded) {
+        // Modo creación
         await onPetAdded(data, imageToUpload)
         handleFormReset()
       }
     } catch (error) {
-      console.error('Error al registrar la mascota:', error)
+      console.error('Error al procesar el formulario:', error)
       setError('root', {
-        message: 'Ocurrió un error al registrar la mascota. Inténtalo de nuevo.'
+        message: isEditMode
+          ? 'Ocurrió un error al actualizar la mascota. Inténtalo de nuevo.'
+          : 'Ocurrió un error al registrar la mascota. Inténtalo de nuevo.'
       })
     }
   }
@@ -84,6 +98,7 @@ export function FormContent({
   const handleFormReset = () => {
     reset()
     setSelectedImage(null)
+    setCurrentImageUrl(initialData?.imagen_url || null)
     setIsOpen(false)
   }
 
@@ -102,8 +117,8 @@ export function FormContent({
           control={control}
           error={errors.image}
           onImageChange={handleImageChange}
-          onImageError={handleImageError}
-          initialImage={initialData?.imagen_url}
+          onError={handleImageError}
+          currentImageUrl={currentImageUrl}
         />
 
         {/* Campos de Especie y Raza */}
