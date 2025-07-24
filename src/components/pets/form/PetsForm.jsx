@@ -21,7 +21,6 @@ export function PetsForm({
   const [internalIsOpen, setInternalIsOpen] = useState(false)
   const isDesktop = useMediaQuery('(min-width: 64rem)')
 
-  // Use controlled state if provided, otherwise use internal state
   const isOpen = isOpenProp !== undefined ? isOpenProp : internalIsOpen
   const setIsOpen = (open) => {
     if (onOpenChangeProp) {

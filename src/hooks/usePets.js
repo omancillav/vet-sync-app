@@ -94,14 +94,11 @@ export function usePets() {
   const updatePet = useCallback(async (petId, petData, imageFile = null) => {
     try {
       setLoading(true)
-      // First update the basic pet data
       const response = await updatePetApi(petId, petData)
 
-      // If there's a new image, upload it
       if (imageFile) {
         try {
           await uploadPetImage(petId, imageFile)
-          // After successful image upload, update the local state with the new image
           setPets(prevPets =>
             prevPets.map(pet =>
               pet.id === petId
@@ -111,7 +108,6 @@ export function usePets() {
           )
         } catch (imageError) {
           console.error('Error updating image:', imageError)
-          // Even if image upload fails, we still update the pet data
           setPets(prevPets =>
             prevPets.map(pet =>
               pet.id === petId ? { ...pet, ...petData } : pet
@@ -120,7 +116,6 @@ export function usePets() {
           toast.warning('La mascota se actualizó pero no se pudo actualizar la imagen.')
         }
       } else {
-        // If no new image, just update the pet data
         setPets(prevPets =>
           prevPets.map(pet =>
             pet.id === petId ? { ...pet, ...petData } : pet

@@ -9,7 +9,6 @@ export function PetImageField({ error, onImageChange, onError, currentImageUrl =
   const [isDragOver, setIsDragOver] = useState(false)
   const fileInputRef = useRef(null)
 
-  // Update isCurrentImage when currentImageUrl changes
   useEffect(() => {
     setIsCurrentImage(!!currentImageUrl)
   }, [currentImageUrl])

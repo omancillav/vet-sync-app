@@ -6,7 +6,16 @@ import { Calendar1, Mars, Venus, UserRound } from 'lucide-react'
 import { ActionMenu } from './ActionMenu'
 import { PetsForm } from '../form/PetsForm'
 
-export function PetsCard({ pet, deletePet, onPetUpdated, updatePet, species = [], breeds = [], loading = false, error = null }) {
+export function PetsCard({
+  pet,
+  deletePet,
+  onPetUpdated,
+  updatePet,
+  species = [],
+  breeds = [],
+  loading = false,
+  error = null
+}) {
   const [isEditOpen, setIsEditOpen] = useState(false)
 
   const handlePetUpdated = async (petId, petData, imageFile) => {
@@ -19,6 +28,24 @@ export function PetsCard({ pet, deletePet, onPetUpdated, updatePet, species = []
     }
   }
 
+  const findIdByName = (items, name) => {
+    if (!name || !items) return null
+    const item = items.find((item) => item.nombre === name)
+    return item ? item.id : null
+  }
+
+  const getInitialFormData = () => {
+    const especie_id = pet.especie_id || findIdByName(species, pet.nombre_especie)
+    const raza_id = pet.raza_id || findIdByName(breeds, pet.nombre_raza)
+
+    return {
+      ...pet,
+      especie_id: especie_id?.toString(),
+      raza_id: raza_id?.toString(),
+      imagen_url: pet.imagen_url || pet.img_url
+    }
+  }
+
   return (
     <>
       <Card className="overflow-hidden relative">
@@ -27,6 +54,7 @@ export function PetsCard({ pet, deletePet, onPetUpdated, updatePet, species = []
             pet={pet}
             deletePet={deletePet}
             onEdit={() => {
+              console.log('Opening edit form with data:', getInitialFormData())
               setIsEditOpen(true)
             }}
           />
@@ -98,21 +126,16 @@ export function PetsCard({ pet, deletePet, onPetUpdated, updatePet, species = []
 
       {/* Edit Pet Form */}
       <PetsForm
-        isOpen={isEditOpen}
-        onOpenChange={setIsEditOpen}
+        key={`edit-form-${pet.id}`}
         isEditMode={true}
-        initialData={{
-          ...pet,
-          // Map the pet data to match the form field names
-          especie_id: pet.especie_id?.toString(),
-          raza_id: pet.raza_id?.toString(),
-          imagen_url: pet.imagen_url || pet.img_url // Handle both img_url and imagen_url for backward compatibility
-        }}
+        initialData={getInitialFormData()}
         species={species}
         breeds={breeds}
         loading={loading}
         error={error}
         onPetUpdated={handlePetUpdated}
+        isOpen={isEditOpen}
+        onOpenChange={setIsEditOpen}
       />
     </>
   )

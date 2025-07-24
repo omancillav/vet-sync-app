@@ -47,12 +47,10 @@ export function FormContent({
 
   const handleImageChange = (file) => {
     if (file === null) {
-      // Image was removed
       setSelectedImage(null)
       setImageRemoved(true)
       setCurrentImageUrl(null)
     } else {
-      // New image selected
       setSelectedImage(file)
       setImageRemoved(false)
       if (file && currentImageUrl) {
@@ -85,11 +83,8 @@ export function FormContent({
       }
 
       if (isEditMode && initialData?.id) {
-        // Modo edición
         if (onPetUpdated) {
-          const updateData = imageRemoved && !imageToUpload
-            ? { ...data, img_url: 'null' }
-            : data
+          const updateData = imageRemoved && !imageToUpload ? { ...data, img_url: 'null' } : data
 
           await onPetUpdated(initialData.id, updateData, imageToUpload)
           handleFormReset()
@@ -144,7 +139,7 @@ export function FormContent({
             especie_id: errors.especie_id,
             raza_id: errors.raza_id
           }}
-          initialValues={{
+          initialData={{
             especie_id: initialData?.especie_id,
             raza_id: initialData?.raza_id
           }}
