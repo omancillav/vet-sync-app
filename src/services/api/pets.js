@@ -75,6 +75,25 @@ export const uploadPetImage = async (petId, imageFile) => {
   }
 }
 
+export const updatePet = async (petId, petData) => {
+  if (!petId || !petData) {
+    const error = new Error('Se requiere ID de mascota y datos de mascota')
+    console.error('Error updating pet:', error)
+    throw error
+  }
+
+  try {
+    const config = {
+      requiresAuth: true
+    }
+    const { data } = await api.patch(`/pets/${petId}`, petData, config)
+    return data
+  } catch (error) {
+    console.error('Error updating pet:', error)
+    throw error
+  }
+}
+
 export const deletePet = async (petId) => {
   if (!petId) {
     const error = new Error('Se requiere un ID de mascota válido')
