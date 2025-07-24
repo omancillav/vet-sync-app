@@ -1,123 +1,53 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { Label } from '@/components/ui/label'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { petSchema } from '@/schemas/petSchema'
-import { LoaderCircle, Check, ChevronsUpDown, HeartPlus, Upload, X } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { LoaderCircle, HeartPlus } from 'lucide-react'
 import { processImage } from '@/services/processImage'
+import { PetNameField } from './fields/PetNameField'
+import { PetImageField } from './fields/PetImageField'
+import { SpeciesBreedFields } from './fields/SpeciesBreedFields'
+import { AgeSexFields } from './fields/AgeSexFields'
 
-export function FormContent({ breeds, species, loading, error, onPetAdded, setIsOpen }) {
-  const [breedComboOpen, setBreedComboOpen] = useState(false)
-  const [selectedSpecies, setSelectedSpecies] = useState(null)
-  const [selectedBreed, setSelectedBreed] = useState(null)
+export function FormContent({
+  breeds,
+  species,
+  loading,
+  error,
+  onPetAdded,
+  setIsOpen,
+  initialData = null,
+  isEditMode = false
+}) {
   const [selectedImage, setSelectedImage] = useState(null)
-  const [imagePreview, setImagePreview] = useState(null)
-  const [isDragOver, setIsDragOver] = useState(false)
+
+  const form = useForm({
+    resolver: zodResolver(petSchema),
+    defaultValues: {
+      nombre: initialData?.nombre || '',
+      edad: initialData?.edad || '',
+      sexo: initialData?.sexo || 'M',
+      especie_id: initialData?.especie_id || '',
+      raza_id: initialData?.raza_id || '',
+      ...initialData
+    }
+  })
 
   const {
-    register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
     setError,
-    setValue
-  } = useForm({
-    resolver: zodResolver(petSchema),
-    defaultValues: {
-      edad: '',
-      sexo: 'M'
-    }
-  })
+    control
+  } = form
 
-  const filteredBreeds = selectedSpecies ? breeds.filter((breed) => breed.especie_id === selectedSpecies) : []
-
-  const handleSpeciesChange = (value) => {
-    const speciesId = Number(value)
-    setSelectedSpecies(speciesId)
-    setValue('especie_id', speciesId)
-
-    setSelectedBreed(null)
-    setValue('raza_id', '')
-  }
-
-  const handleBreedSelect = (breedId, breedName) => {
-    setSelectedBreed({ id: breedId, nombre: breedName })
-    setValue('raza_id', breedId)
-    setBreedComboOpen(false)
-  }
-
-  const handleDragOver = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setIsDragOver(true)
-  }
-
-  const handleDragLeave = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setIsDragOver(false)
-  }
-
-  const handleDrop = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setIsDragOver(false)
-
-    const files = e.dataTransfer.files
-    if (files && files[0]) {
-      handleImageFile(files[0])
-    }
-  }
-
-  const handleImageFile = (file) => {
-    if (!file.type.startsWith('image/')) {
-      setError('image', {
-        message: 'Por favor selecciona un archivo de imagen válido'
-      })
-      return
-    }
-
-    if (file.size > 5 * 1024 * 1024) {
-      setError('image', {
-        message: 'La imagen no debe superar los 5MB'
-      })
-      return
-    }
-
+  const handleImageChange = (file) => {
     setSelectedImage(file)
-
-    const reader = new FileReader()
-    reader.onload = (e) => {
-      setImagePreview(e.target.result)
-    }
-    reader.readAsDataURL(file)
-
-    if (errors.image) {
-      setError('image', null)
-    }
   }
 
-  const handleImageSelect = (event) => {
-    const file = event.target.files[0]
-    if (file) {
-      handleImageFile(file)
-    }
-  }
-
-  const handleRemoveImage = () => {
-    setSelectedImage(null)
-    setImagePreview(null)
-    const fileInput = document.getElementById('pet-image')
-    if (fileInput) {
-      fileInput.value = ''
-    }
+  const handleImageError = (errorMessage) => {
+    setError('image', { message: errorMessage })
   }
 
   const onSubmit = async (data) => {
@@ -127,7 +57,6 @@ export function FormContent({ breeds, species, loading, error, onPetAdded, setIs
 
         if (selectedImage) {
           try {
-            // Procesar la imagen: comprimir y convertir a WebP
             const processedImage = await processImage(selectedImage)
             imageToUpload = new File([processedImage], selectedImage.name.replace(/\.[^/.]+$/, '.webp'), {
               type: 'image/webp'
@@ -142,12 +71,7 @@ export function FormContent({ breeds, species, loading, error, onPetAdded, setIs
         }
 
         await onPetAdded(data, imageToUpload)
-
-        reset()
-        setSelectedSpecies(null)
-        setSelectedBreed(null)
-        handleRemoveImage()
-        setIsOpen(false)
+        handleFormReset()
       }
     } catch (error) {
       console.error('Error al registrar la mascota:', error)
@@ -157,194 +81,55 @@ export function FormContent({ breeds, species, loading, error, onPetAdded, setIs
     }
   }
 
-  const handleCancel = () => {
+  const handleFormReset = () => {
     reset()
-    setSelectedSpecies(null)
-    setSelectedBreed(null)
-    handleRemoveImage()
+    setSelectedImage(null)
     setIsOpen(false)
+  }
+
+  const handleCancel = () => {
+    handleFormReset()
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="grid gap-6">
-        {/* Nombre */}
-        <div className="grid gap-2 w-full">
-          <Label htmlFor="nombre">Nombre</Label>
-          <Input
-            id="nombre"
-            type="text"
-            placeholder="Nombre de la mascota"
-            {...register('nombre')}
-            className={`text-sm ${errors.nombre ? 'border-red-500' : ''}`}
-          />
-          {errors.nombre && <p className="text-sm text-red-500">{errors.nombre.message}</p>}
-        </div>
+        {/* Campo de Nombre */}
+        <PetNameField control={control} error={errors.nombre} />
 
-        {/* Imagen */}
-        <div className="grid gap-2 w-full">
-          <Label htmlFor="pet-image">Imagen (opcional)</Label>
+        {/* Campo de Imagen */}
+        <PetImageField
+          control={control}
+          error={errors.image}
+          onImageChange={handleImageChange}
+          onImageError={handleImageError}
+          initialImage={initialData?.imagen_url}
+        />
 
-          {!imagePreview ? (
-            <div
-              className="flex items-center justify-center w-full"
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-              onDrop={handleDrop}
-            >
-              <label
-                htmlFor="pet-image"
-                className={`flex items-center gap-3 w-full p-2 border-2 border-dashed rounded-lg cursor-pointer bg-card hover:bg-accent transition-all duration-300 ${
-                  isDragOver ? 'border-primary bg-accent scale-[1.02]' : 'border-border hover:border-primary'
-                }`}
-              >
-                <div
-                  className={`flex items-center justify-center w-15 h-15 bg-muted rounded-lg flex-shrink-0 transition-all duration-300 ${
-                    isDragOver ? 'bg-primary' : 'group-hover:bg-primary'
-                  }`}
-                >
-                  <Upload
-                    className={`w-5 h-5 transition-colors duration-300 ${
-                      isDragOver ? 'text-primary-foreground' : 'text-muted-foreground'
-                    }`}
-                  />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm text-foreground font-medium truncate">
-                    {isDragOver ? 'Suelta la imagen aquí' : 'Selecciona una imagen'}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-0.5">PNG, JPG, WEBP hasta 5MB</p>
-                </div>
-                <input id="pet-image" type="file" className="hidden" accept="image/*" onChange={handleImageSelect} />
-              </label>
-            </div>
-          ) : (
-            <div className="flex items-center gap-3 w-full py-2 px-1 lg:px-4 border-2 border-dashed border-border rounded-lg bg-card overflow-hidden">
-              <div className="relative w-15 h-15 lg:w-22 lg:h-22 rounded-lg overflow-hidden flex-shrink-0">
-                <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm text-foreground font-medium ">Imagen seleccionada</p>
-                <p className="text-sm text-muted-foreground mt-0.5">Lista para subir</p>
-              </div>
-              <Button
-                type="button"
-                onClick={handleRemoveImage}
-                className="flex items-center justify-center w-8 h-8 rounded-lg transition-colors flex-shrink-0 bg-red-500/80 hover:bg-red-500/90 text-white"
-              >
-                <X className="w-4 h-4" />
-              </Button>
-            </div>
-          )}
+        {/* Campos de Especie y Raza */}
+        <SpeciesBreedFields
+          control={control}
+          breeds={breeds}
+          species={species}
+          loading={loading}
+          errors={{
+            especie_id: errors.especie_id,
+            raza_id: errors.raza_id
+          }}
+          initialValues={{
+            especie_id: initialData?.especie_id,
+            raza_id: initialData?.raza_id
+          }}
+        />
 
-          {errors.image && <p className="text-sm text-destructive">{errors.image.message}</p>}
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
-          {/* Especie */}
-          <div className="grid gap-2 w-full">
-            <Label htmlFor="especie_id">Especie</Label>
-            <Select onValueChange={handleSpeciesChange} disabled={loading}>
-              <SelectTrigger className={`w-full ${errors.especie_id ? 'border-red-500' : ''}`}>
-                <SelectValue placeholder={loading ? 'Cargando...' : 'Selecciona una especie'} />
-              </SelectTrigger>
-              <SelectContent>
-                {species.map((especie) => (
-                  <SelectItem key={especie.id} value={especie.id.toString()}>
-                    {especie.nombre}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {errors.especie_id && <p className="text-sm text-red-500">{errors.especie_id.message}</p>}
-          </div>
-
-          {/* Raza */}
-          <div className="grid gap-2 w-full">
-            <Label htmlFor="raza_id">Raza</Label>
-            <Popover open={breedComboOpen} onOpenChange={setBreedComboOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  role="combobox"
-                  aria-expanded={breedComboOpen}
-                  className={cn(
-                    'w-full justify-between text-left font-normal h-10 px-3 overflow-hidden',
-                    errors.raza_id && 'border-red-500'
-                  )}
-                  disabled={loading || !selectedSpecies || filteredBreeds.length === 0}
-                >
-                  <span className="truncate flex-1 min-w-0">
-                    {selectedBreed ? selectedBreed.nombre : loading ? 'Cargando...' : 'Buscar raza...'}
-                  </span>
-                  <ChevronsUpDown className="ml-2 h-4 w-4 flex-shrink-0 opacity-50" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-[--radix-popover-trigger-width] p-0 overflow-hidden">
-                <Command className="max-h-[160px] lg:max-h-[280px] max-w-[280px]">
-                  <CommandInput placeholder="Buscar raza..." className="h-9" />
-                  <CommandList className="overflow-y-auto">
-                    <CommandEmpty>No se encontraron razas.</CommandEmpty>
-                    <CommandGroup>
-                      {filteredBreeds.map((breed) => (
-                        <CommandItem
-                          key={breed.id}
-                          value={breed.nombre}
-                          onSelect={() => handleBreedSelect(breed.id, breed.nombre)}
-                          className="flex items-center justify-between px-2 py-1.5"
-                        >
-                          <span className="truncate flex-1 min-w-0 pr-2">{breed.nombre}</span>
-                          <Check
-                            className={cn(
-                              'h-4 w-4 flex-shrink-0',
-                              selectedBreed?.id === breed.id ? 'opacity-100' : 'opacity-0'
-                            )}
-                          />
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </CommandList>
-                </Command>
-              </PopoverContent>
-            </Popover>
-            {errors.raza_id && <p className="text-sm text-red-500">{errors.raza_id.message}</p>}
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-          {/* Edad */}
-          <div className="grid gap-2">
-            <Label htmlFor="edad">Edad (años)</Label>
-            <Input
-              id="edad"
-              type="number"
-              placeholder="Edad en años"
-              {...register('edad', { valueAsNumber: true })}
-              className={`text-sm ${errors.edad ? 'border-red-500' : ''}`}
-            />
-            {errors.edad && <p className="text-sm text-red-500">{errors.edad.message}</p>}
-          </div>
-
-          {/* Sexo */}
-          <div className="grid gap-4 sm:gap-2">
-            <Label>Sexo</Label>
-            <RadioGroup
-              defaultValue="M"
-              className="flex items-center w-full"
-              onValueChange={(value) => setValue('sexo', value)}
-            >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="M" id="M" />
-                <Label htmlFor="M">Macho</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="H" id="H" />
-                <Label htmlFor="H">Hembra</Label>
-              </div>
-            </RadioGroup>
-            {errors.sexo && <p className="text-sm text-red-500">{errors.sexo.message}</p>}
-          </div>
-        </div>
+        {/* Campos de Edad y Sexo */}
+        <AgeSexFields
+          control={control}
+          errors={{
+            edad: errors.edad,
+            sexo: errors.sexo
+          }}
+        />
       </div>
 
       {/* Error de carga */}
@@ -362,7 +147,7 @@ export function FormContent({ breeds, species, loading, error, onPetAdded, setIs
           Cancelar
         </Button>
         <Button type="submit" disabled={isSubmitting || loading}>
-          {isSubmitting ? 'Registrando' : 'Registrar Mascota'}
+          {isSubmitting ? 'Registrando' : isEditMode ? 'Actualizar Mascota' : 'Registrar Mascota'}
           {isSubmitting ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <HeartPlus className="w-4 h-4" />}
         </Button>
       </div>
