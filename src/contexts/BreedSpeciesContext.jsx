@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react'
+import { createContext } from 'react'
 import { useBreeds } from '@/hooks/useBreeds'
 
 const BreedSpeciesContext = createContext(undefined)
@@ -29,14 +29,6 @@ export function BreedSpeciesProvider({ children }) {
   }
 
   return <BreedSpeciesContext.Provider value={value}>{children}</BreedSpeciesContext.Provider>
-}
-
-export function useBreedSpecies() {
-  const context = useContext(BreedSpeciesContext)
-  if (context === undefined) {
-    throw new Error('useBreedSpecies debe usarse dentro de un BreedSpeciesProvider')
-  }
-  return context
 }
 
 export { BreedSpeciesContext }
