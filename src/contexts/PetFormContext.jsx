@@ -152,3 +152,5 @@ export function PetFormProvider({ children }) {
 
   return <PetFormContext.Provider value={contextValue}>{children}</PetFormContext.Provider>
 }
+
+export { PetFormContext }

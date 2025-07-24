@@ -5,31 +5,15 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { PawPrint } from 'lucide-react'
 import { FormContent } from './FormContent'
 
-export function PetsForm({ children, breeds, species, loading, error, onPetAdded }) {
+export function PetsForm({ children, onPetAdded }) {
   const [isOpen, setIsOpen] = useState(false)
   const isDesktop = useMediaQuery('(min-width: 64rem)')
 
-  const formContent = (
-    <FormContent
-      breeds={breeds}
-      species={species}
-      loading={loading}
-      error={error}
-      onPetAdded={onPetAdded}
-      setIsOpen={setIsOpen}
-    />
-  )
+  const formContent = <FormContent onPetAdded={onPetAdded} setIsOpen={setIsOpen} />
 
   if (isDesktop) {
     return (
-      <Dialog
-        open={isOpen}
-        onOpenChange={(open) => {
-          if (!loading) {
-            setIsOpen(open)
-          }
-        }}
-      >
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent className="sm:max-w-[500px] gap-8 max-h-[98vh] overflow-y-auto">
           <DialogHeader className="gap-3">

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { Button } from '@/components/ui/button'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -9,18 +9,16 @@ import { PetNameField } from './fields/PetNameField'
 import { PetImageField } from './fields/PetImageField'
 import { SpeciesBreedFields } from './fields/SpeciesBreedFields'
 import { AgeSexFields } from './fields/AgeSexFields'
+import { BreedSpeciesContext } from '@/contexts/BreedSpeciesContext'
 
 export function FormContent({
-  breeds,
-  species,
-  loading,
-  error,
   onPetAdded,
   setIsOpen,
   initialData = null,
   isEditMode = false
 }) {
   const [selectedImage, setSelectedImage] = useState(null)
+  const { loading, error } = useContext(BreedSpeciesContext)
 
   const form = useForm({
     resolver: zodResolver(petSchema),
@@ -107,20 +105,7 @@ export function FormContent({
         />
 
         {/* Campos de Especie y Raza */}
-        <SpeciesBreedFields
-          control={control}
-          breeds={breeds}
-          species={species}
-          loading={loading}
-          errors={{
-            especie_id: errors.especie_id,
-            raza_id: errors.raza_id
-          }}
-          initialValues={{
-            especie_id: initialData?.especie_id,
-            raza_id: initialData?.raza_id
-          }}
-        />
+        <SpeciesBreedFields />
 
         {/* Campos de Edad y Sexo */}
         <AgeSexFields
@@ -148,7 +133,8 @@ export function FormContent({
         </Button>
         <Button type="submit" disabled={isSubmitting || loading}>
           {isSubmitting ? 'Registrando' : isEditMode ? 'Actualizar Mascota' : 'Registrar Mascota'}
-          {isSubmitting ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <HeartPlus className="w-4 h-4" />}
+          {isSubmitting && <LoaderCircle className="h-4 w-4 animate-spin ml-2" />}
+          {!isSubmitting && <HeartPlus className="w-4 h-4 ml-2" />}
         </Button>
       </div>
     </form>
