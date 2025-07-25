@@ -18,8 +18,24 @@ export function AgeSexFields({ control, errors }) {
               id="edad"
               type="number"
               placeholder="Edad en años"
-              className={`text-sm ${errors.edad ? 'border-red-500' : ''}`}
-              onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : '')}
+              min="0"
+              max="99"
+              maxLength={2}
+              onInput={(e) => {
+                if (e.target.value.length > 2) {
+                  e.target.value = e.target.value.slice(0, 2)
+                }
+                if (e.target.value < 0) {
+                  e.target.value = 0
+                }
+                field.onChange(e.target.value ? Number(e.target.value) : '')
+              }}
+              onKeyDown={(e) => {
+                if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+                  e.preventDefault()
+                }
+              }}
+              className={`text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${errors.edad ? 'border-red-500' : ''}`}
             />
           )}
         />
