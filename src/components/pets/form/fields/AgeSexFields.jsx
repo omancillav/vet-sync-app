@@ -18,20 +18,20 @@ export function AgeSexFields({ control, errors, initialValues = {} }) {
               id="edad"
               type="number"
               placeholder="Edad en años"
-              min="0"
-              max="99"
-              maxLength={2}
-              onInput={(e) => {
-                if (e.target.value.length > 2) {
-                  e.target.value = e.target.value.slice(0, 2)
+              step="1"
+              value={field.value || ''}
+              onChange={(e) => {
+                let value = e.target.value
+                if (value.length > 2) {
+                  value = value.slice(0, 2)
+                  e.target.value = value
                 }
-                if (e.target.value < 0) {
-                  e.target.value = 0
+                if (value === '' || /^\d+$/.test(value)) {
+                  field.onChange(value === '' ? '' : Number(value))
                 }
-                field.onChange(e.target.value ? Number(e.target.value) : '')
               }}
               onKeyDown={(e) => {
-                if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+                if (['-', '+', '.', 'e', 'E'].includes(e.key)) {
                   e.preventDefault()
                 }
               }}
