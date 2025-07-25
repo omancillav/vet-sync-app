@@ -1,16 +1,16 @@
 import { useAuth } from '@/contexts/auth'
 import { AuthPrompt } from '@/components/AuthPrompt'
 import { NoPets } from '@/components/pets/NoPets'
-import { usePets } from '@/hooks/usePets'
 import { LoadingSpinner } from '@/components/LoadingSpinner'
 import { ErrorCard } from '@/components/ErrorCard'
 import { PetsCard } from '@/components/pets/card/PetsCard'
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 import { PetsForm } from '@/components/pets/form/PetsForm'
+import { PetsProvider, usePetsContext } from '@/contexts/PetsContext'
 
-export function Pets() {
-  const { pets, loading, error, noPets, deletePet, addPet } = usePets()
+function PetsContent() {
+  const { pets, loading, error, noPets, openAddForm } = usePetsContext()
   const { isAuthenticated } = useAuth()
 
   const renderContent = () => {
@@ -33,13 +33,11 @@ export function Pets() {
     if (noPets) return <NoPets />
 
     return (
-      <>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-          {pets.map((pet) => (
-            <PetsCard key={pet.id} pet={pet} deletePet={deletePet} />
-          ))}
-        </div>
-      </>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+        {pets.map((pet) => (
+          <PetsCard key={pet.id} pet={pet} />
+        ))}
+      </div>
     )
   }
 
@@ -53,21 +51,24 @@ export function Pets() {
           </section>
           <section className="w-full md:w-1/2 md:flex md:justify-end">
             {isAuthenticated && (
-              <PetsForm
-                onPetAdded={async (petData, imageFile) => {
-                  await addPet(petData, imageFile)
-                }}
-              >
-                <Button className="w-full md:w-auto">
-                  Agregar Mascota
-                  <Plus className="h-4 w-4 ml-2" />
-                </Button>
-              </PetsForm>
+              <Button className="w-full md:w-auto" onClick={openAddForm}>
+                Agregar Mascota
+                <Plus className="h-4 w-4 ml-2" />
+              </Button>
             )}
           </section>
         </div>
         {renderContent()}
+        <PetsForm />
       </div>
     </div>
+  )
+}
+
+export function Pets() {
+  return (
+    <PetsProvider>
+      <PetsContent />
+    </PetsProvider>
   )
 }
