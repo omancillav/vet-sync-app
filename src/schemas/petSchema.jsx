@@ -22,13 +22,12 @@ export const petSchema = z.object({
 
   edad: z
     .number({
+      required_error: 'La edad es obligatoria',
       invalid_type_error: 'La edad debe ser un número'
     })
     .int('La edad debe ser un número entero')
     .positive('La edad debe ser mayor a 0')
-    .max(30, 'La edad debe ser menor a 30 años')
-    .optional()
-    .or(z.literal('')),
+    .max(30, 'La edad debe ser menor a 30 años'),
 
   sexo: z
     .string()

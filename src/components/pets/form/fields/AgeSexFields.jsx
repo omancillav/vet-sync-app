@@ -3,7 +3,7 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
-export function AgeSexFields({ control, errors }) {
+export function AgeSexFields({ control, errors, initialValues = {} }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
       {/* Edad */}
@@ -18,8 +18,26 @@ export function AgeSexFields({ control, errors }) {
               id="edad"
               type="number"
               placeholder="Edad en años"
-              className={`text-sm ${errors.edad ? 'border-red-500' : ''}`}
-              onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : '')}
+              min="0"
+              max="99"
+              maxLength={2}
+              onInput={(e) => {
+                if (e.target.value.length > 2) {
+                  e.target.value = e.target.value.slice(0, 2)
+                }
+                if (e.target.value < 0) {
+                  e.target.value = 0
+                }
+                field.onChange(e.target.value ? Number(e.target.value) : '')
+              }}
+              onKeyDown={(e) => {
+                if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+                  e.preventDefault()
+                }
+              }}
+              className={`text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
+                errors.edad ? 'border-red-500' : ''
+              }`}
             />
           )}
         />
@@ -44,6 +62,7 @@ export function AgeSexFields({ control, errors }) {
               </div>
             </RadioGroup>
           )}
+          defaultValue={initialValues.sexo}
         />
         {errors.sexo && <p className="text-sm text-red-500">{errors.sexo.message}</p>}
       </div>
