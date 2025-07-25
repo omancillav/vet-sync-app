@@ -9,18 +9,11 @@ import { PetNameField } from './fields/PetNameField'
 import { PetImageField } from './fields/PetImageField'
 import { SpeciesBreedFields } from './fields/SpeciesBreedFields'
 import { AgeSexFields } from './fields/AgeSexFields'
+import { useBreedSpecies } from '@/contexts/useBreedSpecies'
 
-export function FormContent({
-  breeds,
-  species,
-  loading,
-  error,
-  onPetAdded,
-  setIsOpen,
-  initialData = null,
-  isEditMode = false
-}) {
+export function FormContent({ onPetAdded, setIsOpen, initialData = null, isEditMode = false }) {
   const [selectedImage, setSelectedImage] = useState(null)
+  const { loading, error } = useBreedSpecies()
 
   const form = useForm({
     resolver: zodResolver(petSchema),
@@ -95,7 +88,7 @@ export function FormContent({
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="grid gap-6">
         {/* Campo de Nombre */}
-        <PetNameField control={control} error={errors.nombre} />
+        <PetNameField control={control} error={errors.nombre} initialValues={{ nombre: initialData?.nombre }} />
 
         {/* Campo de Imagen */}
         <PetImageField
@@ -109,9 +102,6 @@ export function FormContent({
         {/* Campos de Especie y Raza */}
         <SpeciesBreedFields
           control={control}
-          breeds={breeds}
-          species={species}
-          loading={loading}
           errors={{
             especie_id: errors.especie_id,
             raza_id: errors.raza_id
@@ -128,6 +118,10 @@ export function FormContent({
           errors={{
             edad: errors.edad,
             sexo: errors.sexo
+          }}
+          initialValues={{
+            edad: initialData?.edad,
+            sexo: initialData?.sexo
           }}
         />
       </div>
