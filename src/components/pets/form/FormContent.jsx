@@ -64,7 +64,7 @@ function FormContent() {
   }, [selectedPet, species, breeds, reset])
 
   const handleImageChange = (file) => {
-    setSelectedImage(file)
+    setSelectedImage(file === null ? 'null' : file)
   }
 
   const handleImageError = (errorMessage) => {
@@ -75,7 +75,9 @@ function FormContent() {
     try {
       let imageToUpload = null
 
-      if (selectedImage) {
+      if (selectedImage === 'null') {
+        data.img_url = 'null'
+      } else if (selectedImage) {
         try {
           const processedImage = await processImage(selectedImage)
           imageToUpload = new File([processedImage], selectedImage.name.replace(/\.[^/.]+$/, '.webp'), {
