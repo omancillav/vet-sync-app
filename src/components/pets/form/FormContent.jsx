@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -20,7 +20,7 @@ function FormContent() {
   const { mode, selectedPet } = formState
   const isEditMode = mode === 'edit'
 
-  const getInitialValues = () => {
+  const getInitialValues = useCallback(() => {
     let especieId = selectedPet?.especie_id || ''
     let razaId = selectedPet?.raza_id || ''
 
@@ -41,7 +41,7 @@ function FormContent() {
       especie_id: especieId,
       raza_id: razaId
     }
-  }
+  }, [selectedPet, species, breeds])
 
   const form = useForm({
     resolver: zodResolver(petSchema),
@@ -61,7 +61,7 @@ function FormContent() {
       const newValues = getInitialValues()
       reset(newValues)
     }
-  }, [selectedPet, species, breeds, reset])
+  }, [selectedPet, species, breeds, reset, getInitialValues])
 
   const handleImageChange = (file) => {
     setSelectedImage(file === null ? 'null' : file)
