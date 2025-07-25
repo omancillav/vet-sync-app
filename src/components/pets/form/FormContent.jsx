@@ -11,7 +11,7 @@ import { SpeciesBreedFields } from './fields/SpeciesBreedFields'
 import { AgeSexFields } from './fields/AgeSexFields'
 import { useBreedSpecies } from '@/contexts/useBreedSpecies'
 
-export function FormContent({ onPetAdded, setIsOpen, initialData = null, isEditMode = false }) {
+function FormContent({ onPetAdded, setIsOpen, initialData = null, isEditMode = false }) {
   const [selectedImage, setSelectedImage] = useState(null)
   const { loading, error } = useBreedSpecies()
 
@@ -148,3 +148,5 @@ export function FormContent({ onPetAdded, setIsOpen, initialData = null, isEditM
     </form>
   )
 }
+
+export default FormContent
