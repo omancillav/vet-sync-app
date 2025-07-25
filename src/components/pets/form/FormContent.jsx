@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -14,21 +14,38 @@ import { usePetsContext } from '@/contexts/PetsContext'
 
 function FormContent() {
   const [selectedImage, setSelectedImage] = useState(null)
-  const { loading: breedLoading, error: breedError } = useBreedSpecies()
+  const { loading: breedLoading, error: breedError, species, breeds } = useBreedSpecies()
   const { formState, submitForm, closeForm, loading } = usePetsContext()
 
   const { mode, selectedPet } = formState
   const isEditMode = mode === 'edit'
 
-  const form = useForm({
-    resolver: zodResolver(petSchema),
-    defaultValues: {
+  const getInitialValues = () => {
+    let especieId = selectedPet?.especie_id || ''
+    let razaId = selectedPet?.raza_id || ''
+
+    if (!especieId && selectedPet?.nombre_especie && species.length > 0) {
+      const foundSpecies = species.find((s) => s.nombre === selectedPet.nombre_especie)
+      especieId = foundSpecies ? foundSpecies.id : ''
+    }
+
+    if (!razaId && selectedPet?.nombre_raza && breeds.length > 0) {
+      const foundBreed = breeds.find((b) => b.nombre === selectedPet.nombre_raza)
+      razaId = foundBreed ? foundBreed.id : ''
+    }
+
+    return {
       nombre: selectedPet?.nombre || '',
       edad: selectedPet?.edad || '',
       sexo: selectedPet?.sexo || 'M',
-      especie_id: selectedPet?.especie_id || '',
-      raza_id: selectedPet?.raza_id || ''
+      especie_id: especieId,
+      raza_id: razaId
     }
+  }
+
+  const form = useForm({
+    resolver: zodResolver(petSchema),
+    defaultValues: getInitialValues()
   })
 
   const {
@@ -39,8 +56,15 @@ function FormContent() {
     control
   } = form
 
+  useEffect(() => {
+    if (selectedPet && (species.length > 0 || breeds.length > 0)) {
+      const newValues = getInitialValues()
+      reset(newValues)
+    }
+  }, [selectedPet, species, breeds, reset])
+
   const handleImageChange = (file) => {
-    setSelectedImage(file)
+    setSelectedImage(file === null ? 'null' : file)
   }
 
   const handleImageError = (errorMessage) => {
@@ -51,7 +75,9 @@ function FormContent() {
     try {
       let imageToUpload = null
 
-      if (selectedImage) {
+      if (selectedImage === 'null') {
+        data.img_url = 'null'
+      } else if (selectedImage) {
         try {
           const processedImage = await processImage(selectedImage)
           imageToUpload = new File([processedImage], selectedImage.name.replace(/\.[^/.]+$/, '.webp'), {
@@ -85,7 +111,6 @@ function FormContent() {
     handleFormReset()
     closeForm()
   }
-  console.log(selectedPet)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -110,7 +135,7 @@ function FormContent() {
             raza_id: errors.raza_id
           }}
           initialValues={{
-            nombre_especie: selectedPet?.nombre_especie,
+            especie_id: selectedPet?.especie_id,
             nombre_raza: selectedPet?.nombre_raza
           }}
         />
