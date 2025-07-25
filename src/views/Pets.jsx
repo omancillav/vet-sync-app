@@ -8,7 +8,6 @@ import { PetsCard } from '@/components/pets/card/PetsCard'
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 import { PetsForm } from '@/components/pets/form/PetsForm'
-import { BreedSpeciesProvider } from '@/contexts/BreedSpeciesContext'
 
 export function Pets() {
   const { pets, loading, error, noPets, deletePet, addPet } = usePets()
@@ -45,32 +44,30 @@ export function Pets() {
   }
 
   return (
-    <BreedSpeciesProvider>
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end mb-4 md:mb-8">
-            <section className="md:w-1/2 mb-8 md:mb-0">
-              <h1 className="text-3xl font-bold text-foreground mb-2">Mis Mascotas</h1>
-              <p className="text-muted-foreground">Gestiona la información de todas tus mascotas</p>
-            </section>
-            <section className="w-full md:w-1/2 md:flex md:justify-end">
-              {isAuthenticated && (
-                <PetsForm
-                  onPetAdded={async (petData, imageFile) => {
-                    await addPet(petData, imageFile)
-                  }}
-                >
-                  <Button className="w-full md:w-auto">
-                      Agregar Mascota
-                    <Plus className="h-4 w-4 ml-2" />
-                  </Button>
-                </PetsForm>
-              )}
-            </section>
-          </div>
-          {renderContent()}
+    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex flex-col md:flex-row md:items-end mb-4 md:mb-8">
+          <section className="md:w-1/2 mb-8 md:mb-0">
+            <h1 className="text-3xl font-bold text-foreground mb-2">Mis Mascotas</h1>
+            <p className="text-muted-foreground">Gestiona la información de todas tus mascotas</p>
+          </section>
+          <section className="w-full md:w-1/2 md:flex md:justify-end">
+            {isAuthenticated && (
+              <PetsForm
+                onPetAdded={async (petData, imageFile) => {
+                  await addPet(petData, imageFile)
+                }}
+              >
+                <Button className="w-full md:w-auto">
+                  Agregar Mascota
+                  <Plus className="h-4 w-4 ml-2" />
+                </Button>
+              </PetsForm>
+            )}
+          </section>
         </div>
+        {renderContent()}
       </div>
-    </BreedSpeciesProvider>
+    </div>
   )
 }
