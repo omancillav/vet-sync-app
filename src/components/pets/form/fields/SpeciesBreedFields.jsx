@@ -14,14 +14,19 @@ export function SpeciesBreedFields({ control, errors, initialValues = {} }) {
   const [selectedBreed, setSelectedBreed] = useState(null)
   const { breeds, species, loading } = useBreedSpecies()
 
-  console.log('breeds', breeds)
-  console.log('species', species)
-  console.log('initialValues', initialValues)
+  const findSpeciesIdByName = (name) => {
+    if (!name) return null
+    const found = species.find(s => s.nombre === name)
+    return found ? found.id : null
+  }
 
-  const selectedSpeciesId = useWatch({
+  const watchedEspecieId = useWatch({
     control,
     name: 'especie_id'
   })
+
+  const initialEspecieId = initialValues.especie_id || findSpeciesIdByName(initialValues.nombre_especie)
+  const selectedSpeciesId = watchedEspecieId || initialEspecieId
 
   // Filtrar razas según la especie seleccionada
   const filteredBreeds = selectedSpeciesId
@@ -35,16 +40,24 @@ export function SpeciesBreedFields({ control, errors, initialValues = {} }) {
     }
   }, [selectedSpeciesId, selectedBreed])
 
+  // Set initial breed when component mounts or when data is loaded
   useEffect(() => {
-    if (initialValues.raza_id && breeds.length > 0 && !selectedBreed) {
+    if (breeds.length === 0 || species.length === 0) return
+
+    if (initialValues.raza_id) {
       const initialBreed = breeds.find((breed) => breed.id === initialValues.raza_id)
       if (initialBreed) {
         setSelectedBreed(initialBreed)
       }
+    } else if (initialValues.nombre_raza) {
+      const breed = breeds.find(b => b.nombre === initialValues.nombre_raza)
+      if (breed) {
+        setSelectedBreed(breed)
+      }
     }
-  }, [initialValues.raza_id, breeds, selectedBreed])
+  }, [initialValues.raza_id, initialValues.nombre_raza, breeds, species])
 
-  const handleBreedSelect = (breedId, breedName, onChange) => {
+  const handleBreedSelect = (breedId, onChange) => {
     const breed = breeds.find((b) => b.id === breedId)
     setSelectedBreed(breed)
     onChange(breedId)
@@ -59,6 +72,7 @@ export function SpeciesBreedFields({ control, errors, initialValues = {} }) {
         <Controller
           name="especie_id"
           control={control}
+          defaultValue={initialEspecieId}
           render={({ field: { onChange, value } }) => (
             <Select
               value={value?.toString() || ''}
@@ -119,7 +133,7 @@ export function SpeciesBreedFields({ control, errors, initialValues = {} }) {
                         <CommandItem
                           key={breed.id}
                           value={breed.nombre}
-                          onSelect={() => handleBreedSelect(breed.id, breed.nombre, onChange)}
+                          onSelect={() => handleBreedSelect(breed.id, onChange)}
                           className="flex items-center justify-between px-2 py-1.5"
                         >
                           <span className="truncate flex-1 min-w-0 pr-2">{breed.nombre}</span>
