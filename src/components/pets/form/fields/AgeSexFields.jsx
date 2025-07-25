@@ -35,7 +35,9 @@ export function AgeSexFields({ control, errors, initialValues = {} }) {
                   e.preventDefault()
                 }
               }}
-              className={`text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${errors.edad ? 'border-red-500' : ''}`}
+              className={`text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
+                errors.edad ? 'border-red-500' : ''
+              }`}
             />
           )}
         />
