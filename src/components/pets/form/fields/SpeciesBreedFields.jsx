@@ -6,13 +6,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Check, ChevronsUpDown } from 'lucide-react'
+import { useBreedSpecies } from '@/contexts/useBreedSpecies'
 import { cn } from '@/lib/utils'
 
-export function SpeciesBreedFields({ control, breeds, species, loading, errors, initialValues = {} }) {
+export function SpeciesBreedFields({ control, errors, initialValues = {} }) {
   const [breedComboOpen, setBreedComboOpen] = useState(false)
   const [selectedBreed, setSelectedBreed] = useState(null)
+  const { breeds, species, loading } = useBreedSpecies()
 
-  // Observar cambios en la especie seleccionada
   const selectedSpeciesId = useWatch({
     control,
     name: 'especie_id'
@@ -30,7 +31,6 @@ export function SpeciesBreedFields({ control, breeds, species, loading, errors, 
     }
   }, [selectedSpeciesId, selectedBreed])
 
-  // Establecer raza inicial si existe
   useEffect(() => {
     if (initialValues.raza_id && breeds.length > 0 && !selectedBreed) {
       const initialBreed = breeds.find((breed) => breed.id === initialValues.raza_id)
@@ -60,7 +60,7 @@ export function SpeciesBreedFields({ control, breeds, species, loading, errors, 
               value={value?.toString() || ''}
               onValueChange={(val) => {
                 onChange(Number(val))
-                setSelectedBreed(null) // Resetear raza al cambiar especie
+                setSelectedBreed(null)
               }}
               disabled={loading}
             >

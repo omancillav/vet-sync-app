@@ -3,7 +3,7 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
-export function AgeSexFields({ control, errors }) {
+export function AgeSexFields({ control, errors, initialValues = {} }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
       {/* Edad */}
@@ -20,6 +20,7 @@ export function AgeSexFields({ control, errors }) {
               placeholder="Edad en años"
               className={`text-sm ${errors.edad ? 'border-red-500' : ''}`}
               onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : '')}
+              defaultValue={initialValues.edad}
             />
           )}
         />
@@ -44,6 +45,7 @@ export function AgeSexFields({ control, errors }) {
               </div>
             </RadioGroup>
           )}
+          defaultValue={initialValues.sexo}
         />
         {errors.sexo && <p className="text-sm text-red-500">{errors.sexo.message}</p>}
       </div>
