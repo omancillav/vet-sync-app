@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -9,16 +9,11 @@ import { PetNameField } from './fields/PetNameField'
 import { PetImageField } from './fields/PetImageField'
 import { SpeciesBreedFields } from './fields/SpeciesBreedFields'
 import { AgeSexFields } from './fields/AgeSexFields'
-import { BreedSpeciesContext } from '@/contexts/BreedSpeciesContext'
+import { useBreedSpecies } from '@/contexts/useBreedSpecies'
 
-export function FormContent({
-  onPetAdded,
-  setIsOpen,
-  initialData = null,
-  isEditMode = false
-}) {
+export function FormContent({ onPetAdded, setIsOpen, initialData = null, isEditMode = false }) {
   const [selectedImage, setSelectedImage] = useState(null)
-  const { loading, error } = useContext(BreedSpeciesContext)
+  const { loading, error } = useBreedSpecies()
 
   const form = useForm({
     resolver: zodResolver(petSchema),
@@ -93,7 +88,7 @@ export function FormContent({
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="grid gap-6">
         {/* Campo de Nombre */}
-        <PetNameField control={control} error={errors.nombre} />
+        <PetNameField control={control} error={errors.nombre} initialValues={{ nombre: initialData?.nombre }} />
 
         {/* Campo de Imagen */}
         <PetImageField
@@ -105,7 +100,17 @@ export function FormContent({
         />
 
         {/* Campos de Especie y Raza */}
-        <SpeciesBreedFields />
+        <SpeciesBreedFields
+          control={control}
+          errors={{
+            especie_id: errors.especie_id,
+            raza_id: errors.raza_id
+          }}
+          initialValues={{
+            especie_id: initialData?.especie_id,
+            raza_id: initialData?.raza_id
+          }}
+        />
 
         {/* Campos de Edad y Sexo */}
         <AgeSexFields
@@ -113,6 +118,10 @@ export function FormContent({
           errors={{
             edad: errors.edad,
             sexo: errors.sexo
+          }}
+          initialValues={{
+            edad: initialData?.edad,
+            sexo: initialData?.sexo
           }}
         />
       </div>
@@ -133,8 +142,7 @@ export function FormContent({
         </Button>
         <Button type="submit" disabled={isSubmitting || loading}>
           {isSubmitting ? 'Registrando' : isEditMode ? 'Actualizar Mascota' : 'Registrar Mascota'}
-          {isSubmitting && <LoaderCircle className="h-4 w-4 animate-spin ml-2" />}
-          {!isSubmitting && <HeartPlus className="w-4 h-4 ml-2" />}
+          {isSubmitting ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <HeartPlus className="w-4 h-4" />}
         </Button>
       </div>
     </form>
