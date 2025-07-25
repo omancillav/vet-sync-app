@@ -14,6 +14,10 @@ export function SpeciesBreedFields({ control, errors, initialValues = {} }) {
   const [selectedBreed, setSelectedBreed] = useState(null)
   const { breeds, species, loading } = useBreedSpecies()
 
+  console.log('breeds', breeds)
+  console.log('species', species)
+  console.log('initialValues', initialValues)
+
   const selectedSpeciesId = useWatch({
     control,
     name: 'especie_id'
