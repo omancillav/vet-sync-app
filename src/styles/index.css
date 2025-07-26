@@ -104,9 +104,6 @@
   --color-chart-5: var(--chart-5);
 }
 
-/* Paleta de Colores Veterinaria - Tailwind 4 con OKLCH */
-/* Optimizada para aplicación de citas veterinarias */
-
 :root {
   --radius: 0.625rem;
   --background: oklch(0.9928 0.0042 56.38);
@@ -136,7 +133,7 @@
 }
 
 .dark {
-  --background: oklch(0.132 0.014 284.33);
+  --background: oklch(0.148 0.015 272.915); /* Mix entre los dos colores */
   --foreground: oklch(0.92 0.01 50);
   --card: oklch(0.2092 0.019 266.07);
   --card-foreground: oklch(0.92 0.01 50);
