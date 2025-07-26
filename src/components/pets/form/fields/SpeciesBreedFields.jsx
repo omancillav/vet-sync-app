@@ -65,7 +65,7 @@ export function SpeciesBreedFields({ control, errors, initialValues = {} }) {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
       {/* Especie */}
       <div className="grid gap-2 w-full">
         <Label htmlFor="especie_id">Especie</Label>
