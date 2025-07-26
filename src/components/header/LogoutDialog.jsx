@@ -52,7 +52,7 @@ export function LogoutDialog({ children, onConfirm, open: controlledOpen, onOpen
             <Button variant="secondary" className="text-md" onClick={() => setOpen(false)}>
               Cancelar
             </Button>
-            <Button className="text-md dark:text-red-700" onClick={handleConfirm}>
+            <Button className="text-md" onClick={handleConfirm}>
               Cerrar sesión
               <LogOut className="w-4 h-4" />
             </Button>
@@ -82,7 +82,7 @@ export function LogoutDialog({ children, onConfirm, open: controlledOpen, onOpen
             <Button variant="secondary" className="text-md" onClick={() => setOpen(false)}>
               Cancelar
             </Button>
-            <Button className="text-md dark:text-red-700 py-5" onClick={handleConfirm}>
+            <Button className="text-md py-5" onClick={handleConfirm}>
               Cerrar sesión
               <LogOut className="w-4 h-4" />
             </Button>
