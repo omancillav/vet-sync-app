@@ -8,7 +8,7 @@ export function PetsCard({ pet, deletePet }) {
   return (
     <Card className="overflow-hidden relative">
       <div className="absolute top-4 right-4">
-        <ActionMenu petId={pet.id} deletePet={deletePet}/>
+        <ActionMenu petId={pet.id} deletePet={deletePet} />
       </div>
       <CardContent className="flex lg:flex-row flex-col gap-3   lg:gap-6">
         {/* Desktop layout */}
@@ -62,7 +62,7 @@ export function PetsCard({ pet, deletePet }) {
           </div>
 
           <div>
-            <Badge className="bg-accent text-primary-foreground rounded-lg px-3 py-1 text-sm font-normal w-full">
+            <Badge className="bg-primary/85 text-white rounded-lg px-3 py-1 text-sm font-normal w-full">
               {pet.sexo === 'M' ? 'Registrado' : 'Registrada'} el{' '}
               {new Date(pet.fecha_registro).toLocaleDateString('es-MX', {
                 day: 'numeric',
