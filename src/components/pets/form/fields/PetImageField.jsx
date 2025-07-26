@@ -111,8 +111,8 @@ export function PetImageField({ error, onImageChange, onImageError, initialImage
           </label>
         </div>
       ) : (
-        <div className="flex items-center gap-3 w-full py-2 px-2 lg:px-4 border-2 border-dashed border-border rounded-lg bg-card overflow-hidden">
-          <div className="relative w-15 h-15 lg:w-22 lg:h-22 rounded-lg overflow-hidden flex-shrink-0">
+        <div className="flex items-start gap-3 w-full py-2 px-2 lg:px-4 border-2 border-dashed border-border rounded-lg bg-card overflow-hidden justify-between">
+          <div className="w-15 h-15 lg:w-22 lg:h-22 rounded-lg overflow-hidden flex-shrink-0">
             <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
           </div>
           <div className="flex-1 min-w-0">
@@ -122,7 +122,7 @@ export function PetImageField({ error, onImageChange, onImageError, initialImage
           <Button
             type="button"
             onClick={handleRemoveImage}
-            className="flex items-center justify-center w-8 h-8 rounded-lg transition-colors flex-shrink-0 bg-red-500/80 hover:bg-red-500/90 text-white"
+            className="flex items-center justify-center w-8 h-8 transition-colors bg-red-500/80 hover:bg-red-500/90 text-white ml-auto self-start"
           >
             <X className="w-4 h-4" />
           </Button>
