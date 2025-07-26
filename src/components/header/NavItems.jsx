@@ -5,7 +5,7 @@ const NavButton = ({ children, to, ...props }) => {
     <NavLink
       to={to}
       className={({ isActive }) => {
-        const base = 'text-center transition-colors text-base block px-4 py-2'
+        const base = 'text-center transition-colors text-base block px-4 py-2 dark:text-white'
         const mobile = 'w-full rounded-md'
         const desktop = 'md:w-auto md:rounded-full'
 
