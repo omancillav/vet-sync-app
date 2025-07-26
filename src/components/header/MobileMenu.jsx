@@ -38,7 +38,7 @@ export function MobileMenu({ isOpen, onClose }) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <img src={VetsyncLogo} className="w-8" alt="Vetsync Logo" />
-              <h1 className="text-lg font-bold text-primary">Vet Sync</h1>
+              <h1 className="text-lg font-bold text-foreground">Vet Sync</h1>
             </div>
             <button
               onClick={onClose}

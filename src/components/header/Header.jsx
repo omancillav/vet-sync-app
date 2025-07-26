@@ -41,7 +41,7 @@ export function Header({ toggleMenu }) {
           <div className="flex-1">
             <Link to="/" className="flex items-center gap-4">
               <img src={VetsyncLogo} className="w-10" alt="Vetsync Logo" />
-              <h1 className="text-xl font-bold text-primary">Vet Sync</h1>
+              <h1 className="text-xl font-bold text-foreground">Vet Sync</h1>
             </Link>
           </div>
 
@@ -62,7 +62,7 @@ export function Header({ toggleMenu }) {
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center gap-3">
               <img src={VetsyncLogo} className="w-8" alt="Vetsync Logo" />
-              <h1 className="text-lg font-bold text-primary">Vet Sync</h1>
+              <h1 className="text-lg font-bold text-foreground">Vet Sync</h1>
             </Link>
 
             <div className="flex items-center gap-2">
