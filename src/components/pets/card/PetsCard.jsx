@@ -62,7 +62,7 @@ export function PetsCard({ pet, deletePet }) {
           </div>
 
           <div>
-            <Badge className="bg-primary/85 text-white rounded-lg px-3 py-1 text-sm font-normal w-full">
+            <Badge variant="outline" className=" border-primary text-primary rounded-lg px-3 py-1 text-sm font-normal w-full">
               {pet.sexo === 'M' ? 'Registrado' : 'Registrada'} el{' '}
               {new Date(pet.fecha_registro).toLocaleDateString('es-MX', {
                 day: 'numeric',
