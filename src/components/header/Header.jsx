@@ -51,8 +51,8 @@ export function Header({ toggleMenu }) {
 
           <div className="flex-1 flex justify-end">
             <div className="flex items-center gap-2">
-              <UserNav />
               <ModeToggle />
+              <UserNav />
             </div>
           </div>
         </section>
@@ -68,7 +68,7 @@ export function Header({ toggleMenu }) {
             <div className="flex items-center gap-2">
               <ModeToggle />
               <Button
-                variant="outline"
+                variant="ghost"
                 size="icon"
                 onClick={toggleMenu}
                 className="hover:bg-accent rounded-md transition-colors"
