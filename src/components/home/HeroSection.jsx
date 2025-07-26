@@ -23,7 +23,7 @@ export function HeroSection() {
               <span className="text-primary block">simplificado.</span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed">
-              VetSync conecta a dueños de mascotas con servicios veterinarios de calidad. Gestiona citas, historial
+              Vet Sync conecta a dueños de mascotas con servicios veterinarios de calidad. Gestiona citas, historial
               médico y servicios en una sola plataforma.
             </p>
             {!isAuthenticated ? (
