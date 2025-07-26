@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet'
 import { PawPrint } from 'lucide-react'
 import { BreedSpeciesProvider } from '@/contexts/BreedSpeciesContext'
 import { LoadingSpinner } from '@/components/LoadingSpinner'
@@ -40,6 +40,7 @@ export function PetsForm() {
                   <PawPrint className="w-4 h-4" />
                   <SheetTitle>{title}</SheetTitle>
                 </div>
+                <SheetDescription className='hidden'></SheetDescription>
               </SheetHeader>
               {formContent}
             </SheetContent>
