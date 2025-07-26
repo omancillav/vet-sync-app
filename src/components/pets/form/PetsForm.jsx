@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { useMediaQuery } from '@/hooks/use-media-query'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { PawPrint } from 'lucide-react'
 import { BreedSpeciesProvider } from '@/contexts/BreedSpeciesContext'
@@ -12,7 +12,7 @@ const LazyFormContent = lazy(() => import('./FormContent'))
 export function PetsForm() {
   const { formState, closeForm } = usePetsContext()
   const { isOpen, mode } = formState
-  const isDesktop = useMediaQuery('(min-width: 64rem)')
+  const isMobile = useMediaQuery('(max-width: 48rem)')
 
   const isEditMode = mode === 'edit'
   const title = isEditMode ? 'Editar Mascota' : 'Agregar Mascota'
@@ -29,41 +29,42 @@ export function PetsForm() {
     </Suspense>
   )
 
-  if (isDesktop) {
+  if (isMobile) {
     return (
-      <Dialog open={isOpen} onOpenChange={closeForm}>
+      <Sheet open={isOpen} onOpenChange={closeForm}>
         {isOpen && (
           <BreedSpeciesProvider>
-            <DialogContent className="sm:max-w-[500px] gap-8 max-h-[98vh] overflow-y-auto">
-              <DialogHeader className="gap-3">
-                <div className="flex items-center gap-2">
-                  <PawPrint className="w-5 h-5" />
-                  <DialogTitle>{title}</DialogTitle>
+            <SheetContent className="p-4 overflow-y-auto">
+              <SheetHeader>
+                <div className="flex items-center gap-4">
+                  <PawPrint className="w-4 h-4" />
+                  <SheetTitle>{title}</SheetTitle>
                 </div>
-              </DialogHeader>
+              </SheetHeader>
               {formContent}
-            </DialogContent>
+            </SheetContent>
           </BreedSpeciesProvider>
         )}
-      </Dialog>
+      </Sheet>
     )
   }
 
   return (
-    <Sheet open={isOpen} onOpenChange={closeForm}>
+    <Dialog open={isOpen} onOpenChange={closeForm}>
       {isOpen && (
         <BreedSpeciesProvider>
-          <SheetContent className="p-4 overflow-y-auto">
-            <SheetHeader>
-              <div className="flex items-center gap-4">
-                <PawPrint className="w-4 h-4" />
-                <SheetTitle>{title}</SheetTitle>
+          <DialogContent className="sm:max-w-[500px] gap-8 max-h-[98vh] overflow-y-auto">
+            <DialogHeader className="gap-3">
+              <div className="flex items-center gap-2">
+                <PawPrint className="w-5 h-5" />
+                <DialogTitle>{title}</DialogTitle>
               </div>
-            </SheetHeader>
+            </DialogHeader>
+            <DialogDescription className="hidden"></DialogDescription>
             {formContent}
-          </SheetContent>
+          </DialogContent>
         </BreedSpeciesProvider>
       )}
-    </Sheet>
+    </Dialog>
   )
 }
