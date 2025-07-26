@@ -59,7 +59,7 @@ export function ServicesCard({ service }) {
         </CardHeader>
 
         <CardContent className="mt-auto">
-          <section className="flex justify-between mb-4 bg-accent px-8 py-3 rounded-md text-center">
+          <section className="flex justify-between mb-4 bg-secondary px-8 py-3 rounded-md text-center">
             <div className="flex flex-col justify-center">
               <p className="text-sm">Duración</p>
               <p className="font-semibold text-md">{service.duracion_estimada} min</p>

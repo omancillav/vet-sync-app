@@ -14,7 +14,7 @@ export function HeroSection() {
       <div className="container mx-auto max-w-6xl">
         <div className="grid lg:grid-cols-[6fr_4fr] gap-14 items-center">
           <div className="text-center lg:text-left">
-            <Badge variant="secondary" className="mb-6 text-sm">
+            <Badge variant="secondary" className="mb-6 text-sm bg-primary/15">
               <PawPrint className="w-4 h-4 mr-1" />
               Plataforma Veterinaria Digital
             </Badge>
@@ -27,7 +27,7 @@ export function HeroSection() {
               médico y servicios en una sola plataforma.
             </p>
             {!isAuthenticated ? (
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <div className="flex flex-col sm:flex-row gap-2 md:gap-4 justify-center lg:justify-start">
                 <Button asChild variant="outline" size="lg" className="text-base">
                   <Link to="/login">Iniciar Sesión</Link>
                 </Button>
@@ -39,7 +39,7 @@ export function HeroSection() {
                 </Button>
               </div>
             ) : (
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <div className="flex flex-col sm:flex-row gap-2 md:gap-4 justify-center lg:justify-start">
                 <Button variant="outline" asChild size="lg" className="text-base">
                   <Link to="/mascotas">
                     Ver Mascotas
