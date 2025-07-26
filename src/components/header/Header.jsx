@@ -74,7 +74,7 @@ export function Header({ toggleMenu }) {
                 onClick={toggleMenu}
                 aria-label="Toggle menu"
               >
-                <Menu className="!w-6 !h-6" />
+                <Menu className="!w-5 !h-5" />
               </Button>
             </div>
           </div>
