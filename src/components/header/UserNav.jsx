@@ -43,7 +43,7 @@ export function UserNav() {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-10 w-10 rounded-full">
               <Avatar className="hover:cursor-pointer">
-                <AvatarImage src={`https://api.dicebear.com/9.x/glass/svg?seed=${user.email}`} />
+                <AvatarImage src={`https://api.dicebear.com/9.x/thumbs/svg?seed=${user.email}`} />
                 <AvatarFallback>{userInitials}</AvatarFallback>
               </Avatar>
             </Button>
