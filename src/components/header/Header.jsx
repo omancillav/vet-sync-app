@@ -70,11 +70,11 @@ export function Header({ toggleMenu }) {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={toggleMenu}
                 className="hover:bg-accent rounded-md transition-colors"
+                onClick={toggleMenu}
                 aria-label="Toggle menu"
               >
-                <Menu size={24} />
+                <Menu className="!w-5 !h-5" />
               </Button>
             </div>
           </div>
