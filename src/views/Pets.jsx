@@ -1,4 +1,4 @@
-import { useAuth } from '@/contexts/auth'
+import { useAuth } from '@/hooks/useAuth'
 import { AuthPrompt } from '@/components/AuthPrompt'
 import { NoPets } from '@/components/pets/NoPets'
 import { LoadingSpinner } from '@/components/LoadingSpinner'
@@ -8,10 +8,10 @@ import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 import { PetsForm } from '@/components/pets/form/PetsForm'
 import { PetsProvider } from '@/contexts/PetsContext'
-import { usePetsContext } from '@/contexts/usePetsContext'
+import { usePets } from '@/hooks/usePets'
 
 function PetsContent() {
-  const { pets, loading, error, noPets, openAddForm } = usePetsContext()
+  const { pets, loading, error, noPets, openAddForm } = usePets()
   const { isAuthenticated } = useAuth()
 
   const renderContent = () => {

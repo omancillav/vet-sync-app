@@ -6,10 +6,10 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Ellipsis, PenLine, Trash } from 'lucide-react'
 import { DeleteDialog } from '../DeleteDialog'
-import { usePetsContext } from '@/contexts/usePetsContext'
+import { usePets } from '@/hooks/usePets'
 
 export function ActionMenu({ petId }) {
-  const { openEditForm, deletePet } = usePetsContext()
+  const { openEditForm, deletePet } = usePets()
 
   const handleEdit = () => {
     openEditForm(petId)
@@ -25,10 +25,7 @@ export function ActionMenu({ petId }) {
         <Ellipsis className="text-muted-foreground hover:cursor-pointer" size={20} />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem
-          className="hover:cursor-pointer my-0.5"
-          onClick={handleEdit}
-        >
+        <DropdownMenuItem className="hover:cursor-pointer my-0.5" onClick={handleEdit}>
           <PenLine className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
           Editar
         </DropdownMenuItem>

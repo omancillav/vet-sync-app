@@ -4,13 +4,7 @@ import { useBreeds } from '@/hooks/useBreeds'
 const BreedSpeciesContext = createContext(undefined)
 
 export function BreedSpeciesProvider({ children }) {
-  const {
-    breeds = [],
-    species = [],
-    loading,
-    error,
-    loadData: refresh
-  } = useBreeds()
+  const { breeds = [], species = [], loading, error, loadData: refresh } = useBreeds()
 
   const ensureDataLoaded = async () => {
     if (!loading) {

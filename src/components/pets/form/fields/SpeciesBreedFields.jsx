@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Check, ChevronsUpDown } from 'lucide-react'
-import { useBreedSpecies } from '@/contexts/useBreedSpecies'
+import { useBreedSpecies } from '@/hooks/useBreedSpecies'
 import { cn } from '@/lib/utils'
 
 export function SpeciesBreedFields({ control, errors, initialValues = {} }) {
@@ -16,7 +16,7 @@ export function SpeciesBreedFields({ control, errors, initialValues = {} }) {
 
   const findSpeciesIdByName = (name) => {
     if (!name) return null
-    const found = species.find(s => s.nombre === name)
+    const found = species.find((s) => s.nombre === name)
     return found ? found.id : null
   }
 
@@ -50,7 +50,7 @@ export function SpeciesBreedFields({ control, errors, initialValues = {} }) {
         setSelectedBreed(initialBreed)
       }
     } else if (initialValues.nombre_raza) {
-      const breed = breeds.find(b => b.nombre === initialValues.nombre_raza)
+      const breed = breeds.find((b) => b.nombre === initialValues.nombre_raza)
       if (breed) {
         setSelectedBreed(breed)
       }

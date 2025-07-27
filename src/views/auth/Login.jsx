@@ -11,7 +11,7 @@ import { loginSchema } from '@/schemas/loginSchema'
 import { ModeToggle } from '@/components/header/mode-toggle.jsx'
 import { ArrowLeft, Eye, EyeOff, LoaderCircle } from 'lucide-react'
 import { login as loginRequest } from '@/services/api/auth.js'
-import { useAuth } from '@/contexts/auth.jsx'
+import { useAuth } from '@/hooks/useAuth'
 
 export function Login() {
   const navigate = useNavigate()

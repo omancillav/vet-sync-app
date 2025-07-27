@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react'
+import { createContext, useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
-import { AuthContext } from './auth'
 import { logout as apiLogout } from '../services/api/auth'
 import { refreshToken as apiRefreshToken } from '../services/api/auth'
 import { toast } from 'sonner'
+
+const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -99,7 +100,11 @@ export const AuthProvider = ({ children }) => {
     const expires = new Date(new Date().getTime() + 60 * 60 * 1000)
 
     Cookies.set('accessToken', accessToken, { expires, secure: true, sameSite: 'strict' })
-    Cookies.set('refreshToken', refreshToken, { expires: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000), secure: true, sameSite: 'strict' }) // Refresh token por 7 días
+    Cookies.set('refreshToken', refreshToken, {
+      expires: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000),
+      secure: true,
+      sameSite: 'strict'
+    }) // Refresh token por 7 días
     Cookies.set('userData', JSON.stringify(userData), { expires, secure: true, sameSite: 'strict' })
 
     setIsAuthenticated(true)
@@ -124,8 +129,8 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, loading }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, loading }}>{children}</AuthContext.Provider>
   )
 }
+
+export { AuthContext }
