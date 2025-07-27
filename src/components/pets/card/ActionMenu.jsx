@@ -6,7 +6,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Ellipsis, PenLine, Trash } from 'lucide-react'
 import { DeleteDialog } from '../DeleteDialog'
-import { usePetsContext } from '@/contexts/PetsContext'
+import { usePetsContext } from '@/contexts/usePetsContext'
 
 export function ActionMenu({ petId }) {
   const { openEditForm, deletePet } = usePetsContext()

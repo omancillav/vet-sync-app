@@ -7,7 +7,8 @@ import { PetsCard } from '@/components/pets/card/PetsCard'
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 import { PetsForm } from '@/components/pets/form/PetsForm'
-import { PetsProvider, usePetsContext } from '@/contexts/PetsContext'
+import { PetsProvider } from '@/contexts/PetsContext'
+import { usePetsContext } from '@/contexts/usePetsContext'
 
 function PetsContent() {
   const { pets, loading, error, noPets, openAddForm } = usePetsContext()
