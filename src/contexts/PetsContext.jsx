@@ -217,10 +217,4 @@ export function PetsProvider({ children }) {
   return <PetsContext.Provider value={value}>{children}</PetsContext.Provider>
 }
 
-export function usePetsContext() {
-  const context = useContext(PetsContext)
-  if (!context) {
-    throw new Error('usePetsContext must be used within a PetsProvider')
-  }
-  return context
-}
+export { PetsContext }

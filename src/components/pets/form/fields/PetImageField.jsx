@@ -111,18 +111,18 @@ export function PetImageField({ error, onImageChange, onImageError, initialImage
           </label>
         </div>
       ) : (
-        <div className="flex items-start gap-3 w-full py-2 px-2 lg:px-4 border-2 border-dashed border-border rounded-lg bg-card overflow-hidden justify-between">
+        <div className=" relative flex items-start gap-3 w-full py-2 px-2 lg:px-4 border-2 border-dashed border-border rounded-lg bg-card overflow-hidden justify-between">
           <div className="w-15 h-15 lg:w-22 lg:h-22 rounded-lg overflow-hidden flex-shrink-0">
             <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm text-foreground font-medium">Imagen seleccionada</p>
-            <p className="text-sm text-muted-foreground mt-0.5">Lista para subir</p>
+            <p className="text-sm sm:text-lg text-foreground font-medium">Imagen seleccionada</p>
+            <p className="text-sm sm:text-base text-muted-foreground mt-0.5">Lista para subir</p>
           </div>
           <Button
             type="button"
             onClick={handleRemoveImage}
-            className="flex items-center justify-center w-8 h-8 transition-colors bg-red-500/80 hover:bg-red-500/90 text-white ml-auto self-start"
+            className="flex items-center justify-center w-8 h-8 transition-colors bg-red-500/80 hover:bg-red-500/90 text-white ml-auto self-start rounded-lg hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-500 lg:mr-[-.5rem]"
           >
             <X className="w-4 h-4" />
           </Button>
