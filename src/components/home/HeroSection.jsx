@@ -3,7 +3,7 @@ import { Badge } from '@/components/ui/badge'
 import { PawPrint, ArrowRight, CalendarPlus } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
-import { useAuth } from '@/contexts/auth'
+import { useAuth } from '@/hooks/useAuth'
 
 export function HeroSection() {
   const [imgLoaded, setImgLoaded] = useState(false)

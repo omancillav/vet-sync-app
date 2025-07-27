@@ -1,4 +1,4 @@
-import { useAuth } from '@/contexts/auth'
+import { useAuth } from '@/hooks/useAuth'
 import { Button } from '@/components/ui/button'
 import VetsyncLogo from '@/assets/vetsync_logo.webp'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -68,10 +68,12 @@ export function MobileMenu({ isOpen, onClose }) {
                     <span className="text-xs text-muted-foreground">{user?.email}</span>
                   </section>
                 </div>
-                <LogoutDialog onConfirm={() => {
-                  onClose()
-                  logout()
-                }}>
+                <LogoutDialog
+                  onConfirm={() => {
+                    onClose()
+                    logout()
+                  }}
+                >
                   <button
                     className="text-sm text-muted-foreground hover:underline"
                     onClick={(e) => {

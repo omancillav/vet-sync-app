@@ -12,7 +12,7 @@ import {
 import { Link } from 'react-router-dom'
 import { User, LogOut } from 'lucide-react'
 import { LogoutDialog } from './LogoutDialog'
-import { useAuth } from '@/contexts/auth.jsx'
+import { useAuth } from '@/hooks/useAuth'
 
 export function UserNav() {
   const { isAuthenticated, user, logout } = useAuth()
