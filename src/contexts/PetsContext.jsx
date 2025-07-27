@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, useEffect } from 'react'
+import { createContext, useState, useCallback, useEffect } from 'react'
 import {
   getPets,
   addPet as addPetApi,
@@ -6,7 +6,7 @@ import {
   uploadPetImage,
   deletePet as deletePetApi
 } from '@/services/api/pets'
-import { useAuth } from '@/contexts/auth'
+import { useAuth } from '@/hooks/useAuth'
 import { toast } from 'sonner'
 
 const PetsContext = createContext()

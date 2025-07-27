@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useAuth } from '@/contexts/auth'
+import { useAuth } from '@/hooks/useAuth'
 import { AuthPrompt } from '@/components/AuthPrompt'
 import { NoAppointments } from '@/components/appointments/NoAppointments'
 
@@ -26,7 +26,7 @@ export function Appointments() {
                 }}
               />
             ) : (
-            // TODO: render appointments list here once data is fetched
+              // TODO: render appointments list here once data is fetched
               <div>{/* Aquí irá la lista de citas */}</div>
             )}
           </div>

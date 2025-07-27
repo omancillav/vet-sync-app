@@ -9,13 +9,13 @@ import { PetNameField } from './fields/PetNameField'
 import { PetImageField } from './fields/PetImageField'
 import { SpeciesBreedFields } from './fields/SpeciesBreedFields'
 import { AgeSexFields } from './fields/AgeSexFields'
-import { useBreedSpecies } from '@/contexts/useBreedSpecies'
-import { usePetsContext } from '@/contexts/usePetsContext'
+import { useBreedSpecies } from '@/hooks/useBreedSpecies'
+import { usePets } from '@/hooks/usePets'
 
 function FormContent() {
   const [selectedImage, setSelectedImage] = useState(null)
   const { loading: breedLoading, error: breedError, species, breeds } = useBreedSpecies()
-  const { formState, submitForm, closeForm, loading } = usePetsContext()
+  const { formState, submitForm, closeForm, loading } = usePets()
 
   const { mode, selectedPet } = formState
   const isEditMode = mode === 'edit'

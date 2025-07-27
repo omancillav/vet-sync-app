@@ -5,12 +5,12 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '
 import { PawPrint } from 'lucide-react'
 import { BreedSpeciesProvider } from '@/contexts/BreedSpeciesContext'
 import { LoadingSpinner } from '@/components/LoadingSpinner'
-import { usePetsContext } from '@/contexts/usePetsContext'
+import { usePets } from '@/hooks/usePets'
 
 const LazyFormContent = lazy(() => import('./FormContent'))
 
 export function PetsForm() {
-  const { formState, closeForm } = usePetsContext()
+  const { formState, closeForm } = usePets()
   const { isOpen, mode } = formState
   const isMobile = useMediaQuery('(max-width: 48rem)')
 
@@ -40,7 +40,7 @@ export function PetsForm() {
                   <PawPrint className="w-4 h-4" />
                   <SheetTitle>{title}</SheetTitle>
                 </div>
-                <SheetDescription className='hidden'></SheetDescription>
+                <SheetDescription className="hidden"></SheetDescription>
               </SheetHeader>
               {formContent}
             </SheetContent>
