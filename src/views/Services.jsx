@@ -1,7 +1,7 @@
 import { useServices } from '@/hooks/useServices.js'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ServicesCard } from '@/components/Services/ServicesCard'
-import { LoadingSpinner } from '@/components/loaders/LoadingSpinner.jsx'
+import { ServicesSkeleton } from '@/components/loaders/ServicesSkeleton.jsx'
 import { ErrorCard } from '@/components/ErrorCard'
 import { filterServicesByCategory } from '@/lib/utils'
 
@@ -32,8 +32,8 @@ export function Services() {
 
           {/* Mostrar loader si está cargando */}
           {loading && (
-            <div className="my-8">
-              <LoadingSpinner message="Cargando servicios..." className="min-h-[40vh]" />
+            <div>
+              <ServicesSkeleton />
             </div>
           )}
 
