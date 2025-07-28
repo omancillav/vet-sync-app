@@ -10,7 +10,7 @@ export function HeroSection() {
   const { isAuthenticated } = useAuth()
 
   return (
-    <section className="w-full py-12 md:min-h-[90vh] px-4 md:px-10 bg-background flex items-center justify-center">
+    <section className="w-full py-12 md:min-h-[90vh] px-4 sm:px-10 bg-background flex items-center justify-center">
       <div className="container mx-auto max-w-6xl">
         <div className="grid lg:grid-cols-[6fr_4fr] gap-14 items-center">
           <div className="text-center lg:text-left">
