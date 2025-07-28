@@ -79,7 +79,7 @@ export function PetImageField({ error, onImageChange, onImageError, initialImage
         >
           <label
             htmlFor="pet-image"
-            className={`flex items-center gap-3 w-full p-2 border-2 border-dashed rounded-lg cursor-pointer bg-card hover:bg-accent transition-all duration-300 ${
+            className={`flex items-center gap-3 w-full p-2 border-2 border-dashed rounded-lg cursor-pointer bg-card hover:bg-accent/10 transition-all duration-300 ${
               isDragOver ? 'border-primary bg-accent scale-[1.02]' : 'border-border hover:border-primary'
             }`}
           >
