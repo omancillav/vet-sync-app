@@ -15,8 +15,10 @@ import { useAuth } from '@/hooks/useAuth'
 
 export function Register() {
   const navigate = useNavigate()
-  const { login } = useAuth()
+  const { login, isAuthenticated } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
+
+  if (isAuthenticated) navigate('/')
 
   const {
     register,
