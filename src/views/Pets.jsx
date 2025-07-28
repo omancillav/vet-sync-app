@@ -1,7 +1,7 @@
 import { useAuth } from '@/hooks/useAuth'
 import { AuthPrompt } from '@/components/AuthPrompt'
 import { NoPets } from '@/components/pets/NoPets'
-import { LoadingSpinner } from '@/components/LoadingSpinner'
+import { LoadingSpinner } from '@/components/loaders/LoadingSpinner.jsx'
 import { ErrorCard } from '@/components/ErrorCard'
 import { PetsCard } from '@/components/pets/card/PetsCard'
 import { Button } from '@/components/ui/button'
