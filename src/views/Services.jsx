@@ -1,7 +1,7 @@
 import { useServices } from '@/hooks/useServices.js'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ServicesCard } from '@/components/Services/ServicesCard'
-import { LoadingSpinner } from '@/components/LoadingSpinner'
+import { LoadingSpinner } from '@/components/loaders/LoadingSpinner.jsx'
 import { ErrorCard } from '@/components/ErrorCard'
 import { filterServicesByCategory } from '@/lib/utils'
 

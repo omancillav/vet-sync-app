@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet'
 import { PawPrint } from 'lucide-react'
 import { BreedSpeciesProvider } from '@/contexts/BreedSpeciesContext'
-import { LoadingSpinner } from '@/components/LoadingSpinner'
+import { LoadingSpinner } from '@/components/loaders/LoadingSpinner.jsx'
 import { usePets } from '@/hooks/usePets'
 
 const LazyFormContent = lazy(() => import('./FormContent'))
