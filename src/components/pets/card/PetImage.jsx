@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Skeleton } from '@/components/ui/skeleton'
 import { Dog } from 'lucide-react'
 
 export function PetImage({ src, alt, className }) {
@@ -24,9 +25,9 @@ export function PetImage({ src, alt, className }) {
   return (
     <div className={`relative ${className} rounded-full overflow-hidden`}>
       {!imgLoaded && (
-        <div className="absolute inset-0 bg-gray-300 animate-pulse flex items-center justify-center">
-          <Dog className="w-1/3 h-1/3 text-gray-400" />
-        </div>
+        <Skeleton className="absolute inset-0 bg-gray-300 animate-pulse flex items-center justify-center">
+          <Dog className="w-3/5 h-3/5 text-gray-400" />
+        </Skeleton>
       )}
 
       <img

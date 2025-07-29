@@ -1,7 +1,7 @@
 import { useAuth } from '@/hooks/useAuth'
 import { AuthPrompt } from '@/components/AuthPrompt'
 import { NoPets } from '@/components/pets/NoPets'
-import { LoadingSpinner } from '@/components/loaders/LoadingSpinner.jsx'
+import { PetsSkeleton } from '@/components/loaders/PetsSkeleton.jsx'
 import { ErrorCard } from '@/components/ErrorCard'
 import { PetsCard } from '@/components/pets/card/PetsCard'
 import { Button } from '@/components/ui/button'
@@ -21,9 +21,7 @@ function PetsContent() {
 
     if (loading) {
       return (
-        <div className="flex justify-center items-center h-64">
-          <LoadingSpinner />
-        </div>
+        <PetsSkeleton />
       )
     }
 
