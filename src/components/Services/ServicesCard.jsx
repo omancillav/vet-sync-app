@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export function ServicesCard({ service }) {
   const [imageLoaded, setImageLoaded] = useState(false)
@@ -20,11 +21,7 @@ export function ServicesCard({ service }) {
       {service.img_url && !imageError && (
         <div className="relative w-full aspect-video overflow-hidden">
           {/* Skeleton/placeholder mientras carga la imagen */}
-          {!imageLoaded && (
-            <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
-              <div className="text-gray-400 text-sm">Cargando...</div>
-            </div>
-          )}
+          {!imageLoaded && <Skeleton className="w-full h-full"></Skeleton>}
 
           <img
             src={service.img_url}
@@ -41,8 +38,10 @@ export function ServicesCard({ service }) {
             <>
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
               <div className="absolute inset-0 flex items-end px-4 py-3 md:py-4">
-                <Badge className='border-transparent bg-muted-foreground/40 dark:bg-primary-foreground/30 backdrop-blur-xs rounded-full px-3 py-0.5'>
-                  <h3 className="text-primary-foreground dark:text-primary text-lg md:text-xl font-semibold">{service.nombre}</h3>
+                <Badge className="border-transparent bg-muted-foreground/40 dark:bg-primary-foreground/30 backdrop-blur-xs rounded-full px-3 py-0.5">
+                  <h3 className="text-primary-foreground dark:text-primary text-lg md:text-xl font-semibold">
+                    {service.nombre}
+                  </h3>
                 </Badge>
               </div>
             </>
