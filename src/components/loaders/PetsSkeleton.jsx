@@ -8,7 +8,7 @@ export function PetsSkeleton({ count = 6 }) {
         <Card key={index} className="overflow-hidden relative">
           {/* Menu de acciones skeleton */}
           <div className="absolute top-4 right-4">
-            <Skeleton className="w-8 h-8 rounded-full" />
+            <Skeleton className="w-8 h-5 rounded-full" />
           </div>
 
           <CardContent className="flex lg:flex-row flex-col gap-3 lg:gap-6">
