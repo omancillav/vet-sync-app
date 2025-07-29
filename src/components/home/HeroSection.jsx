@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Skeleton } from '@/components/ui/skeleton'
 import { PawPrint, ArrowRight, CalendarPlus } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
@@ -59,7 +60,7 @@ export function HeroSection() {
           <div className="relative flex justify-center items-center px-4 lg:px-0">
             <div className="relative w-full max-w-md aspect-[3/2]">
               <div className="absolute -top-2 -left-2 lg:-top-4 lg:-left-4 w-full h-full bg-primary/20 rounded-3xl transform -rotate-1 lg:-rotate-3 transition-transform duration-500 group-hover:rotate-0"></div>
-              {!imgLoaded && <div className="absolute inset-0 bg-gray-300 rounded-3xl animate-pulse"></div>}
+              {!imgLoaded && <Skeleton className="w-full h-full absolute inset-0 rounded-3xl" />}
               <img
                 loading="lazy"
                 onLoad={() => setImgLoaded(true)}
