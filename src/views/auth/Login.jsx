@@ -58,7 +58,7 @@ export function Login() {
 
       <Card className="mx-auto w-full max-w-sm">
         <Link to="/" className="flex items-center justify-center">
-          <img src={VetsyncLogo} className="w-12 lg:w-18" alt="Vetsync Logo" />
+          <img src={VetsyncLogo} className="w-14 md:w-20" alt="Vetsync Logo" />
         </Link>
 
         <CardHeader>
