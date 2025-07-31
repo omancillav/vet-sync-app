@@ -32,11 +32,10 @@ export function Login() {
   const onSubmit = async (data) => {
     try {
       const responseData = await loginRequest({ input: data })
-      login(responseData) // Llama a la función login del contexto
+      login(responseData)
       navigate('/')
     } catch (err) {
       console.error(err)
-      // Establece un error en el campo raíz del formulario
       setError('root.serverError', {
         type: 'manual',
         message: 'Correo o contraseña inválidos. Por favor, inténtalo de nuevo.'
@@ -47,7 +46,7 @@ export function Login() {
   return (
     <div className="relative flex min-h-screen w-full max-w-[1400px] flex-col items-center justify-start gap-4 p-4 pt-20 md:justify-center md:pt-4">
       <Link to="/" className="absolute left-4 top-4">
-        <Button className="hover:cursor-pointer" variant="outline">
+        <Button className="hover:cursor-pointer" variant="ghost">
           <ArrowLeft className="h-4 w-4" />
           Volver
         </Button>
