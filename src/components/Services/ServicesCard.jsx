@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
+import { toast } from 'sonner'
 
 export function ServicesCard({ service }) {
   const [imageLoaded, setImageLoaded] = useState(false)
@@ -68,7 +69,10 @@ export function ServicesCard({ service }) {
               <p className="font-semibold text-md">${service.precio}</p>
             </div>
           </section>
-          <Button className="w-full bg-primary rounded-md hover:bg-primary/90 transition-colors text-sm md:text-md hover:cursor-pointer">
+          <Button
+            onClick={() => toast.warning('Funcionalidad de agendar cita en desarrollo')}
+            className="w-full bg-primary rounded-md hover:bg-primary/90 transition-colors text-sm md:text-md hover:cursor-pointer"
+          >
             Agendar Cita
           </Button>
         </CardContent>
