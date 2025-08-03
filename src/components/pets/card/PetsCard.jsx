@@ -6,11 +6,11 @@ import { ActionMenu } from './ActionMenu'
 
 export function PetsCard({ pet, deletePet }) {
   return (
-    <Card className="overflow-hidden relative">
+    <Card className="overflow-hidden relative p-3">
       <div className="absolute top-4 right-4">
         <ActionMenu petId={pet.id} deletePet={deletePet} />
       </div>
-      <CardContent className="flex lg:flex-row flex-col gap-3   lg:gap-6">
+      <CardContent className="flex lg:flex-row flex-col gap-3 lg:gap-6 p-2">
         {/* Desktop layout */}
         <div className="hidden lg:flex items-center">
           <PetImage className="w-40 aspect-square object-cover rounded-full" src={pet.img_url} alt={pet.nombre} />
@@ -62,7 +62,10 @@ export function PetsCard({ pet, deletePet }) {
           </div>
 
           <div>
-            <Badge variant="outline" className=" border-primary text-primary rounded-lg px-3 py-1 text-sm font-normal w-full">
+            <Badge
+              variant="outline"
+              className=" border-primary text-primary rounded-lg px-3 py-1 text-sm font-normal w-full"
+            >
               {pet.sexo === 'M' ? 'Registrado' : 'Registrada'} el{' '}
               {new Date(pet.fecha_registro).toLocaleDateString('es-MX', {
                 day: 'numeric',

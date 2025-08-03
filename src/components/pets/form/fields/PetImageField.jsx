@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
+import { Image } from '@unpic/react'
 import { Upload, X } from 'lucide-react'
 
 export function PetImageField({ error, onImageChange, onImageError, initialImage = null }) {
@@ -113,7 +114,13 @@ export function PetImageField({ error, onImageChange, onImageError, initialImage
       ) : (
         <div className=" relative flex items-start gap-3 w-full py-2 px-2 lg:px-4 border-2 border-dashed border-border rounded-lg bg-card overflow-hidden justify-between">
           <div className="w-15 h-15 lg:w-22 lg:h-22 rounded-lg overflow-hidden flex-shrink-0">
-            <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+            <Image
+              src={imagePreview}
+              alt="Preview"
+              width={200}
+              aspectRatio={1}
+              className="w-full h-full object-cover"
+            />
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm sm:text-lg text-foreground font-medium">Imagen seleccionada</p>
