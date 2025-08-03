@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { PawPrint, ArrowRight, CalendarPlus } from 'lucide-react'
+import { Image } from '@unpic/react'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { useAuth } from '@/hooks/useAuth'
@@ -58,12 +59,13 @@ export function HeroSection() {
           </div>
 
           <div className="relative flex justify-center items-center px-4 lg:px-0">
-            <div className="relative w-full max-w-md aspect-[3/2]">
+            <div className="relative w-full max-w-md]">
               <div className="absolute -top-2 -left-2 lg:-top-4 lg:-left-4 w-full h-full bg-primary/20 rounded-3xl transform -rotate-1 lg:-rotate-3 transition-transform duration-500 group-hover:rotate-0"></div>
               {!imgLoaded && <Skeleton className="w-full h-full absolute inset-0 rounded-3xl" />}
-              <img
-                loading="lazy"
+              <Image
                 onLoad={() => setImgLoaded(true)}
+                width={800}
+                aspectRatio={3 / 2}
                 src="https://gcqimiolagjejzeccaum.supabase.co/storage/v1/object/public/imagenes//hero.webp"
                 alt="Veterinaria cuidando a un perro"
                 className={`relative w-full h-full rounded-3xl shadow-lg object-cover z-10 transform rotate-2 transition-transform duration-500 group-hover:rotate-0 ${
