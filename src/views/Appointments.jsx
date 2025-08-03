@@ -7,6 +7,7 @@ import { LoadingSpinner } from '@/components/loaders/LoadingSpinner.jsx'
 import { ErrorCard } from '@/components/ErrorCard'
 import { Button } from '@/components/ui/button'
 import { CalendarPlus } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 
 export function Appointments() {
@@ -56,13 +57,15 @@ export function Appointments() {
           </section>
           <section className="w-full md:w-1/2 md:flex md:justify-end">
             {isAuthenticated && (
-              <Button
-                onClick={() => toast.warning('Funcionalidad de agendar cita en desarrollo')}
-                className="w-full md:w-auto"
-              >
-                Agendar Cita
-                <CalendarPlus className="h-4 w-4 ml-2" />
-              </Button>
+              <Link to="/citas/nueva" className="w-full md:w-auto">
+                <Button
+                  onClick={() => toast.warning('Funcionalidad de agendar cita en desarrollo')}
+                  className="w-full md:w-auto"
+                >
+                  Agendar Cita
+                  <CalendarPlus className="h-4 w-4 ml-2" />
+                </Button>
+              </Link>
             )}
           </section>
         </div>
