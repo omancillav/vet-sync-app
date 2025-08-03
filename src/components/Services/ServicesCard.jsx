@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Image } from '@unpic/react'
 import { toast } from 'sonner'
 
 export function ServicesCard({ service }) {
@@ -23,18 +24,17 @@ export function ServicesCard({ service }) {
         <div className="relative w-full aspect-video overflow-hidden">
           {/* Skeleton/placeholder mientras carga la imagen */}
           {!imageLoaded && <Skeleton className="w-full h-full"></Skeleton>}
-
-          <img
+          <Image
             src={service.img_url}
             alt={service.nombre}
-            loading="lazy"
             onLoad={handleImageLoad}
             onError={handleImageError}
+            width={800}
+            aspectRatio={16 / 9}
             className={`w-full h-full object-cover object-center transition-all duration-500 ease-out group-hover:scale-102 ${
               imageLoaded ? 'opacity-100' : 'opacity-0'
             }`}
           />
-
           {imageLoaded && (
             <>
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
