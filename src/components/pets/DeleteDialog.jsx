@@ -54,7 +54,7 @@ export function DeleteDialog({ children, onConfirm }) {
             <Button variant="secondary" className="text-md" onClick={() => setOpen(false)}>
               Cancelar
             </Button>
-            <Button className="text-md dark:text-red-700" onClick={handleConfirm}>
+            <Button className="text-md" onClick={handleConfirm}>
               Eliminar
               <Trash className="w-4 h-4" />
             </Button>
@@ -84,7 +84,7 @@ export function DeleteDialog({ children, onConfirm }) {
             <Button variant="secondary" className="text-md" onClick={() => setOpen(false)}>
               Cancelar
             </Button>
-            <Button className="text-md dark:text-red-700 py-5" onClick={handleConfirm}>
+            <Button className="text-md py-5" onClick={handleConfirm}>
               Eliminar
               <Trash className="w-4 h-4" />
             </Button>
