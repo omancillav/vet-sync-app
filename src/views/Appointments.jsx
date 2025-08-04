@@ -62,7 +62,7 @@ export function Appointments() {
                 className="w-full md:w-auto"
               >
                 Agendar Cita
-                <CalendarPlus className="h-4 w-4 ml-2" />
+                <CalendarPlus className="h-4 w-4" />
               </Button>
             )}
           </section>

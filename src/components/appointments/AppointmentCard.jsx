@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
-import { Calendar, Clock, Stethoscope, UserRound } from 'lucide-react'
+import { Calendar, Clock, Stethoscope, UserRound, CalendarX, NotebookPen } from 'lucide-react'
 import { PetImage } from '@/components/pets/card/PetImage'
 import { formatDate } from '@/lib/utils.js'
 
@@ -64,8 +64,14 @@ export function AppointmentCard({ appointment }) {
         </div>
       </CardContent>
       <CardFooter className="grid grid-cols-2 gap-4">
-        <Button variant="outline">Cancelar</Button>
-        <Button variant="default">Modificar</Button>
+        <Button variant="outline">
+          <CalendarX className="h-4 w-4" />
+          Cancelar
+        </Button>
+        <Button variant="default">
+          Modificar
+          <NotebookPen className="h-4 w-4" />
+        </Button>
       </CardFooter>
     </Card>
   )
