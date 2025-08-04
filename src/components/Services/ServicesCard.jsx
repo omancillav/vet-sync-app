@@ -23,7 +23,7 @@ export function ServicesCard({ service }) {
       {service.img_url && !imageError && (
         <div className="relative w-full aspect-video overflow-hidden">
           {/* Skeleton/placeholder mientras carga la imagen */}
-          {!imageLoaded && <Skeleton className="w-full h-full"></Skeleton>}
+          {!imageLoaded && <Skeleton className="w-full h-full rounded-none"></Skeleton>}
           <Image
             src={service.img_url}
             alt={service.nombre}

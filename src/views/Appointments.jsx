@@ -8,6 +8,7 @@ import { ErrorCard } from '@/components/ErrorCard'
 import { Button } from '@/components/ui/button'
 import { CalendarPlus } from 'lucide-react'
 import { toast } from 'sonner'
+import { AppointmentCard } from '../components/appointments/AppointmentCard'
 
 export function Appointments() {
   const { appointments, noAppointments, loading, error, initializeAppointments } = useAppointments()
@@ -39,9 +40,9 @@ export function Appointments() {
     if (noAppointments) return <NoAppointments />
 
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
         {appointments.map((appointment) => (
-          <h3 key={appointment.id}>{appointment.title}</h3>
+          <AppointmentCard key={appointment.id} appointment={appointment} />
         ))}
       </div>
     )
