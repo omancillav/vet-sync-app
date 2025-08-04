@@ -13,7 +13,7 @@ export function AppointmentCard({ appointment }) {
           <CardDescription className="text-md">{appointment.nombre_cliente}</CardDescription>
         </div>
         <div>
-          <Badge variant="outline" className="text-sm">
+          <Badge variant="outline" className="text-sm text-primary border-primary bg-transparent px-3 py-1">
             {appointment.status}
           </Badge>
         </div>
