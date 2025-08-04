@@ -3,14 +3,21 @@ import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import { Calendar, Clock, Stethoscope, UserRound } from 'lucide-react'
+import { PetImage } from '@/components/pets/card/PetImage'
+import { formatDate } from '@/lib/utils.js'
 
 export function AppointmentCard({ appointment }) {
   return (
     <Card className="">
-      <CardHeader className="flex items-center justify-between">
-        <div className="flex flex-col justify-center">
-          <CardTitle className="text-xl font-bold">{appointment.nombre_mascota}</CardTitle>
-          <CardDescription className="text-md">{appointment.nombre_cliente}</CardDescription>
+      <CardHeader className="flex items-center justify-between ">
+        <div className="flex items-center gap-3">
+          <div className="w-18 p-0">
+            <PetImage src={appointment.img_url} alt={appointment.nombre_mascota} className="rounded-full" />
+          </div>
+          <div className="flex flex-col justify-center">
+            <CardTitle className="text-xl font-bold">{appointment.nombre_mascota}</CardTitle>
+            <CardDescription className="text-md">{appointment.nombre_cliente}</CardDescription>
+          </div>
         </div>
         <div>
           <Badge variant="outline" className="text-sm text-primary border-primary bg-transparent px-3 py-1">
@@ -24,7 +31,7 @@ export function AppointmentCard({ appointment }) {
             <span className="text-muted-foreground">Fecha</span>
             <div className="flex items-center gap-2">
               <Calendar className="w-5 h-5 text-primary" />
-              <span>{appointment.fecha.replace(/-/g, '/')}</span>
+              <span>{formatDate(appointment.fecha)}</span>
             </div>
           </div>
           <div className="flex flex-col gap-2">
@@ -37,9 +44,8 @@ export function AppointmentCard({ appointment }) {
             </div>
           </div>
         </div>
-
         <Separator className="my-4" />
-        <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-2 gap-4">
           <div className="flex items-center gap-3">
             <Stethoscope className="w-5 h-5 text-primary" />
             <div className="flex flex-col">
