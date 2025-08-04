@@ -27,17 +27,17 @@ export function AppointmentCard({ appointment }) {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-2">
-          <div className="flex flex-col gap-2">
-            <span className="text-muted-foreground">Fecha</span>
-            <div className="flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-primary" />
+          <div className="flex items-center gap-3">
+            <Calendar className="w-5 h-5 text-primary" />
+            <div className="flex flex-col">
+              <span className="text-muted-foreground">Fecha</span>
               <span>{formatDate(appointment.fecha)}</span>
             </div>
           </div>
-          <div className="flex flex-col gap-2">
-            <span className="text-muted-foreground">Hora</span>
-            <div className="flex items-center gap-2">
-              <Clock className="w-5 h-5 text-primary" />
+          <div className="flex items-center gap-3">
+            <Clock className="w-5 h-5 text-primary" />
+            <div className="flex flex-col">
+              <span className="text-muted-foreground">Hora</span>
               <span>
                 {appointment.hora_inicio.slice(0, -3)} - {appointment.hora_fin.slice(0, -3)}
               </span>
