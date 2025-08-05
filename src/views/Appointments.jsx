@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { CalendarPlus } from 'lucide-react'
 import { toast } from 'sonner'
 import { AppointmentCard } from '../components/appointments/AppointmentCard'
+import { sortAppointmentsByDate, groupAppointmentsByStatus } from '@/lib/utils.js'
 
 export function Appointments() {
   const { appointments, noAppointments, loading, error, initializeAppointments } = useAppointments()
@@ -39,12 +40,33 @@ export function Appointments() {
 
     if (noAppointments) return <NoAppointments />
 
+    const sortedAppointments = sortAppointmentsByDate(appointments)
+
+    const { pending, history } = groupAppointmentsByStatus(sortedAppointments)
+
     return (
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-        {appointments.map((appointment) => (
-          <AppointmentCard key={appointment.id} appointment={appointment} />
-        ))}
-      </div>
+      <>
+        {pending.length > 0 && (
+          <section className="mb-8">
+            <h2 className="text-2xl font-bold mb-4">Citas Pendientes</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+              {pending.map((appointment) => (
+                <AppointmentCard key={appointment.id} appointment={appointment} />
+              ))}
+            </div>
+          </section>
+        )}
+        {history.length > 0 && (
+          <section>
+            <h2 className="text-2xl font-bold mb-4">Historial de Citas</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+              {history.map((appointment) => (
+                <AppointmentCard key={appointment.id} appointment={appointment} />
+              ))}
+            </div>
+          </section>
+        )}
+      </>
     )
   }
   return (
@@ -62,7 +84,7 @@ export function Appointments() {
                 className="w-full md:w-auto"
               >
                 Agendar Cita
-                <CalendarPlus className="h-4 w-4 ml-2" />
+                <CalendarPlus className="h-4 w-4" />
               </Button>
             )}
           </section>
