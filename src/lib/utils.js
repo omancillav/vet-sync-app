@@ -18,3 +18,7 @@ export const formatDate = (dateString) => {
     year: 'numeric'
   })
 }
+
+export const sortAppointmentsByDate = (appointments) => {
+  return appointments.sort((a, b) => new Date(a.fecha) - new Date(b.fecha))
+}

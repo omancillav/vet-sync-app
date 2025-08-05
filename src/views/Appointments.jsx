@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { CalendarPlus } from 'lucide-react'
 import { toast } from 'sonner'
 import { AppointmentCard } from '../components/appointments/AppointmentCard'
+import { sortAppointmentsByDate } from '@/lib/utils.js'
 
 export function Appointments() {
   const { appointments, noAppointments, loading, error, initializeAppointments } = useAppointments()
@@ -39,9 +40,11 @@ export function Appointments() {
 
     if (noAppointments) return <NoAppointments />
 
+    const sortedAppointments = sortAppointmentsByDate(appointments)
+
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-        {appointments.map((appointment) => (
+        {sortedAppointments.map((appointment) => (
           <AppointmentCard key={appointment.id} appointment={appointment} />
         ))}
       </div>
