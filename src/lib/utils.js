@@ -22,3 +22,15 @@ export const formatDate = (dateString) => {
 export const sortAppointmentsByDate = (appointments) => {
   return appointments.sort((a, b) => new Date(a.fecha) - new Date(b.fecha))
 }
+
+export const groupAppointmentsByStatus = (appointments) => {
+  const pendingStatuses = ['Programada', 'En Curso', 'Reprogramada']
+  const pending = appointments.filter((appointment) =>
+    pendingStatuses.includes(appointment.status)
+  )
+  const history = appointments.filter(
+    (appointment) => !pendingStatuses.includes(appointment.status)
+  )
+
+  return { pending, history }
+}

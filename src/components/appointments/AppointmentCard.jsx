@@ -6,7 +6,18 @@ import { Calendar, Clock, Stethoscope, UserRound, CalendarX, NotebookPen } from 
 import { PetImage } from '@/components/pets/card/PetImage'
 import { formatDate } from '@/lib/utils.js'
 
+const statusColors = {
+  Programada: 'text-blue-500 border-blue-500 dark:text-blue-400 dark:border-blue-400',
+  Completada: 'text-green-600 border-green-600',
+  Cancelada: 'text-red-600 border-red-600',
+  Reprogramada: 'text-yellow-400 border-yellow-400',
+  'No asistió': 'text-red-600 border-red-600',
+  'En Curso': 'text-primary border-primary'
+}
+
 export function AppointmentCard({ appointment }) {
+  const badgeColor = statusColors[appointment.status] || 'text-muted-foreground border-muted-foreground'
+
   return (
     <Card className="" role="article" aria-labelledby={`appointment-${appointment.nombre_mascota}`}>
       <CardHeader className="flex items-center justify-between ">
@@ -22,7 +33,7 @@ export function AppointmentCard({ appointment }) {
           </hgroup>
         </header>
         <aside>
-          <Badge variant="outline" className="text-sm text-primary border-primary bg-transparent px-3 py-1">
+          <Badge variant="outline" className={`text-sm px-3 py-1 ${badgeColor}`}>
             {appointment.status}
           </Badge>
         </aside>
