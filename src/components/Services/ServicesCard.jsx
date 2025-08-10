@@ -21,7 +21,7 @@ export function ServicesCard({ service }) {
     <Card key={service.id} className={`h-full flex flex-col overflow-hidden group ${service.img_url ? "pt-0" : ""}`}>
       {service.img_url && !imageError && (
         <div className="relative w-full aspect-video overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent z-10"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
           {/* Skeleton/placeholder mientras carga la imagen */}
           {!imageLoaded && <Skeleton className="w-full h-full rounded-none"></Skeleton>}
           <Image
@@ -40,7 +40,7 @@ export function ServicesCard({ service }) {
 
       <div className="flex-1 flex flex-col">
         <CardHeader className="pb-4">
-          <CardTitle className="text-md md:text-xl font-semibold">{service.nombre}</CardTitle>
+          <CardTitle className="text-md md:text-xl font-bold">{service.nombre}</CardTitle>
           <CardDescription className="line-clamp-2 text-sm md:text-base">{service.descripcion}</CardDescription>
         </CardHeader>
 
