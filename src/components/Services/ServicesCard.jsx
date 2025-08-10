@@ -40,7 +40,7 @@ export function ServicesCard({ service }) {
 
       <div className="flex-1 flex flex-col">
         <CardHeader className="pb-4">
-          <CardTitle className="text-md md:text-xl font-bold">{service.nombre}</CardTitle>
+          <CardTitle className="text-xl font-bold">{service.nombre}</CardTitle>
           <CardDescription className="line-clamp-2 text-sm md:text-base">{service.descripcion}</CardDescription>
         </CardHeader>
 
