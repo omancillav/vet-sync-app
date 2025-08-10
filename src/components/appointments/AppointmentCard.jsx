@@ -22,7 +22,7 @@ export function AppointmentCard({ appointment, isPast = false }) {
     <Card className="" role="article" aria-labelledby={`appointment-${appointment.nombre_mascota}`}>
       <CardHeader className="flex items-center justify-between ">
         <header className="flex items-center gap-3">
-          <figure className="w-18 p-0">
+          <figure className="w-20 p-0">
             <PetImage src={appointment.img_url} alt={appointment.nombre_mascota} className="rounded-full" />
           </figure>
           <hgroup className="flex flex-col justify-center">
@@ -38,6 +38,7 @@ export function AppointmentCard({ appointment, isPast = false }) {
           </Badge>
         </aside>
       </CardHeader>
+      <Separator />
       <CardContent>
         <section className="grid grid-cols-2" aria-label="Información de fecha y hora">
           <div className="flex items-center gap-3">
