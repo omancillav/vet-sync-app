@@ -49,11 +49,8 @@ export function Appointments() {
     return (
       <>
         {hasPending && (
-          <section className="mb-8">
-            <h2 className="text-2xl font-bold mb-2">Citas Pendientes</h2>
-            <p className="text-muted-foreground mb-4">
-              Recuerda que puedes cancelar o reprogramar tus citas en cualquier momento.
-            </p>
+          <section>
+            <h2 className="text-2xl font-bold mb-4">Citas Pendientes</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               {pending.map((appointment) => (
                 <AppointmentCard key={appointment.id} appointment={appointment} />
@@ -64,8 +61,7 @@ export function Appointments() {
         {hasPending && hasHistory && <Separator className="my-4 md:my-8" />}
         {hasHistory && (
           <section>
-            <h2 className="text-2xl font-bold mb-2">Historial de Citas</h2>
-            <p className="text-muted-foreground mb-4">Consulta el historial de tus citas anteriores.</p>
+            <h2 className="text-2xl font-bold mb-4">Historial de Citas</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               {history.map((appointment) => (
                 <AppointmentCard key={appointment.id} appointment={appointment} isPast={true} />
