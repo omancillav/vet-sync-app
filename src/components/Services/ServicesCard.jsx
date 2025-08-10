@@ -1,27 +1,27 @@
-import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Skeleton } from '@/components/ui/skeleton'
-import { Image } from '@unpic/react'
-import { toast } from 'sonner'
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Image } from "@unpic/react";
+import { toast } from "sonner";
 
 export function ServicesCard({ service }) {
-  const [imageLoaded, setImageLoaded] = useState(false)
-  const [imageError, setImageError] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const handleImageLoad = () => {
-    setImageLoaded(true)
-  }
+    setImageLoaded(true);
+  };
 
   const handleImageError = () => {
-    setImageError(true)
-  }
+    setImageError(true);
+  };
 
   return (
-    <Card key={service.id} className={`h-full flex flex-col overflow-hidden group ${service.img_url ? 'pt-0' : ''}`}>
+    <Card key={service.id} className={`h-full flex flex-col overflow-hidden group ${service.img_url ? "pt-0" : ""}`}>
       {service.img_url && !imageError && (
         <div className="relative w-full aspect-video overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
           {/* Skeleton/placeholder mientras carga la imagen */}
           {!imageLoaded && <Skeleton className="w-full h-full rounded-none"></Skeleton>}
           <Image
@@ -32,30 +32,16 @@ export function ServicesCard({ service }) {
             width={800}
             aspectRatio={16 / 9}
             className={`w-full h-full object-cover object-center transition-all duration-500 ease-out group-hover:scale-102 ${
-              imageLoaded ? 'opacity-100' : 'opacity-0'
+              imageLoaded ? "opacity-100" : "opacity-0"
             }`}
           />
-          {imageLoaded && (
-            <>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-              <div className="absolute inset-0 flex items-end px-4 py-3 md:py-4">
-                <Badge className="border-transparent bg-muted-foreground/40 dark:bg-primary-foreground/30 backdrop-blur-xs rounded-full px-3 py-0.5">
-                  <h3 className="text-primary-foreground dark:text-primary text-lg md:text-xl font-semibold">
-                    {service.nombre}
-                  </h3>
-                </Badge>
-              </div>
-            </>
-          )}
         </div>
       )}
 
       <div className="flex-1 flex flex-col">
-        <CardHeader className="pb-2">
-          {(!service.img_url || imageError) && (
-            <CardTitle className="text-md md:text-xl font-semibold">{service.nombre}</CardTitle>
-          )}
-          <CardDescription className="line-clamp-2 text-sm md:text-base">{service.descripcion}</CardDescription>
+        <CardHeader className="pb-4">
+          <CardTitle className="text-xl font-bold">{service.nombre}</CardTitle>
+          <CardDescription className="line-clamp-2 text-md">{service.descripcion}</CardDescription>
         </CardHeader>
 
         <CardContent className="mt-auto">
@@ -70,7 +56,7 @@ export function ServicesCard({ service }) {
             </div>
           </section>
           <Button
-            onClick={() => toast.warning('Funcionalidad de agendar cita en desarrollo')}
+            onClick={() => toast.warning("Funcionalidad de agendar cita en desarrollo")}
             className="w-full bg-primary rounded-md hover:bg-primary/90 transition-colors text-sm md:text-md hover:cursor-pointer"
           >
             Agendar Cita
@@ -78,5 +64,5 @@ export function ServicesCard({ service }) {
         </CardContent>
       </div>
     </Card>
-  )
+  );
 }

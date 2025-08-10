@@ -1,17 +1,17 @@
-import { Skeleton } from '@/components/ui/skeleton'
-import { Card, CardContent } from '@/components/ui/card'
+import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent } from "@/components/ui/card";
 
 export function PetsSkeleton({ count = 6 }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
       {Array.from({ length: count }).map((_, index) => (
-        <Card key={index} className="overflow-hidden relative">
+        <Card key={index} className="overflow-hidden relative p-3">
           {/* Menu de acciones skeleton */}
           <div className="absolute top-4 right-4">
             <Skeleton className="w-8 h-5 rounded-full" />
           </div>
 
-          <CardContent className="flex lg:flex-row flex-col gap-3 lg:gap-6">
+          <CardContent className="flex lg:flex-row flex-col gap-3 lg:gap-6 p-2">
             {/* Desktop layout - Imagen grande */}
             <div className="hidden lg:flex items-center">
               <Skeleton className="w-40 h-40 rounded-full" />
@@ -28,7 +28,7 @@ export function PetsSkeleton({ count = 6 }) {
               </div>
             </div>
 
-            <article className="flex flex-col py-2 gap-4">
+            <article className="flex flex-col py-2 gap-5">
               {/* Desktop header - Solo visible en desktop */}
               <header className="hidden lg:block">
                 {/* Nombre de la mascota */}
@@ -67,5 +67,5 @@ export function PetsSkeleton({ count = 6 }) {
         </Card>
       ))}
     </div>
-  )
+  );
 }
