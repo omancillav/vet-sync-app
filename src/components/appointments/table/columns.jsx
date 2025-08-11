@@ -6,12 +6,20 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import { ArrowUpDown } from 'lucide-react'
 import { CalendarX, NotebookPen } from 'lucide-react'
 
 export const columns = [
   {
     accessorKey: 'fecha',
-    header: 'Fecha',
+    header: ({ column }) => {
+      return (
+        <Button variant='primary' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+          Fecha
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       const fecha = row.getValue('fecha')
       const [year, month, day] = fecha.split('-').map(Number)
