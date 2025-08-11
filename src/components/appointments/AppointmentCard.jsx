@@ -1,24 +1,25 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { Calendar, Clock, Stethoscope, UserRound, CalendarX, NotebookPen } from "lucide-react";
-import { PetImage } from "@/components/pets/card/PetImage";
-import { formatDate } from "@/lib/utils.js";
-import { useAppointments } from "@/hooks/useAppointments";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Separator } from '@/components/ui/separator'
+import { Button } from '@/components/ui/button'
+import { Calendar, Clock, Stethoscope, UserRound, CalendarX, NotebookPen } from 'lucide-react'
+import { PetImage } from '@/components/pets/card/PetImage'
+import { formatDate } from '@/lib/utils.js'
+import { useAppointments } from '@/hooks/useAppointments'
+import { CancelDialog } from './CancelDialog'
 
 const statusColors = {
-  Programada: "text-blue-500 border-blue-500 dark:text-blue-400 dark:border-blue-400",
-  Completada: "text-green-600 border-green-600",
-  Cancelada: "text-red-600 border-red-600",
-  Reprogramada: "text-yellow-400 border-yellow-400",
-  "No asistió": "text-red-600 border-red-600",
-  "En Curso": "text-primary border-primary",
-};
+  Programada: 'text-blue-500 border-blue-500 dark:text-blue-400 dark:border-blue-400',
+  Completada: 'text-green-600 border-green-600',
+  Cancelada: 'text-red-600 border-red-600',
+  Reprogramada: 'text-yellow-400 border-yellow-400',
+  'No asistió': 'text-red-600 border-red-600',
+  'En Curso': 'text-primary border-primary'
+}
 
 export function AppointmentCard({ appointment, isPast = false }) {
-  const { cancelAppointment } = useAppointments();
-  const badgeColor = statusColors[appointment.status] || "text-muted-foreground border-muted-foreground";
+  const { cancelAppointment } = useAppointments()
+  const badgeColor = statusColors[appointment.status] || 'text-muted-foreground border-muted-foreground'
 
   return (
     <Card className="" role="article" aria-labelledby={`appointment-${appointment.nombre_mascota}`}>
@@ -81,10 +82,12 @@ export function AppointmentCard({ appointment, isPast = false }) {
       </CardContent>
       {!isPast && (
         <CardFooter className="grid grid-cols-2 gap-4">
-          <Button onClick={() => cancelAppointment(appointment.id)} variant="outline" aria-label="Cancelar cita">
-            <CalendarX className="h-4 w-4" aria-hidden="true" />
-            Cancelar
-          </Button>
+          <CancelDialog onConfirm={() => cancelAppointment(appointment.id)}>
+            <Button variant="outline" aria-label="Cancelar cita">
+              <CalendarX className="h-4 w-4" aria-hidden="true" />
+              Cancelar
+            </Button>
+          </CancelDialog>
           <Button variant="default" aria-label="Modificar cita">
             Modificar
             <NotebookPen className="h-4 w-4" aria-hidden="true" />
@@ -92,5 +95,5 @@ export function AppointmentCard({ appointment, isPast = false }) {
         </CardFooter>
       )}
     </Card>
-  );
+  )
 }

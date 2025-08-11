@@ -2,6 +2,7 @@ import { createContext, useCallback, useState } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { getAppointments as getAppointmentsApi } from '@/services/api/appointments'
 import { cancelAppointment as cancelAppointmentApi } from '@/services/api/appointments'
+import { toast } from 'sonner'
 
 const AppointmentsContext = createContext()
 
@@ -43,9 +44,11 @@ export function AppointmentsProvider({ children }) {
     } catch (error) {
       console.error('Error canceling appointment:', error)
       setError(error)
+      toast.error('Error cancelando la cita')
       throw error
     } finally {
       await fetchAppointments()
+      toast.success('Cita cancelada exitosamente')
     }
   })
 
