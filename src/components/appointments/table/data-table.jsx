@@ -41,7 +41,7 @@ export function DataTable({ columns, data }) {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex items-center py-2">
+      <div className="flex items-center py-2 gap-2">
         <Input
           placeholder="Filtrar mascotas..."
           value={table.getColumn('nombre_mascota')?.getFilterValue() ?? ''}
