@@ -6,8 +6,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { ArrowUpDown } from 'lucide-react'
-import { CalendarX, NotebookPen } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
+import { ArrowUpDown,CalendarX, NotebookPen } from 'lucide-react'
 
 export const columns = [
   {
@@ -67,7 +67,27 @@ export const columns = [
   },
   {
     accessorKey: 'status',
-    header: 'Estado'
+    header: 'Estado',
+    cell: ({ row }) => {
+      const status = row.getValue('status')
+
+      const statusColors = {
+        Programada: 'text-blue-500 border-blue-500 dark:text-blue-400 dark:border-blue-400',
+        Completada: 'text-green-600 border-green-600',
+        Cancelada: 'text-red-600 border-red-600',
+        Reprogramada: 'text-yellow-400 border-yellow-400',
+        'No asistió': 'text-red-600 border-red-600',
+        'En Curso': 'text-primary border-primary'
+      }
+
+      const colorClass = statusColors[status] || 'text-gray-500 border-gray-500'
+
+      return (
+        <Badge variant="outline" className={`${colorClass} font-medium`}>
+          {status}
+        </Badge>
+      )
+    }
   },
   {
     id: 'acciones',

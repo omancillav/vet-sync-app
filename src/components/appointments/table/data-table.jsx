@@ -16,6 +16,7 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { ChevronLeft, ChevronRight, SlidersHorizontal, Search } from 'lucide-react'
 
 export function DataTable({ columns, data }) {
   const [sorting, setSorting] = useState([])
@@ -42,16 +43,20 @@ export function DataTable({ columns, data }) {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center py-2 gap-2">
-        <Input
-          placeholder="Filtrar mascotas..."
-          value={table.getColumn('nombre_mascota')?.getFilterValue() ?? ''}
-          onChange={(event) => table.getColumn('nombre_mascota')?.setFilterValue(event.target.value)}
-          className="max-w-sm"
-        />
+        <div className="relative w-sm">
+          <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5" />
+          <Input
+            placeholder="Filtrar mascotas..."
+            value={table.getColumn('nombre_mascota')?.getFilterValue() ?? ''}
+            onChange={(event) => table.getColumn('nombre_mascota')?.setFilterValue(event.target.value)}
+            className="pr-10"
+          />
+        </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Columns
+              Columnas
+              <SlidersHorizontal />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -118,10 +123,12 @@ export function DataTable({ columns, data }) {
       </div>
       <div className="flex justify-end gap-2">
         <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+          <ChevronLeft />
           Anterior
         </Button>
         <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
           Siguiente
+          <ChevronRight />
         </Button>
       </div>
     </div>
