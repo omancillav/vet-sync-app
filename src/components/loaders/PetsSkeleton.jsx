@@ -1,5 +1,5 @@
-import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from '@/components/ui/skeleton'
+import { Card, CardContent } from '@/components/ui/card'
 
 export function PetsSkeleton({ count = 6 }) {
   return (
@@ -67,5 +67,5 @@ export function PetsSkeleton({ count = 6 }) {
         </Card>
       ))}
     </div>
-  );
+  )
 }

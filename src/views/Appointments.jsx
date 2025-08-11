@@ -1,30 +1,30 @@
-import { useEffect } from "react";
-import { useAuth } from "@/hooks/useAuth";
-import { AuthPrompt } from "@/components/AuthPrompt";
-import { NoAppointments } from "@/components/appointments/NoAppointments";
-import { useAppointments } from "@/hooks/useAppointments";
-import { LoadingSpinner } from "@/components/loaders/LoadingSpinner.jsx";
-import { ErrorCard } from "@/components/ErrorCard";
-import { Button } from "@/components/ui/button";
-import { CalendarPlus } from "lucide-react";
-import { toast } from "sonner";
-import { Separator } from "@/components/ui/separator";
-import { AppointmentCard } from "../components/appointments/AppointmentCard";
-import { sortAppointmentsByDate, groupAppointmentsByStatus } from "@/lib/utils.js";
+import { useEffect } from 'react'
+import { useAuth } from '@/hooks/useAuth'
+import { AuthPrompt } from '@/components/AuthPrompt'
+import { NoAppointments } from '@/components/appointments/NoAppointments'
+import { useAppointments } from '@/hooks/useAppointments'
+import { LoadingSpinner } from '@/components/loaders/LoadingSpinner.jsx'
+import { ErrorCard } from '@/components/ErrorCard'
+import { Button } from '@/components/ui/button'
+import { CalendarPlus } from 'lucide-react'
+import { toast } from 'sonner'
+import { Separator } from '@/components/ui/separator'
+import { AppointmentCard } from '../components/appointments/AppointmentCard'
+import { sortAppointmentsByDate, groupAppointmentsByStatus } from '@/lib/utils.js'
 
 export function Appointments() {
-  const { appointments, noAppointments, loading, error, initializeAppointments } = useAppointments();
-  const { isAuthenticated } = useAuth();
+  const { appointments, noAppointments, loading, error, initializeAppointments } = useAppointments()
+  const { isAuthenticated } = useAuth()
 
   useEffect(() => {
     if (isAuthenticated && !loading) {
-      initializeAppointments();
+      initializeAppointments()
     }
-  }, [isAuthenticated, loading, initializeAppointments]);
+  }, [isAuthenticated, loading, initializeAppointments])
 
   const renderContent = () => {
     if (!isAuthenticated) {
-      return <AuthPrompt icon="📅" message="Debes iniciar sesión para agendar y ver tus citas" />;
+      return <AuthPrompt icon="📅" message="Debes iniciar sesión para agendar y ver tus citas" />
     }
 
     if (loading) {
@@ -32,19 +32,19 @@ export function Appointments() {
         <div className="flex justify-center items-center h-64">
           <LoadingSpinner />
         </div>
-      );
+      )
     }
 
     if (error) {
-      return <ErrorCard message="No se pudieron cargar tus citas. Inténtalo de nuevo." />;
+      return <ErrorCard message="No se pudieron cargar tus citas. Inténtalo de nuevo." />
     }
 
-    if (noAppointments) return <NoAppointments />;
+    if (noAppointments) return <NoAppointments />
 
-    const sortedAppointments = sortAppointmentsByDate(appointments);
-    const { pending, history } = groupAppointmentsByStatus(sortedAppointments);
-    const hasPending = pending.length > 0;
-    const hasHistory = history.length > 0;
+    const sortedAppointments = sortAppointmentsByDate(appointments)
+    const { pending, history } = groupAppointmentsByStatus(sortedAppointments)
+    const hasPending = pending.length > 0
+    const hasHistory = history.length > 0
 
     return (
       <>
@@ -70,8 +70,8 @@ export function Appointments() {
           </section>
         )}
       </>
-    );
-  };
+    )
+  }
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-6xl mx-auto">
@@ -83,7 +83,7 @@ export function Appointments() {
           <section className="w-full md:w-1/2 md:flex md:justify-end">
             {isAuthenticated && (
               <Button
-                onClick={() => toast.warning("Funcionalidad de agendar cita en desarrollo")}
+                onClick={() => toast.warning('Funcionalidad de agendar cita en desarrollo')}
                 className="w-full md:w-auto"
               >
                 Agendar Cita
@@ -96,5 +96,5 @@ export function Appointments() {
         {renderContent()}
       </div>
     </div>
-  );
+  )
 }

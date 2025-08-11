@@ -1,6 +1,8 @@
 import { createContext, useCallback, useState } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { getAppointments as getAppointmentsApi } from '@/services/api/appointments'
+import { cancelAppointment as cancelAppointmentApi } from '@/services/api/appointments'
+import { toast } from 'sonner'
 
 const AppointmentsContext = createContext()
 
@@ -35,6 +37,21 @@ export function AppointmentsProvider({ children }) {
     }
   }, [initialized, loading, isAuthenticated, fetchAppointments])
 
+  const cancelAppointment = useCallback(async (id) => {
+    try {
+      const { data } = await cancelAppointmentApi(id)
+      return data
+    } catch (error) {
+      console.error('Error canceling appointment:', error)
+      setError(error)
+      toast.error('Error cancelando la cita')
+      throw error
+    } finally {
+      await fetchAppointments()
+      toast.success('Cita cancelada exitosamente')
+    }
+  })
+
   const value = {
     appointments,
     noAppointments,
@@ -42,6 +59,7 @@ export function AppointmentsProvider({ children }) {
     error,
     initialized,
     fetchAppointments,
+    cancelAppointment,
     initializeAppointments
   }
 
