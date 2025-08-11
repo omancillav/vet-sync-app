@@ -45,9 +45,7 @@ export function Appointments() {
 
     return (
       <>
-        <div className="container mx-auto py-10">
-          <DataTable columns={columns} data={sortedAppointments} />
-        </div>
+        <DataTable columns={columns} data={sortedAppointments} />
       </>
     )
   }
