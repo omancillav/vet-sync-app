@@ -1,24 +1,24 @@
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Image } from "@unpic/react";
-import { toast } from "sonner";
+import { useState } from 'react'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Image } from '@unpic/react'
+import { toast } from 'sonner'
 
 export function ServicesCard({ service }) {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageError, setImageError] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const [imageError, setImageError] = useState(false)
 
   const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
+    setImageLoaded(true)
+  }
 
   const handleImageError = () => {
-    setImageError(true);
-  };
+    setImageError(true)
+  }
 
   return (
-    <Card key={service.id} className={`h-full flex flex-col overflow-hidden group ${service.img_url ? "pt-0" : ""}`}>
+    <Card key={service.id} className={`h-full flex flex-col overflow-hidden group ${service.img_url ? 'pt-0' : ''}`}>
       {service.img_url && !imageError && (
         <div className="relative w-full aspect-video overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
@@ -32,7 +32,7 @@ export function ServicesCard({ service }) {
             width={800}
             aspectRatio={16 / 9}
             className={`w-full h-full object-cover object-center transition-all duration-500 ease-out group-hover:scale-102 ${
-              imageLoaded ? "opacity-100" : "opacity-0"
+              imageLoaded ? 'opacity-100' : 'opacity-0'
             }`}
           />
         </div>
@@ -56,7 +56,7 @@ export function ServicesCard({ service }) {
             </div>
           </section>
           <Button
-            onClick={() => toast.warning("Funcionalidad de agendar cita en desarrollo")}
+            onClick={() => toast.warning('Funcionalidad de agendar cita en desarrollo')}
             className="w-full bg-primary rounded-md hover:bg-primary/90 transition-colors text-sm md:text-md hover:cursor-pointer"
           >
             Agendar Cita
@@ -64,5 +64,5 @@ export function ServicesCard({ service }) {
         </CardContent>
       </div>
     </Card>
-  );
+  )
 }

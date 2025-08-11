@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar, Clock, Stethoscope, UserRound, CalendarX, NotebookPen } from "lucide-react";
 import { PetImage } from "@/components/pets/card/PetImage";
 import { formatDate } from "@/lib/utils.js";
+import { useAppointments } from "@/hooks/useAppointments";
 
 const statusColors = {
   Programada: "text-blue-500 border-blue-500 dark:text-blue-400 dark:border-blue-400",
@@ -16,6 +17,7 @@ const statusColors = {
 };
 
 export function AppointmentCard({ appointment, isPast = false }) {
+  const { cancelAppointment } = useAppointments();
   const badgeColor = statusColors[appointment.status] || "text-muted-foreground border-muted-foreground";
 
   return (
@@ -79,7 +81,7 @@ export function AppointmentCard({ appointment, isPast = false }) {
       </CardContent>
       {!isPast && (
         <CardFooter className="grid grid-cols-2 gap-4">
-          <Button variant="outline" aria-label="Cancelar cita">
+          <Button onClick={() => cancelAppointment(appointment.id)} variant="outline" aria-label="Cancelar cita">
             <CalendarX className="h-4 w-4" aria-hidden="true" />
             Cancelar
           </Button>
