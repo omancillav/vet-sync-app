@@ -11,6 +11,7 @@ import { toast } from 'sonner'
 import { columns } from '@/components/appointments/table/columns'
 import { DataTable } from '@/components/appointments/table/data-table'
 import { sortAppointmentsByDate } from '@/lib/utils.js'
+import { testAppointments } from '@/mocks/appointments.js'
 
 export function Appointments() {
   const { appointments, noAppointments, loading, error, initializeAppointments } = useAppointments()
@@ -45,7 +46,7 @@ export function Appointments() {
 
     return (
       <>
-        <DataTable columns={columns} data={sortedAppointments} />
+        <DataTable columns={columns} data={testAppointments} />
       </>
     )
   }

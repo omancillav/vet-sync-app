@@ -17,11 +17,15 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ChevronLeft, ChevronRight, SlidersHorizontal, Search } from 'lucide-react'
+import { useMediaQuery } from '@/hooks/use-media-query'
 
 export function DataTable({ columns, data }) {
   const [sorting, setSorting] = useState([])
   const [columnFilters, setColumnFilters] = useState([])
   const [columnVisibility, setColumnVisibility] = useState({})
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
+
+  const isMobile = useMediaQuery('(max-width: 768px)')
 
   const table = useReactTable({
     data,
@@ -33,16 +37,18 @@ export function DataTable({ columns, data }) {
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    onPaginationChange: setPagination,
     state: {
       sorting,
       columnFilters,
-      columnVisibility
+      columnVisibility,
+      pagination
     }
   })
 
   return (
-    <div className="flex flex-col gap-3">
-      <div className="flex items-center py-2 gap-2">
+    <div className="flex flex-col gap-5">
+      <div className="flex items-center gap-2">
         <div className="relative w-sm">
           <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5" />
           <Input
@@ -121,13 +127,50 @@ export function DataTable({ columns, data }) {
           </TableBody>
         </Table>
       </div>
-      <div className="flex justify-end gap-2">
+      <div className={`flex ${isMobile ? 'justify-center' : 'justify-end'} items-center gap-2`}>
         <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
           <ChevronLeft />
-          Anterior
         </Button>
+
+        <div className="flex items-center gap-1.5">
+          {Array.from({ length: table.getPageCount() }, (_, index) => {
+            const pageNumber = index + 1
+            const currentPage = table.getState().pagination.pageIndex + 1
+            const isCurrentPage = pageNumber === currentPage
+
+            const maxVisiblePages = isMobile ? 1 : 2
+            const shouldShow =
+              pageNumber === 1 ||
+              pageNumber === table.getPageCount() ||
+              Math.abs(pageNumber - currentPage) <= maxVisiblePages
+
+            if (!shouldShow) {
+              const ellipsisDistance = isMobile ? 2 : 3
+              if (pageNumber === currentPage - ellipsisDistance || pageNumber === currentPage + ellipsisDistance) {
+                return (
+                  <span key={pageNumber} className="px-2 text-muted-foreground">
+                    ...
+                  </span>
+                )
+              }
+              return null
+            }
+
+            return (
+              <Button
+                key={pageNumber}
+                variant={isCurrentPage ? 'default' : 'outline'}
+                size="sm"
+                className={`w-8 h-8 p-0 ${isCurrentPage ? 'pointer-events-none' : ''}`}
+                onClick={() => table.setPageIndex(index)}
+              >
+                {pageNumber}
+              </Button>
+            )
+          })}
+        </div>
+
         <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-          Siguiente
           <ChevronRight />
         </Button>
       </div>
