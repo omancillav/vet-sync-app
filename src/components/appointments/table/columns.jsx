@@ -8,8 +8,9 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Badge } from '@/components/ui/badge'
 import { ArrowUpDown, CalendarX, NotebookPen } from 'lucide-react'
+import { CancelDialog } from '@/components/appointments/CancelDialog'
 
-export const columns = [
+export const createColumns = (cancelAppointment) => [
   {
     accessorKey: 'nombre_mascota',
     header: 'Mascota'
@@ -92,7 +93,7 @@ export const columns = [
       const colorClass = statusColors[status] || 'text-gray-500 border-gray-500'
 
       return (
-        <Badge variant="outline" className={`${colorClass} font-medium`}>
+        <Badge variant="outline" className={`${colorClass} font-medium text-sm`}>
           {status}
         </Badge>
       )
@@ -100,7 +101,9 @@ export const columns = [
   },
   {
     id: 'acciones',
-    cell: () => {
+    cell: ({ row }) => {
+      const appointment = row.original
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -110,14 +113,19 @@ export const columns = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem className="flex items-center text-black dark:text-white">
+            <DropdownMenuItem className="flex items-center text-black dark:text-white cursor-pointer">
               <NotebookPen className="h-4 w-4 mr-1 stroke-black dark:stroke-white" />
               Modificar
             </DropdownMenuItem>
-            <DropdownMenuItem className="flex items-center !text-red-500">
-              <CalendarX className="h-4 w-4 mr-1 stroke-red-500" />
-              Cancelar
-            </DropdownMenuItem>
+            <CancelDialog onConfirm={() => cancelAppointment(appointment.id)}>
+              <DropdownMenuItem
+                className="flex items-center !text-red-500 cursor-pointer"
+                onSelect={(e) => e.preventDefault()}
+              >
+                <CalendarX className="h-4 w-4 mr-1 stroke-red-500" />
+                Cancelar
+              </DropdownMenuItem>
+            </CancelDialog>
           </DropdownMenuContent>
         </DropdownMenu>
       )
