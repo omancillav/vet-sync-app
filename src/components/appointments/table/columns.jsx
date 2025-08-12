@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Badge } from '@/components/ui/badge'
-import { ArrowUpDown,CalendarX, NotebookPen } from 'lucide-react'
+import { ArrowUpDown, CalendarX, NotebookPen } from 'lucide-react'
 
 export const columns = [
   {
@@ -18,9 +18,13 @@ export const columns = [
     accessorKey: 'fecha',
     header: ({ column }) => {
       return (
-        <Button variant="primary" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+        <Button
+          variant="primary"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="h-auto p-0 font-medium"
+        >
           Fecha
-          <ArrowUpDown className="mr-1 h-4 w-4" />
+          <ArrowUpDown className="ml-1 h-4 w-4" />
         </Button>
       )
     },
@@ -37,6 +41,11 @@ export const columns = [
       })
 
       return <div className="font-medium">{formattedDate}</div>
+    },
+    sortingFn: (a, b) => {
+      const dateA = new Date(a.getValue('fecha'))
+      const dateB = new Date(b.getValue('fecha'))
+      return dateB.getTime() - dateA.getTime()
     }
   },
   {
