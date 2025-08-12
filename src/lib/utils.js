@@ -22,7 +22,7 @@ export const formatDate = (dateString) => {
 }
 
 export const sortAppointmentsByDate = (appointments) => {
-  return appointments.sort((a, b) => new Date(a.fecha) - new Date(b.fecha))
+  return appointments.sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
 }
 
 export const groupAppointmentsByStatus = (appointments) => {

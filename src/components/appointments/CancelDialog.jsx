@@ -19,18 +19,22 @@ import {
   DrawerDescription,
   DrawerTrigger
 } from '@/components/ui/drawer'
-import { TriangleAlert, CalendarX } from 'lucide-react'
+import { TriangleAlert, CalendarX, LoaderCircle } from 'lucide-react'
 
 export function CancelDialog({ children, onConfirm }) {
-  const isDesktop = useMediaQuery('(min-width: 64rem)')
+  const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
+  const isDesktop = useMediaQuery('(min-width: 64rem)')
 
   const handleConfirm = async () => {
     try {
+      setLoading(true)
       await onConfirm()
       setOpen(false)
     } catch (error) {
       console.error('Error al eliminar la mascota:', error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -54,9 +58,15 @@ export function CancelDialog({ children, onConfirm }) {
             <Button variant="secondary" className="text-md" onClick={() => setOpen(false)}>
               Conservar
             </Button>
-            <Button className="text-md" onClick={handleConfirm}>
-              Cancelar
-              <CalendarX className="w-4 h-4" />
+            <Button className="text-md w-28 " onClick={handleConfirm} disabled={loading}>
+              {loading ? (
+                <LoaderCircle className="animate-spin" />
+              ) : (
+                <span className="flex items-center gap-2">
+                  Cancelar
+                  <CalendarX className="w-4 h-4" />{' '}
+                </span>
+              )}
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -84,9 +94,15 @@ export function CancelDialog({ children, onConfirm }) {
             <Button variant="secondary" className="text-md" onClick={() => setOpen(false)}>
               Conservar
             </Button>
-            <Button className="text-md" onClick={handleConfirm}>
-              Cancelar
-              <CalendarX className="w-4 h-4" />
+            <Button className="text-md" onClick={handleConfirm} disabled={loading}>
+              {loading ? (
+                <LoaderCircle className="animate-spin" />
+              ) : (
+                <span className="flex items-center gap-2">
+                  Cancelar
+                  <CalendarX className="w-4 h-4" />{' '}
+                </span>
+              )}
             </Button>
           </DrawerFooter>
         </div>
