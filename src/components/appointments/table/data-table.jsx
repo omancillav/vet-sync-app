@@ -16,7 +16,9 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { ChevronLeft, ChevronRight, SlidersHorizontal, Search } from 'lucide-react'
+import { toast } from 'sonner'
+import {} from 'lucide-react'
+import { ChevronLeft, ChevronRight, SlidersHorizontal, Search, CalendarPlus } from 'lucide-react'
 import { useMediaQuery } from '@/hooks/use-media-query'
 
 export function DataTable({ columns, data }) {
@@ -48,50 +50,73 @@ export function DataTable({ columns, data }) {
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex items-center gap-2">
-        <div className="relative w-sm">
-          <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5" />
-          <Input
-            placeholder="Filtrar mascotas..."
-            value={table.getColumn('nombre_mascota')?.getFilterValue() ?? ''}
-            onChange={(event) => table.getColumn('nombre_mascota')?.setFilterValue(event.target.value)}
-            className="pr-10"
-          />
-        </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columnas
-              <SlidersHorizontal />
+      <div className={`flex ${isMobile ? 'flex-col gap-4' : 'items-center'}`}>
+        {isMobile && (
+          <div>
+            <Button onClick={() => toast.warning('Funcionalidad de agendar cita en desarrollo')} className="w-full">
+              Agendar Cita
+              <CalendarPlus className="h-4 w-4" />
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                const columnLabels = {
-                  fecha: 'Fecha',
-                  hora_inicio: 'Hora',
-                  nombre_mascota: 'Mascota',
-                  nombre_profesional: 'Profesional',
-                  nombre_servicio: 'Servicio',
-                  status: 'Estado'
-                }
+          </div>
+        )}
 
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                  >
-                    {columnLabels[column.id] || column.id}
-                  </DropdownMenuCheckboxItem>
-                )
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex items-center gap-2 w-full">
+          <div className={`relative ${isMobile ? 'flex-1' : 'w-sm'}`}>
+            <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5" />
+            <Input
+              placeholder="Filtrar mascotas..."
+              value={table.getColumn('nombre_mascota')?.getFilterValue() ?? ''}
+              onChange={(event) => table.getColumn('nombre_mascota')?.setFilterValue(event.target.value)}
+              className="pr-10"
+            />
+          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className={!isMobile ? 'ml-auto' : ''}>
+                {!isMobile && 'Columnas'}
+                <SlidersHorizontal />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {table
+                .getAllColumns()
+                .filter((column) => column.getCanHide())
+                .map((column) => {
+                  const columnLabels = {
+                    fecha: 'Fecha',
+                    hora_inicio: 'Hora',
+                    nombre_mascota: 'Mascota',
+                    nombre_profesional: 'Profesional',
+                    nombre_servicio: 'Servicio',
+                    status: 'Estado'
+                  }
+
+                  return (
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className="capitalize"
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                    >
+                      {columnLabels[column.id] || column.id}
+                    </DropdownMenuCheckboxItem>
+                  )
+                })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {!isMobile && (
+            <div>
+              <Button
+                onClick={() => toast.warning('Funcionalidad de agendar cita en desarrollo')}
+                className="w-auto ml-1"
+              >
+                Agendar Cita
+                <CalendarPlus className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
       <div className="overflow-hidden rounded-md border">
         <Table>
