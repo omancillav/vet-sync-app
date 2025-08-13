@@ -21,19 +21,16 @@ export const formatDate = (dateString) => {
   })
 }
 
-export const sortAppointmentsByDate = (appointments) => {
+export const sortAppointments = (appointments) => {
   return appointments.sort((a, b) => {
-    // Definir estados activos (citas pendientes/en progreso)
     const activeStatuses = ['Programada', 'Reprogramada', 'En Curso']
 
     const aIsActive = activeStatuses.includes(a.status)
     const bIsActive = activeStatuses.includes(b.status)
 
-    // Si una cita es activa y la otra no, la activa va primero
     if (aIsActive && !bIsActive) return -1
     if (!aIsActive && bIsActive) return 1
 
-    // Crear objetos Date completos incluyendo la hora para comparación más precisa
     const getDateTime = (appointment) => {
       const [year, month, day] = appointment.fecha.split('-').map(Number)
       const [hours, minutes] = appointment.hora_inicio.split(':').map(Number)
@@ -43,12 +40,10 @@ export const sortAppointmentsByDate = (appointments) => {
     const dateTimeA = getDateTime(a)
     const dateTimeB = getDateTime(b)
 
-    // Si ambas citas son activas, ordenar por fecha/hora más próxima (ascendente)
     if (aIsActive && bIsActive) {
       return dateTimeA - dateTimeB
     }
 
-    // Si ambas citas son pasadas, ordenar por fecha/hora más reciente (descendente)
     return dateTimeB - dateTimeA
   })
 }

@@ -7,7 +7,7 @@ import { LoadingSpinner } from '@/components/loaders/LoadingSpinner.jsx'
 import { ErrorCard } from '@/components/ErrorCard'
 import { createColumns } from '@/components/appointments/table/columns'
 import { DataTable } from '@/components/appointments/table/data-table'
-import { sortAppointmentsByDate } from '@/lib/utils.js'
+import { sortAppointments } from '@/lib/utils.js'
 
 export function Appointments() {
   const { appointments, noAppointments, loading, error, initializeAppointments, cancelAppointment } = useAppointments()
@@ -38,7 +38,7 @@ export function Appointments() {
 
     if (noAppointments) return <NoAppointments />
 
-    const sortedAppointments = sortAppointmentsByDate(appointments)
+    const sortedAppointments = sortAppointments(appointments)
     const columnsWithActions = createColumns(cancelAppointment)
 
     return <DataTable columns={columnsWithActions} data={sortedAppointments} />
