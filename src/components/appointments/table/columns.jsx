@@ -103,6 +103,12 @@ export const createColumns = (cancelAppointment) => [
     id: 'acciones',
     cell: ({ row }) => {
       const appointment = row.original
+      const actionableStatuses = ['Programada', 'Reprogramada']
+      const canPerformActions = actionableStatuses.includes(appointment.status)
+
+      if (!canPerformActions) {
+        return null
+      }
 
       return (
         <DropdownMenu>
