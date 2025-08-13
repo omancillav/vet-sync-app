@@ -86,7 +86,7 @@ export function DataTable({ columns, data, cancelAppointment }) {
           <div>
             <Button onClick={() => toast.warning('Funcionalidad de agendar cita en desarrollo')} className="w-full">
               Agendar Cita
-              <CalendarPlus className="h-4 w-4" />a
+              <CalendarPlus className="h-4 w-4" />
             </Button>
           </div>
         )}
