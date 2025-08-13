@@ -25,7 +25,10 @@ import {
   Search,
   CalendarPlus,
   NotebookPen,
-  CalendarX
+  CalendarX,
+  Clock,
+  Stethoscope,
+  User
 } from 'lucide-react'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { CancelDialog } from '@/components/appointments/CancelDialog'
@@ -173,55 +176,78 @@ export function DataTable({ columns, data, cancelAppointment }) {
                       </TableCell>
                     ))}
                   </TableRow>
-                  {/* Fila expandida solo para móviles */}
                   {row.getIsExpanded() && isMobile && (
                     <TableRow>
                       <TableCell colSpan={columns.length} className="p-0">
-                        <div className="p-4 bg-muted/30 border-t">
-                          <div className="space-y-3">
-                            <div className="grid grid-cols-2 gap-4 text-sm">
-                              <div>
-                                <span className="font-medium text-muted-foreground">Hora:</span>
-                                <div className="font-medium">
-                                  {(() => {
-                                    const hora_inicio = row.original.hora_inicio
-                                    const [hours, minutes] = hora_inicio.split(':').map(Number)
-                                    const date = new Date()
-                                    date.setHours(hours, minutes, 0, 0)
-                                    return date.toLocaleTimeString('es-ES', {
-                                      hour: '2-digit',
-                                      minute: '2-digit',
-                                      hour12: true
-                                    })
-                                  })()}
+                        <div>
+                          <div className="p-4 space-y-4">
+                            <div className="grid grid-cols-1 gap-4">
+                              {/* Hora */}
+                              <div className="flex items-center gap-3 p-3 rounded-md bg-gradient-to-br from-card to-muted/20   border border-border/30">
+                                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center">
+                                  <Clock className="w-5 h-5 text-blue-500" />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                                    Hora
+                                  </p>
+                                  <p className="font-semibold text-foreground">
+                                    {(() => {
+                                      const hora_inicio = row.original.hora_inicio
+                                      const [hours, minutes] = hora_inicio.split(':').map(Number)
+                                      const date = new Date()
+                                      date.setHours(hours, minutes, 0, 0)
+                                      return date.toLocaleTimeString('es-ES', {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                        hour12: true
+                                      })
+                                    })()}
+                                  </p>
                                 </div>
                               </div>
-                              <div>
-                                <span className="font-medium text-muted-foreground">Servicio:</span>
-                                <div className="font-medium">{row.original.nombre_servicio}</div>
+                              {/* Servicio */}
+                              <div className="flex items-center gap-3 p-3 rounded-md bg-gradient-to-br from-card to-muted/20 border border-border/30">
+                                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center">
+                                  <Stethoscope className="w-5 h-5 text-green-500" />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                                    Servicio
+                                  </p>
+                                  <p className="font-semibold text-foreground">{row.original.nombre_servicio}</p>
+                                </div>
+                              </div>
+                              {/* Profesional */}
+                              <div className="flex items-center gap-3 p-3 rounded-md bg-gradient-to-br from-card to-muted/20 border border-border/30">
+                                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center">
+                                  <User className="w-5 h-5 text-purple-500" />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                                    Profesional
+                                  </p>
+                                  <p className="font-semibold text-foreground">{row.original.nombre_profesional}</p>
+                                </div>
                               </div>
                             </div>
-                            <div>
-                              <span className="font-medium text-muted-foreground">Profesional:</span>
-                              <div className="font-medium">{row.original.nombre_profesional}</div>
-                            </div>
-                            {/* Acciones en fila expandida si están disponibles */}
                             {['Programada', 'Reprogramada'].includes(row.original.status) && (
-                              <div className="flex gap-2 pt-2 border-t">
-                                <Button variant="outline" size="sm" className="flex-1">
-                                  <NotebookPen className="h-4 w-4 mr-1" />
-                                  Modificar
-                                </Button>
-                                <CancelDialog onConfirm={() => cancelAppointment(row.original.id)}>
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    className="flex-1 text-red-600 hover:text-red-700"
-                                  >
-                                    <CalendarX className="h-4 w-4 mr-1" />
-                                    Cancelar
+                              <div className="pt-4 border-t border-border/50">
+                                <div className="grid grid-cols-2 gap-3">
+                                  <Button variant="outline" className="bg-background/50">
+                                    <NotebookPen className="h-4 w-4 mr-1" />
+                                    Modificar
                                   </Button>
-                                </CancelDialog>
+                                  <CancelDialog onConfirm={() => cancelAppointment(row.original.id)}>
+                                    <Button
+                                      variant="outline"
+                                      className="bg-background/50 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/20"
+                                    >
+                                      <CalendarX className="h-4 w-4 mr-1" />
+                                      Cancelar
+                                    </Button>
+                                  </CancelDialog>
+                                </div>
                               </div>
                             )}
                           </div>
