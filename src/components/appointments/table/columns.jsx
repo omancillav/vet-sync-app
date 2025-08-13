@@ -51,7 +51,7 @@ export const createColumns = (cancelAppointment) => [
   },
   {
     accessorKey: 'hora_inicio',
-    header: () => <div>Hora</div>,
+    header: 'Hora',
     cell: ({ row }) => {
       const hora_inicio = row.getValue('hora_inicio')
       const [hours, minutes] = hora_inicio.split(':').map(Number)
@@ -93,7 +93,7 @@ export const createColumns = (cancelAppointment) => [
       const colorClass = statusColors[status] || 'text-gray-500 border-gray-500'
 
       return (
-        <Badge variant="outline" className={`${colorClass} font-medium text-sm`}>
+        <Badge variant="outline" className={`${colorClass} text-sm`}>
           {status}
         </Badge>
       )

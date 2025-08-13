@@ -70,51 +70,48 @@ export function DataTable({ columns, data }) {
               className="pr-10"
             />
           </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className={!isMobile ? 'ml-auto' : ''}>
-                {!isMobile && 'Columnas'}
-                <SlidersHorizontal />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {table
-                .getAllColumns()
-                .filter((column) => column.getCanHide())
-                .map((column) => {
-                  const columnLabels = {
-                    fecha: 'Fecha',
-                    hora_inicio: 'Hora',
-                    nombre_mascota: 'Mascota',
-                    nombre_profesional: 'Profesional',
-                    nombre_servicio: 'Servicio',
-                    status: 'Estado'
-                  }
-
-                  return (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                    >
-                      {columnLabels[column.id] || column.id}
-                    </DropdownMenuCheckboxItem>
-                  )
-                })}
-            </DropdownMenuContent>
-          </DropdownMenu>
-
           {!isMobile && (
-            <div>
-              <Button
-                onClick={() => toast.warning('Funcionalidad de agendar cita en desarrollo')}
-                className="w-auto ml-1"
-              >
+            <div className="ml-auto">
+              <Button onClick={() => toast.warning('Funcionalidad de agendar cita en desarrollo')} className="w-auto">
                 Agendar Cita
                 <CalendarPlus className="h-4 w-4" />
               </Button>
             </div>
+          )}
+          {!isMobile && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">
+                  <SlidersHorizontal />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {table
+                  .getAllColumns()
+                  .filter((column) => column.getCanHide())
+                  .map((column) => {
+                    const columnLabels = {
+                      fecha: 'Fecha',
+                      hora_inicio: 'Hora',
+                      nombre_mascota: 'Mascota',
+                      nombre_profesional: 'Profesional',
+                      nombre_servicio: 'Servicio',
+                      status: 'Estado'
+                    }
+
+                    return (
+                      <DropdownMenuCheckboxItem
+                        key={column.id}
+                        className="capitalize"
+                        checked={column.getIsVisible()}
+                        onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                      >
+                        {columnLabels[column.id] || column.id}
+                      </DropdownMenuCheckboxItem>
+                    )
+                  })}
+              </DropdownMenuContent>
+            </DropdownMenu>
           )}
         </div>
       </div>
