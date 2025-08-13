@@ -1,4 +1,4 @@
-import { MoreHorizontal } from 'lucide-react'
+import { MoreHorizontal, ArrowUpDown, CalendarX, NotebookPen } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -7,7 +7,6 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Badge } from '@/components/ui/badge'
-import { ArrowUpDown, CalendarX, NotebookPen } from 'lucide-react'
 import { CancelDialog } from '@/components/appointments/CancelDialog'
 
 export const createColumns = (cancelAppointment) => [
@@ -93,7 +92,7 @@ export const createColumns = (cancelAppointment) => [
       const colorClass = statusColors[status] || 'text-gray-500 border-gray-500'
 
       return (
-        <Badge variant="outline" className={`${colorClass} text-sm`}>
+        <Badge variant="outline" className={`${colorClass} text-xs lg:text-sm`}>
           {status}
         </Badge>
       )
