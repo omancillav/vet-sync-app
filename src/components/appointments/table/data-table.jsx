@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, Fragment, useEffect } from 'react'
 import {
   getFilteredRowModel,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  getExpandedRowModel,
   useReactTable
 } from '@tanstack/react-table'
 import {
@@ -17,17 +18,40 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { toast } from 'sonner'
-import {} from 'lucide-react'
-import { ChevronLeft, ChevronRight, SlidersHorizontal, Search, CalendarPlus } from 'lucide-react'
+import {
+  ChevronLeft,
+  ChevronRight,
+  SlidersHorizontal,
+  Search,
+  CalendarPlus,
+  NotebookPen,
+  CalendarX
+} from 'lucide-react'
 import { useMediaQuery } from '@/hooks/use-media-query'
+import { CancelDialog } from '@/components/appointments/CancelDialog'
 
-export function DataTable({ columns, data }) {
+export function DataTable({ columns, data, cancelAppointment }) {
   const [sorting, setSorting] = useState([])
   const [columnFilters, setColumnFilters] = useState([])
   const [columnVisibility, setColumnVisibility] = useState({})
+  const [expanded, setExpanded] = useState({})
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
 
   const isMobile = useMediaQuery('(max-width: 768px)')
+
+  // Configurar visibilidad de columnas según el tamaño de pantalla
+  useEffect(() => {
+    if (isMobile) {
+      setColumnVisibility({
+        hora_inicio: false,
+        nombre_servicio: false,
+        nombre_profesional: false,
+        acciones: false
+      })
+    } else {
+      setColumnVisibility({})
+    }
+  }, [isMobile])
 
   const table = useReactTable({
     data,
@@ -40,10 +64,14 @@ export function DataTable({ columns, data }) {
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onPaginationChange: setPagination,
+    onExpandedChange: setExpanded,
+    getExpandedRowModel: getExpandedRowModel(),
+    getRowCanExpand: () => true,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
+      expanded,
       pagination
     }
   })
@@ -55,7 +83,7 @@ export function DataTable({ columns, data }) {
           <div>
             <Button onClick={() => toast.warning('Funcionalidad de agendar cita en desarrollo')} className="w-full">
               Agendar Cita
-              <CalendarPlus className="h-4 w-4" />
+              <CalendarPlus className="h-4 w-4" />a
             </Button>
           </div>
         )}
@@ -133,13 +161,75 @@ export function DataTable({ columns, data }) {
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="p-3">
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  ))}
-                </TableRow>
+                <Fragment key={row.id}>
+                  <TableRow
+                    data-state={row.getIsSelected() && 'selected'}
+                    className={isMobile ? 'cursor-pointer hover:bg-muted/50' : ''}
+                    onClick={() => isMobile && row.toggleExpanded()}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id} className="p-3">
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                  {/* Fila expandida solo para móviles */}
+                  {row.getIsExpanded() && isMobile && (
+                    <TableRow>
+                      <TableCell colSpan={columns.length} className="p-0">
+                        <div className="p-4 bg-muted/30 border-t">
+                          <div className="space-y-3">
+                            <div className="grid grid-cols-2 gap-4 text-sm">
+                              <div>
+                                <span className="font-medium text-muted-foreground">Hora:</span>
+                                <div className="font-medium">
+                                  {(() => {
+                                    const hora_inicio = row.original.hora_inicio
+                                    const [hours, minutes] = hora_inicio.split(':').map(Number)
+                                    const date = new Date()
+                                    date.setHours(hours, minutes, 0, 0)
+                                    return date.toLocaleTimeString('es-ES', {
+                                      hour: '2-digit',
+                                      minute: '2-digit',
+                                      hour12: true
+                                    })
+                                  })()}
+                                </div>
+                              </div>
+                              <div>
+                                <span className="font-medium text-muted-foreground">Servicio:</span>
+                                <div className="font-medium">{row.original.nombre_servicio}</div>
+                              </div>
+                            </div>
+                            <div>
+                              <span className="font-medium text-muted-foreground">Profesional:</span>
+                              <div className="font-medium">{row.original.nombre_profesional}</div>
+                            </div>
+                            {/* Acciones en fila expandida si están disponibles */}
+                            {['Programada', 'Reprogramada'].includes(row.original.status) && (
+                              <div className="flex gap-2 pt-2 border-t">
+                                <Button variant="outline" size="sm" className="flex-1">
+                                  <NotebookPen className="h-4 w-4 mr-1" />
+                                  Modificar
+                                </Button>
+                                <CancelDialog onConfirm={() => cancelAppointment(row.original.id)}>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="flex-1 text-red-600 hover:text-red-700"
+                                  >
+                                    <CalendarX className="h-4 w-4 mr-1" />
+                                    Cancelar
+                                  </Button>
+                                </CancelDialog>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </Fragment>
               ))
             ) : (
               <TableRow>
