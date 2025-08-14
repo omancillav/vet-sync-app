@@ -5,7 +5,7 @@ import { PetsSkeleton } from '@/components/loaders/PetsSkeleton.jsx'
 import { ErrorCard } from '@/components/ErrorCard'
 import { PetsCard } from '@/components/pets/card/PetsCard'
 import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
+import { HeartPlus } from 'lucide-react'
 import { PetsForm } from '@/components/pets/form/PetsForm'
 import { PetsProvider } from '@/contexts/PetsContext'
 import { usePets } from '@/hooks/usePets'
@@ -52,7 +52,7 @@ function PetsContent() {
             {isAuthenticated && (
               <Button className="w-full md:w-auto" onClick={openAddForm}>
                 Agregar Mascota
-                <Plus className="h-4 w-4 ml-2" />
+                <HeartPlus className="h-4 w-4" />
               </Button>
             )}
           </section>
