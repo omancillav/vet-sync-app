@@ -1,4 +1,10 @@
 import { useState, Fragment, useEffect } from 'react'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { toast } from 'sonner'
+import { useMediaQuery } from '@/hooks/use-media-query'
+import { CancelDialog } from '@/components/appointments/CancelDialog'
 import {
   getFilteredRowModel,
   flexRender,
@@ -14,10 +20,6 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { toast } from 'sonner'
 import {
   ChevronLeft,
   ChevronRight,
@@ -30,8 +32,6 @@ import {
   Stethoscope,
   User
 } from 'lucide-react'
-import { useMediaQuery } from '@/hooks/use-media-query'
-import { CancelDialog } from '@/components/appointments/CancelDialog'
 
 export function DataTable({ columns, data, cancelAppointment }) {
   const [sorting, setSorting] = useState([])
@@ -83,7 +83,7 @@ export function DataTable({ columns, data, cancelAppointment }) {
     <div className="flex flex-col gap-5">
       <div className={`flex ${isMobile ? 'flex-col gap-4' : 'items-center'}`}>
         {isMobile && (
-          <div>
+          <div className='mb-2'>
             <Button onClick={() => toast.warning('Funcionalidad de agendar cita en desarrollo')} className="w-full">
               Agendar Cita
               <CalendarPlus className="h-4 w-4" />
@@ -171,7 +171,7 @@ export function DataTable({ columns, data, cancelAppointment }) {
                     onClick={() => isMobile && row.toggleExpanded()}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id} className="p-3">
+                      <TableCell key={cell.id} className="p-4">
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                     ))}
@@ -183,7 +183,7 @@ export function DataTable({ columns, data, cancelAppointment }) {
                           <div className="p-4 space-y-4">
                             <div className="grid grid-cols-1 gap-4">
                               {/* Hora */}
-                              <div className="flex items-center gap-3 p-3 rounded-md bg-gradient-to-br from-card to-muted/20   border border-border/30">
+                              <div className="flex items-center gap-3 p-3 rounded-md bg-card border border-border/30">
                                 <div className="flex-shrink-0 w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center">
                                   <Clock className="w-5 h-5 text-blue-500" />
                                 </div>
@@ -207,7 +207,7 @@ export function DataTable({ columns, data, cancelAppointment }) {
                                 </div>
                               </div>
                               {/* Servicio */}
-                              <div className="flex items-center gap-3 p-3 rounded-md bg-gradient-to-br from-card to-muted/20 border border-border/30">
+                              <div className="flex items-center gap-3 p-3 rounded-md bg-card border border-border/30">
                                 <div className="flex-shrink-0 w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center">
                                   <Stethoscope className="w-5 h-5 text-green-500" />
                                 </div>
@@ -219,7 +219,7 @@ export function DataTable({ columns, data, cancelAppointment }) {
                                 </div>
                               </div>
                               {/* Profesional */}
-                              <div className="flex items-center gap-3 p-3 rounded-md bg-gradient-to-br from-card to-muted/20 border border-border/30">
+                              <div className="flex items-center gap-3 p-3 rounded-md bg-card border border-border/30">
                                 <div className="flex-shrink-0 w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center">
                                   <User className="w-5 h-5 text-purple-500" />
                                 </div>
@@ -241,7 +241,7 @@ export function DataTable({ columns, data, cancelAppointment }) {
                                   <CancelDialog onConfirm={() => cancelAppointment(row.original.id)}>
                                     <Button
                                       variant="outline"
-                                      className="bg-background/50 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/20"
+                                      className="bg-background/50 text-red-600 dark:text-red-500"
                                     >
                                       <CalendarX className="h-4 w-4 mr-1" />
                                       Cancelar
