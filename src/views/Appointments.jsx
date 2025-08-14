@@ -39,15 +39,15 @@ export function Appointments() {
     if (noAppointments) return <NoAppointments />
 
     const sortedAppointments = sortAppointments(appointments)
-    const columnsWithActions = createColumns(cancelAppointment)
+    const columns = createColumns(cancelAppointment)
 
-    return <DataTable columns={columnsWithActions} data={sortedAppointments} cancelAppointment={cancelAppointment} />
+    return <DataTable columns={columns} data={sortedAppointments} cancelAppointment={cancelAppointment} />
   }
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end mb-4 md:mb-8">
-          <section className="mb-8 md:mb-0">
+          <section className="mb-6 md:mb-2">
             <h1 className="text-3xl font-bold text-foreground mb-2">Mis Citas</h1>
             <p className="text-muted-foreground">
               Administra tus citas veterinarias de forma sencilla y eficiente en un solo lugar.
