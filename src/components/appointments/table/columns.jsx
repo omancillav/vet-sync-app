@@ -13,7 +13,7 @@ import { Image } from '@unpic/react'
 export const createColumns = (cancelAppointment) => [
   {
     accessorKey: 'nombre_mascota',
-    header: 'Mascota',
+    header: 'Paciente',
     cell: ({ row }) => {
       const imgUrl = row.original.img_url
       const nombreMascota = row.getValue('nombre_mascota')
@@ -22,7 +22,7 @@ export const createColumns = (cancelAppointment) => [
           {imgUrl && (
             <div className="mr-1.5 sm:mr-3 w-8 sm:w-11 rounded-full overflow-hidden">
               <Image
-                width={150}
+                width={80}
                 aspectRatio={1}
                 src={imgUrl}
                 alt={nombreMascota}
@@ -44,7 +44,7 @@ export const createColumns = (cancelAppointment) => [
         <Button
           variant="primary"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="h-auto p-0 font-medium"
+          className="h-auto font-medium"
         >
           Fecha
           <ArrowUpDown className="ml-1 h-4 w-4" />

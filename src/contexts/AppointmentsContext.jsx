@@ -37,13 +37,13 @@ export function AppointmentsProvider({ children }) {
     }
   }, [initialized, loading, isAuthenticated, fetchAppointments])
 
-  const cancelAppointment = useCallback(async (id) => {
+  const cancelAppointment = (async (id) => {
     try {
       const { data } = await cancelAppointmentApi(id)
       return data
     } catch (error) {
       console.error('Error canceling appointment:', error)
-      setError(error)
+      setError(error) |
       toast.error('Error cancelando la cita')
       throw error
     } finally {
