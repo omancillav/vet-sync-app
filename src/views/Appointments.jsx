@@ -3,7 +3,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { AuthPrompt } from '@/components/AuthPrompt'
 import { NoAppointments } from '@/components/appointments/NoAppointments'
 import { useAppointments } from '@/hooks/useAppointments'
-import { LoadingSpinner } from '@/components/loaders/LoadingSpinner.jsx'
+import { TableSkeleton } from '@/components/loaders/TableSkeleton'
 import { ErrorCard } from '@/components/ErrorCard'
 import { createColumns } from '@/components/appointments/table/columns'
 import { DataTable } from '@/components/appointments/table/data-table'
@@ -26,9 +26,7 @@ export function Appointments() {
 
     if (loading) {
       return (
-        <div className="flex justify-center items-center h-64">
-          <LoadingSpinner />
-        </div>
+        <TableSkeleton />
       )
     }
 
