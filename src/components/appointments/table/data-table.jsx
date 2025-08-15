@@ -83,7 +83,7 @@ export function DataTable({ columns, data, cancelAppointment }) {
     <div className="flex flex-col gap-5">
       <div className={`flex ${isMobile ? 'flex-col gap-4' : 'items-center'}`}>
         {isMobile && (
-          <div className='mb-2'>
+          <div className="mb-2">
             <Button onClick={() => toast.warning('Funcionalidad de agendar cita en desarrollo')} className="w-full">
               Agendar Cita
               <CalendarPlus className="h-4 w-4" />
@@ -153,7 +153,7 @@ export function DataTable({ columns, data, cancelAppointment }) {
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className={header.column.id === 'acciones' ? 'w-12' : ''}>
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   )
@@ -171,7 +171,7 @@ export function DataTable({ columns, data, cancelAppointment }) {
                     onClick={() => isMobile && row.toggleExpanded()}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id} className="p-4">
+                      <TableCell key={cell.id} className={`py-4 px-3 ${cell.column.id === 'acciones' ? 'w-12' : ''}`}>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                     ))}
