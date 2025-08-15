@@ -8,11 +8,34 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Badge } from '@/components/ui/badge'
 import { CancelDialog } from '@/components/appointments/CancelDialog'
+import { Image } from '@unpic/react'
 
 export const createColumns = (cancelAppointment) => [
   {
     accessorKey: 'nombre_mascota',
-    header: 'Mascota'
+    header: 'Mascota',
+    cell: ({ row }) => {
+      const imgUrl = row.original.img_url
+      const nombreMascota = row.getValue('nombre_mascota')
+      return (
+        <div className="flex items-center">
+          {imgUrl && (
+            <div className="mr-1.5 sm:mr-3 w-8 sm:w-11 rounded-full overflow-hidden">
+              <Image
+                width={150}
+                aspectRatio={1}
+                src={imgUrl}
+                alt={nombreMascota}
+                onError={(e) => {
+                  e.target.style.display = 'none'
+                }}
+              />
+            </div>
+          )}
+          <span>{nombreMascota}</span>
+        </div>
+      )
+    }
   },
   {
     accessorKey: 'fecha',
@@ -39,7 +62,6 @@ export const createColumns = (cancelAppointment) => [
         month: 'short',
         year: 'numeric'
       })
-
       return <div className="font-medium">{formattedDate}</div>
     },
     sortingFn: (a, b) => {
@@ -76,7 +98,7 @@ export const createColumns = (cancelAppointment) => [
   },
   {
     accessorKey: 'status',
-    header: 'Estado',
+    header: <div className="text-center">Estado</div>,
     cell: ({ row }) => {
       const status = row.getValue('status')
 
@@ -92,9 +114,11 @@ export const createColumns = (cancelAppointment) => [
       const colorClass = statusColors[status] || 'text-gray-500 border-gray-500'
 
       return (
-        <Badge variant="outline" className={`${colorClass} text-xs lg:text-sm`}>
-          {status}
-        </Badge>
+        <div className="flex justify-center">
+          <Badge variant="outline" className={`${colorClass} text-xs px-2 py-1`}>
+            {status}
+          </Badge>
+        </div>
       )
     }
   },
