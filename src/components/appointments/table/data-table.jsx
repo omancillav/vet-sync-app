@@ -171,7 +171,7 @@ export function DataTable({ columns, data, cancelAppointment }) {
                     onClick={() => isMobile && row.toggleExpanded()}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id} className={`py-4 px-1.5 sm:px-3 ${cell.column.id === 'acciones' ? 'w-12' : ''}`}>
+                      <TableCell key={cell.id} className={`py-3 px-1.5 sm:px-3 ${cell.column.id === 'acciones' ? 'w-12' : ''}`}>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                     ))}
