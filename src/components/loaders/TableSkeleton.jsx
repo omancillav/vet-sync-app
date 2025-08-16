@@ -14,9 +14,10 @@ export function TableSkeleton({ rows = 5 }) {
       <div className={`flex ${isMobile ? 'flex-col gap-4' : 'items-center'}`}>
         {/* Botón agendar cita en móvil */}
         {isMobile && (
-          <div className="mb-2">
-            <Skeleton className="w-full h-10 rounded-md" />
-          </div>
+          <Button disabled className="bg-muted mb-2">
+            Agendar Cita
+            <CalendarPlus className="h-4 w-4" />
+          </Button>
         )}
 
         <div className="flex items-center gap-2 w-full">
