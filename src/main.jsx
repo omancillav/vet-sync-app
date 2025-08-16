@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/contexts/theme-context.jsx'
 import { AppWrapper } from '@/app/AppWrapper'
 import { AppointmentsProvider } from '@/contexts/AppointmentsContext.jsx'
 import { ServicesProvider } from '@/contexts/ServicesContext.jsx'
+import { PetsProvider } from '@/contexts/PetsContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -13,7 +14,9 @@ createRoot(document.getElementById('root')).render(
       <AppWrapper>
         <AppointmentsProvider>
           <ServicesProvider>
-            <App />
+            <PetsProvider>
+              <App />
+            </PetsProvider>
           </ServicesProvider>
         </AppointmentsProvider>
       </AppWrapper>
