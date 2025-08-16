@@ -5,13 +5,16 @@ import '@/styles/index.css'
 import { ThemeProvider } from '@/contexts/theme-context.jsx'
 import { AppWrapper } from '@/app/AppWrapper'
 import { AppointmentsProvider } from '@/contexts/AppointmentsContext.jsx'
+import { ServicesProvider } from '@/contexts/ServicesContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
       <AppWrapper>
         <AppointmentsProvider>
-          <App />
+          <ServicesProvider>
+            <App />
+          </ServicesProvider>
         </AppointmentsProvider>
       </AppWrapper>
     </ThemeProvider>

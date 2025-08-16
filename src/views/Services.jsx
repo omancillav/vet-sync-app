@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import { useServices } from '@/hooks/useServices.js'
+import { useAuth } from '@/hooks/useAuth'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ServicesCard } from '@/components/Services/ServicesCard'
 import { ServicesSkeleton } from '@/components/loaders/ServicesSkeleton.jsx'
@@ -6,7 +8,14 @@ import { ErrorCard } from '@/components/ErrorCard'
 import { filterServicesByCategory } from '@/lib/utils'
 
 export function Services() {
-  const { services, loading, error } = useServices()
+  const { services, loading, error, initializeServices } = useServices()
+  const { isAuthenticated } = useAuth()
+
+  useEffect(() => {
+    if (isAuthenticated && !loading) {
+      initializeServices()
+    }
+  }, [isAuthenticated, loading, initializeServices])
 
   return (
     <div className="w-full px-4 py-8 mx-auto max-w-7xl">
