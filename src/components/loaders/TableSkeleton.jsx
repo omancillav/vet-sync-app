@@ -11,10 +11,10 @@ export function TableSkeleton({ rows = 5 }) {
   return (
     <div className="flex flex-col gap-5">
       {/* Header con controles */}
-      <div className={`flex ${isMobile ? 'flex-col gap-4' : 'items-center'}`}>
+      <div className={`flex ${isMobile ? 'flex-col gap-6' : 'items-center'}`}>
         {/* Botón agendar cita en móvil */}
         {isMobile && (
-          <Button disabled className="bg-muted mb-2">
+          <Button variant="secondary" disabled className="bg-muted">
             Agendar Cita
             <CalendarPlus className="h-4 w-4" />
           </Button>
@@ -29,16 +29,18 @@ export function TableSkeleton({ rows = 5 }) {
 
           {/* Botón agendar cita en desktop */}
           {!isMobile && (
-            <Button disabled className="bg-muted ml-auto">
+            <Button variant="secondary" disabled className="bg-muted ml-auto">
               Agendar Cita
               <CalendarPlus className="h-4 w-4" />
             </Button>
           )}
 
           {/* Selector de columnas */}
-          <Button variant="outline" disabled className="bg-muted">
-            <SlidersHorizontal />
-          </Button>
+          {!isMobile && (
+            <Button variant="outline" disabled className="bg-muted">
+              <SlidersHorizontal />
+            </Button>
+          )}
         </div>
       </div>
 
