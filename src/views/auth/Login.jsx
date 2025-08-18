@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -15,10 +15,14 @@ import { useAuth } from '@/hooks/useAuth'
 
 export function Login() {
   const navigate = useNavigate()
-  const { login, isAuthenticated } = useAuth()
+  const { login, isAuthenticated, loading } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
 
-  if (isAuthenticated) navigate('/')
+  useEffect(() => {
+    if (!loading && isAuthenticated) {
+      navigate('/')
+    }
+  }, [loading, isAuthenticated, navigate])
 
   const {
     register,
