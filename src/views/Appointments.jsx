@@ -3,15 +3,15 @@ import { useAuth } from '@/hooks/useAuth'
 import { AuthPrompt } from '@/components/AuthPrompt'
 import { NoAppointments } from '@/components/appointments/NoAppointments'
 import { useAppointments } from '@/hooks/useAppointments'
-import { LoadingSpinner } from '@/components/loaders/LoadingSpinner.jsx'
+import { TableSkeleton } from '@/components/loaders/TableSkeleton'
 import { ErrorCard } from '@/components/ErrorCard'
-import { Button } from '@/components/ui/button'
-import { CalendarPlus } from 'lucide-react'
+import { createColumns } from '@/components/appointments/table/columns'
+import { DataTable } from '@/components/appointments/table/data-table'
 import { Link } from 'react-router-dom'
-import { toast } from 'sonner'
+import { sortAppointments } from '@/lib/utils.js'
 
 export function Appointments() {
-  const { appointments, noAppointments, loading, error, initializeAppointments } = useAppointments()
+  const { appointments, noAppointments, loading, error, initializeAppointments, cancelAppointment } = useAppointments()
   const { isAuthenticated } = useAuth()
 
   useEffect(() => {
@@ -27,9 +27,7 @@ export function Appointments() {
 
     if (loading) {
       return (
-        <div className="flex justify-center items-center h-64">
-          <LoadingSpinner />
-        </div>
+        <TableSkeleton />
       )
     }
 
@@ -39,34 +37,20 @@ export function Appointments() {
 
     if (noAppointments) return <NoAppointments />
 
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-        {appointments.map((appointment) => (
-          <h3 key={appointment.id}>{appointment.title}</h3>
-        ))}
-      </div>
-    )
+    const sortedAppointments = sortAppointments(appointments)
+    const columns = createColumns(cancelAppointment)
+
+    return <DataTable columns={columns} data={sortedAppointments} cancelAppointment={cancelAppointment} />
   }
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end mb-4 md:mb-8">
-          <section className="md:w-1/2 mb-8 md:mb-0">
+          <section className="mb-6 md:mb-2">
             <h1 className="text-3xl font-bold text-foreground mb-2">Mis Citas</h1>
-            <p className="text-muted-foreground">Administra todas tus citas veterinarias</p>
-          </section>
-          <section className="w-full md:w-1/2 md:flex md:justify-end">
-            {isAuthenticated && (
-              <Link to="/citas/nueva" className="w-full md:w-auto">
-                <Button
-                  onClick={() => toast.warning('Funcionalidad de agendar cita en desarrollo')}
-                  className="w-full md:w-auto"
-                >
-                  Agendar Cita
-                  <CalendarPlus className="h-4 w-4 ml-2" />
-                </Button>
-              </Link>
-            )}
+            <p className="text-muted-foreground">
+              Administra tus citas veterinarias de forma sencilla y eficiente en un solo lugar.
+            </p>
           </section>
         </div>
         {renderContent()}

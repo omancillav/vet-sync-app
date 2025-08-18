@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Image } from '@unpic/react'
 import { Dog } from 'lucide-react'
 
 export function PetImage({ src, alt, className }) {
@@ -30,8 +31,7 @@ export function PetImage({ src, alt, className }) {
         </Skeleton>
       )}
 
-      <img
-        loading="lazy"
+      <Image
         className={`w-full h-full object-cover transition-opacity duration-500 ${
           imgLoaded ? 'opacity-100' : 'opacity-0'
         }`}
@@ -39,6 +39,8 @@ export function PetImage({ src, alt, className }) {
         alt={alt}
         onError={handleError}
         onLoad={handleLoad}
+        width={500}
+        aspectRatio={1}
       />
     </div>
   )

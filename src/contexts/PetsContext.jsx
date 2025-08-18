@@ -1,4 +1,4 @@
-import { createContext, useState, useCallback, useEffect } from 'react'
+import { createContext, useState, useCallback } from 'react'
 import {
   getPets,
   addPet as addPetApi,
@@ -17,6 +17,7 @@ export function PetsProvider({ children }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [noPets, setNoPets] = useState(false)
+  const [initialized, setInitialized] = useState(false)
 
   // Estado para el formulario
   const [formState, setFormState] = useState({
@@ -32,6 +33,7 @@ export function PetsProvider({ children }) {
       const { data } = await getPets()
       setPets(data)
       setNoPets(data.length === 0)
+      setInitialized(true)
       return data
     } catch (error) {
       console.error('Error fetching pets:', error)
@@ -40,6 +42,44 @@ export function PetsProvider({ children }) {
     } finally {
       setLoading(false)
     }
+  }, [])
+
+  const initializePets = useCallback(() => {
+    if (!initialized && !loading && isAuthenticated) {
+      fetchPets()
+    }
+  }, [initialized, loading, isAuthenticated, fetchPets])
+
+  // Funciones para manejar el formulario
+  const openAddForm = useCallback(() => {
+    setFormState({
+      isOpen: true,
+      mode: 'add',
+      selectedPetId: null,
+      selectedPet: null
+    })
+  }, [])
+
+  const openEditForm = useCallback(
+    (petId) => {
+      const pet = pets.find((p) => p.id === petId)
+      setFormState({
+        isOpen: true,
+        mode: 'edit',
+        selectedPetId: petId,
+        selectedPet: pet
+      })
+    },
+    [pets]
+  )
+
+  const closeForm = useCallback(() => {
+    setFormState({
+      isOpen: false,
+      mode: 'add',
+      selectedPetId: null,
+      selectedPet: null
+    })
   }, [])
 
   const addPet = useCallback(
@@ -77,7 +117,7 @@ export function PetsProvider({ children }) {
         setLoading(false)
       }
     },
-    [fetchPets]
+    [fetchPets, closeForm]
   )
 
   const updatePet = useCallback(
@@ -113,7 +153,7 @@ export function PetsProvider({ children }) {
         setLoading(false)
       }
     },
-    [fetchPets]
+    [fetchPets, closeForm]
   )
 
   const deletePet = useCallback(
@@ -144,38 +184,6 @@ export function PetsProvider({ children }) {
     [pets]
   )
 
-  // Funciones para manejar el formulario
-  const openAddForm = useCallback(() => {
-    setFormState({
-      isOpen: true,
-      mode: 'add',
-      selectedPetId: null,
-      selectedPet: null
-    })
-  }, [])
-
-  const openEditForm = useCallback(
-    (petId) => {
-      const pet = pets.find((p) => p.id === petId)
-      setFormState({
-        isOpen: true,
-        mode: 'edit',
-        selectedPetId: petId,
-        selectedPet: pet
-      })
-    },
-    [pets]
-  )
-
-  const closeForm = useCallback(() => {
-    setFormState({
-      isOpen: false,
-      mode: 'add',
-      selectedPetId: null,
-      selectedPet: null
-    })
-  }, [])
-
   const submitForm = useCallback(
     async (petData, imageFile = null) => {
       if (formState.mode === 'add') {
@@ -187,21 +195,17 @@ export function PetsProvider({ children }) {
     [formState.mode, formState.selectedPetId, addPet, updatePet]
   )
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      fetchPets()
-    }
-  }, [fetchPets, isAuthenticated])
-
   const value = {
     // Estado de mascotas
     pets,
     loading,
     error,
     noPets,
+    initialized,
 
     // Acciones de mascotas
     fetchPets,
+    initializePets,
     deletePet,
 
     // Estado del formulario

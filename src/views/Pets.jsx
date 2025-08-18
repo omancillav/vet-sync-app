@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { AuthPrompt } from '@/components/AuthPrompt'
 import { NoPets } from '@/components/pets/NoPets'
@@ -5,14 +6,19 @@ import { PetsSkeleton } from '@/components/loaders/PetsSkeleton.jsx'
 import { ErrorCard } from '@/components/ErrorCard'
 import { PetsCard } from '@/components/pets/card/PetsCard'
 import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
+import { HeartPlus } from 'lucide-react'
 import { PetsForm } from '@/components/pets/form/PetsForm'
-import { PetsProvider } from '@/contexts/PetsContext'
 import { usePets } from '@/hooks/usePets'
 
-function PetsContent() {
-  const { pets, loading, error, noPets, openAddForm } = usePets()
+export function Pets() {
+  const { pets, loading, error, noPets, openAddForm, initializePets } = usePets()
   const { isAuthenticated } = useAuth()
+
+  useEffect(() => {
+    if (isAuthenticated && !loading) {
+      initializePets()
+    }
+  }, [isAuthenticated, loading, initializePets])
 
   const renderContent = () => {
     if (!isAuthenticated) {
@@ -20,9 +26,7 @@ function PetsContent() {
     }
 
     if (loading) {
-      return (
-        <PetsSkeleton />
-      )
+      return <PetsSkeleton />
     }
 
     if (error) {
@@ -52,7 +56,7 @@ function PetsContent() {
             {isAuthenticated && (
               <Button className="w-full md:w-auto" onClick={openAddForm}>
                 Agregar Mascota
-                <Plus className="h-4 w-4 ml-2" />
+                <HeartPlus className="h-4 w-4" />
               </Button>
             )}
           </section>
@@ -61,13 +65,5 @@ function PetsContent() {
         <PetsForm />
       </div>
     </div>
-  )
-}
-
-export function Pets() {
-  return (
-    <PetsProvider>
-      <PetsContent />
-    </PetsProvider>
   )
 }

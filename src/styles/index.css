@@ -71,6 +71,8 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Lusitana', serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 }
 
@@ -105,7 +107,7 @@
 }
 
 :root {
-  --radius: 0.625rem;
+  --radius: 1.5rem;
   --background: oklch(0.9928 0.0042 56.38);
   --foreground: oklch(0.15 0.02 45);
   --card: oklch(1 0 0);
@@ -117,7 +119,7 @@
   --secondary: oklch(0.985 0.005 50);
   --secondary-foreground: oklch(0.65 0.15 45);
   --muted: oklch(0.95 0.01 50);
-  --muted-foreground: oklch(0.45 0.05 45);
+  --muted-foreground: oklch(56.83% 0.10181 44.734);
   --accent: oklch(0.75 0.12 55);
   --accent-foreground: oklch(0.15 0.02 45);
   --destructive: oklch(0.65 0.2 15);
@@ -133,7 +135,8 @@
 }
 
 .dark {
-  --background: oklch(0.148 0.015 272.915); /* Mix entre los dos colores */
+  --background: oklch(0.148 0.015 272.915);
+  /* Mix entre los dos colores */
   --foreground: oklch(0.92 0.01 50);
   --card: oklch(0.2092 0.019 266.07);
   --card-foreground: oklch(0.92 0.01 50);
@@ -166,6 +169,7 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Figtree', sans-serif;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 }

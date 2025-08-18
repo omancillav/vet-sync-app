@@ -13,6 +13,8 @@ export function ServicesSkeleton({ count = 6 }) {
 
           <div className="flex-1 flex flex-col">
             <CardHeader className="pb-2">
+              {/* Título */}
+              <Skeleton className="h-6 w-3/4 mb-2" />
               {/* Descripción - dos líneas */}
               <div className="space-y-2">
                 <Skeleton className="h-4 w-full" />
