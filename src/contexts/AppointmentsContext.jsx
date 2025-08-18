@@ -14,6 +14,11 @@ export function AppointmentsProvider({ children }) {
   const [error, setError] = useState(null)
   const [initialized, setInitialized] = useState(false)
 
+  // Estado para el formulario de nueva cita
+  const [formState, setFormState] = useState({
+    isOpen: false
+  })
+
   const fetchAppointments = useCallback(async () => {
     try {
       setLoading(true)
@@ -52,6 +57,19 @@ export function AppointmentsProvider({ children }) {
     }
   }
 
+  // Funciones para manejar el formulario
+  const openForm = useCallback(() => {
+    setFormState({
+      isOpen: true
+    })
+  }, [])
+
+  const closeForm = useCallback(() => {
+    setFormState({
+      isOpen: false
+    })
+  }, [])
+
   const value = {
     appointments,
     noAppointments,
@@ -60,7 +78,12 @@ export function AppointmentsProvider({ children }) {
     initialized,
     fetchAppointments,
     cancelAppointment,
-    initializeAppointments
+    initializeAppointments,
+
+    // Estado del formulario
+    formState,
+    openForm,
+    closeForm
   }
 
   return <AppointmentsContext.Provider value={value}>{children}</AppointmentsContext.Provider>
