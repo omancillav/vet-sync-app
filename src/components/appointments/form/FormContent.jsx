@@ -126,7 +126,7 @@ export function FormContent() {
                         <div className="flex items-center gap-2">
                           {selectedService.categoria_id === 1 && <Stethoscope size={18} />}
                           {selectedService.categoria_id === 2 && <Bubbles size={18} />}
-                          <span className="font-medium">{selectedService.nombre}</span>
+                          <span>{selectedService.nombre}</span>
                         </div>
                       ) : (
                         <SelectValue
@@ -214,9 +214,12 @@ export function FormContent() {
               render={({ field: { onChange, value } }) => (
                 <Input
                   type="time"
+                  id="hora_inicio"
                   value={value}
                   onChange={onChange}
-                  className={`${errors.hora_inicio ? 'border-red-500' : ''}`}
+                  className={`bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none ${
+                    errors.hora_inicio ? 'border-red-500' : ''
+                  }`}
                 />
               )}
             />
