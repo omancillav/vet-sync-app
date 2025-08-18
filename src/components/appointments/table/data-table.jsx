@@ -32,6 +32,7 @@ import {
   Stethoscope,
   User
 } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 export function DataTable({ columns, data, cancelAppointment }) {
   const [sorting, setSorting] = useState([])
@@ -42,7 +43,6 @@ export function DataTable({ columns, data, cancelAppointment }) {
 
   const isMobile = useMediaQuery('(max-width: 768px)')
 
-  // Configurar visibilidad de columnas según el tamaño de pantalla
   useEffect(() => {
     if (isMobile) {
       setColumnVisibility({
@@ -84,10 +84,12 @@ export function DataTable({ columns, data, cancelAppointment }) {
       <div className={`flex ${isMobile ? 'flex-col gap-4' : 'items-center'}`}>
         {isMobile && (
           <div className="mb-2">
-            <Button onClick={() => toast.warning('Funcionalidad de agendar cita en desarrollo')} className="w-full">
-              Agendar Cita
-              <CalendarPlus className="h-4 w-4" />
-            </Button>
+            <Link to="/agendar">
+              <Button onClick={() => toast.warning('Funcionalidad de agendar cita en desarrollo')} className="w-full">
+                Agendar Cita
+                <CalendarPlus className="h-4 w-4" />
+              </Button>
+            </Link>
           </div>
         )}
 
@@ -103,10 +105,12 @@ export function DataTable({ columns, data, cancelAppointment }) {
           </div>
           {!isMobile && (
             <div className="ml-auto">
-              <Button onClick={() => toast.warning('Funcionalidad de agendar cita en desarrollo')} className="w-auto">
-                Agendar Cita
-                <CalendarPlus className="h-4 w-4" />
-              </Button>
+              <Link to="/agendar">
+                <Button onClick={() => toast.warning('Funcionalidad de agendar cita en desarrollo')} className="w-auto">
+                  Agendar Cita
+                  <CalendarPlus className="h-4 w-4" />
+                </Button>
+              </Link>
             </div>
           )}
           {!isMobile && (
@@ -153,7 +157,10 @@ export function DataTable({ columns, data, cancelAppointment }) {
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className={`${header.column.id === 'acciones' ? 'w-12' : ''} px-2 sm:px-3`}>
+                    <TableHead
+                      key={header.id}
+                      className={`${header.column.id === 'acciones' ? 'w-12' : ''} px-2 sm:px-3`}
+                    >
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   )
@@ -171,7 +178,10 @@ export function DataTable({ columns, data, cancelAppointment }) {
                     onClick={() => isMobile && row.toggleExpanded()}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id} className={`py-3 px-1.5 sm:px-3 ${cell.column.id === 'acciones' ? 'w-12' : ''}`}>
+                      <TableCell
+                        key={cell.id}
+                        className={`py-3 px-1.5 sm:px-3 ${cell.column.id === 'acciones' ? 'w-12' : ''}`}
+                      >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                     ))}
