@@ -8,7 +8,7 @@ import { Home } from '@/views/Home.jsx'
 import { Pets } from '@/views/Pets.jsx'
 import { Appointments } from '@/views/Appointments.jsx'
 import { Services } from '@/views/Services.jsx'
-import { NotFound } from '@/views/NotFound.jsx' // Componente de página 404
+import { NotFound } from '@/views/NotFound.jsx'
 
 function AppContent() {
   const location = useLocation()
@@ -37,7 +37,6 @@ function AppContent() {
           <Route path="/servicios" element={<Services />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          {/* Ruta catch-all para páginas no encontradas */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
