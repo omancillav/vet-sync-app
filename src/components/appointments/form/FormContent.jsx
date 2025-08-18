@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { LoaderCircle, Calendar as CalendarIcon, CalendarPlus } from 'lucide-react'
+import { LoaderCircle, Calendar as CalendarIcon, CalendarPlus, Stethoscope, Bubbles } from 'lucide-react'
 import { usePets } from '@/hooks/usePets'
 import { useServices } from '@/hooks/useServices'
 import { useAuth } from '@/hooks/useAuth'
@@ -112,32 +112,53 @@ export function FormContent() {
             <Controller
               name="servicio_id"
               control={control}
-              render={({ field: { onChange, value } }) => (
-                <Select
-                  value={value?.toString() || ''}
-                  onValueChange={(val) => onChange(Number(val))}
-                  disabled={servicesLoading || services.length === 0}
-                >
-                  <SelectTrigger className={`${errors.servicio_id ? 'border-red-500' : ''} w-full overflow-hidden`}>
-                    <SelectValue
-                      placeholder={
-                        servicesLoading
-                          ? 'Cargando servicios...'
-                          : services.length === 0
-                            ? 'No hay servicios disponibles'
-                            : 'Selecciona un servicio'
-                      }
-                    />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {services.map((service) => (
-                      <SelectItem key={service.id} value={service.id.toString()}>
-                        {service.nombre} - ${service.precio}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              )}
+              render={({ field: { onChange, value } }) => {
+                const selectedService = services.find((service) => service.id === Number(value))
+
+                return (
+                  <Select
+                    value={value?.toString() || ''}
+                    onValueChange={(val) => onChange(Number(val))}
+                    disabled={servicesLoading || services.length === 0}
+                  >
+                    <SelectTrigger className={`${errors.servicio_id ? 'border-red-500' : ''} w-full overflow-hidden`}>
+                      {selectedService ? (
+                        <div className="flex items-center gap-2">
+                          {selectedService.categoria_id === 1 && <Stethoscope size={18} />}
+                          {selectedService.categoria_id === 2 && <Bubbles size={18} />}
+                          <span className="font-medium">{selectedService.nombre}</span>
+                        </div>
+                      ) : (
+                        <SelectValue
+                          placeholder={
+                            servicesLoading
+                              ? 'Cargando servicios...'
+                              : services.length === 0
+                                ? 'No hay servicios disponibles'
+                                : 'Selecciona un servicio'
+                          }
+                        />
+                      )}
+                    </SelectTrigger>
+                    <SelectContent>
+                      {services.map((service) => (
+                        <SelectItem key={service.id} value={service.id.toString()}>
+                          <div className="flex items-center gap-3">
+                            {service.categoria_id === 1 && <Stethoscope size={24} />}
+                            {service.categoria_id === 2 && <Bubbles size={24} />}
+                            <div className="flex flex-col">
+                              <span>
+                                <strong className="font-semibold">{service.nombre}</strong> - ${service.precio}
+                              </span>
+                              <p>{service.descripcion}</p>
+                            </div>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )
+              }}
             />
             {errors.servicio_id && <p className="text-sm text-red-500">{errors.servicio_id.message}</p>}
           </div>
