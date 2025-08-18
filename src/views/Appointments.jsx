@@ -25,9 +25,7 @@ export function Appointments() {
     }
 
     if (loading) {
-      return (
-        <TableSkeleton />
-      )
+      return <TableSkeleton />
     }
 
     if (error) {
