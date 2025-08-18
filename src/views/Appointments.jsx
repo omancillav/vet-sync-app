@@ -7,7 +7,6 @@ import { TableSkeleton } from '@/components/loaders/TableSkeleton'
 import { ErrorCard } from '@/components/ErrorCard'
 import { createColumns } from '@/components/appointments/table/columns'
 import { DataTable } from '@/components/appointments/table/data-table'
-import { Link } from 'react-router-dom'
 import { sortAppointments } from '@/lib/utils.js'
 
 export function Appointments() {
