@@ -46,17 +46,10 @@ export function AppointmentsProvider({ children }) {
   }, [])
 
   const initializeAppointments = useCallback(() => {
-    console.log('AppointmentsContext: initializeAppointments called', {
-      initialized,
-      loading,
-      isAuthenticated,
-      appointmentsLength: appointments.length
-    })
     if (!initialized && !loading && isAuthenticated) {
-      console.log('AppointmentsContext: Fetching appointments...')
       fetchAppointments()
     }
-  }, [initialized, loading, isAuthenticated, fetchAppointments, appointments.length])
+  }, [initialized, loading, isAuthenticated, fetchAppointments])
 
   const cancelAppointment = async (id) => {
     try {
