@@ -10,11 +10,13 @@ import { LoaderCircle, Calendar } from 'lucide-react'
 import { usePets } from '@/hooks/usePets'
 import { useServices } from '@/hooks/useServices'
 import { useAuth } from '@/hooks/useAuth'
+import { useAppointments } from '@/hooks/useAppointments'
 
 export function FormContent() {
   const { user } = useAuth()
   const { pets, loading: petsLoading, initializePets } = usePets()
   const { services, loading: servicesLoading, initializeServices } = useServices()
+  const { closeForm } = useAppointments()
 
   const form = useForm({
     resolver: zodResolver(appointmentSchema),
@@ -192,7 +194,7 @@ export function FormContent() {
 
       {/* Botones */}
       <div className="flex justify-end space-x-2 pt-4">
-        <Button type="button" variant="secondary" disabled={isSubmitting}>
+        <Button type="button" variant="secondary" disabled={isSubmitting} onClick={closeForm}>
           Cancelar
         </Button>
         <Button type="submit" disabled={isSubmitting || petsLoading || servicesLoading}>
