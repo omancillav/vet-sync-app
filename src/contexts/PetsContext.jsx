@@ -1,4 +1,4 @@
-import { createContext, useState, useCallback } from 'react'
+import { createContext, useState, useCallback, useEffect } from 'react'
 import {
   getPets,
   addPet as addPetApi,
@@ -26,6 +26,21 @@ export function PetsProvider({ children }) {
     selectedPetId: null,
     selectedPet: null
   })
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setPets([])
+      setNoPets(false)
+      setError(null)
+      setInitialized(false)
+      setFormState({
+        isOpen: false,
+        mode: 'add',
+        selectedPetId: null,
+        selectedPet: null
+      })
+    }
+  }, [isAuthenticated])
 
   const fetchPets = useCallback(async () => {
     try {
