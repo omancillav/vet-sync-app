@@ -1,12 +1,15 @@
 import api from './client'
 import Cookies from 'js-cookie'
 
-const userDataCookie = Cookies.get('userData')
-const userData = userDataCookie ? JSON.parse(userDataCookie) : null
-const clienteId = userData?.id
+const getCurrentClientId = () => {
+  const userDataCookie = Cookies.get('userData')
+  const userData = userDataCookie ? JSON.parse(userDataCookie) : null
+  return userData?.id
+}
 
 export const getAppointments = async () => {
   try {
+    const clienteId = getCurrentClientId()
     const config = {
       params: { clienteId },
       requiresAuth: true

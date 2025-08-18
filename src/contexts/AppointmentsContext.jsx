@@ -1,4 +1,4 @@
-import { createContext, useCallback, useState } from 'react'
+import { createContext, useCallback, useState, useEffect } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { getAppointments as getAppointmentsApi } from '@/services/api/appointments'
 import { cancelAppointment as cancelAppointmentApi } from '@/services/api/appointments'
@@ -14,10 +14,19 @@ export function AppointmentsProvider({ children }) {
   const [error, setError] = useState(null)
   const [initialized, setInitialized] = useState(false)
 
-  // Estado para el formulario de nueva cita
   const [formState, setFormState] = useState({
     isOpen: false
   })
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setAppointments([])
+      setNoAppointments(false)
+      setError(null)
+      setInitialized(false)
+      setFormState({ isOpen: false })
+    }
+  }, [isAuthenticated])
 
   const fetchAppointments = useCallback(async () => {
     try {
@@ -37,10 +46,17 @@ export function AppointmentsProvider({ children }) {
   }, [])
 
   const initializeAppointments = useCallback(() => {
+    console.log('AppointmentsContext: initializeAppointments called', {
+      initialized,
+      loading,
+      isAuthenticated,
+      appointmentsLength: appointments.length
+    })
     if (!initialized && !loading && isAuthenticated) {
+      console.log('AppointmentsContext: Fetching appointments...')
       fetchAppointments()
     }
-  }, [initialized, loading, isAuthenticated, fetchAppointments])
+  }, [initialized, loading, isAuthenticated, fetchAppointments, appointments.length])
 
   const cancelAppointment = async (id) => {
     try {
