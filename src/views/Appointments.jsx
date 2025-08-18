@@ -40,7 +40,7 @@ export function Appointments() {
     const sortedAppointments = sortAppointments(appointments)
     const columns = createColumns(cancelAppointment)
 
-    return <DataTable columns={columns} data={sortedAppointments} cancelAppointment={cancelAppointment} />
+    return <DataTable columns={columns} data={sortedAppointments} cancelAppointment={cancelAppointment} openForm={openForm} />
   }
   return (
     <div className="container mx-auto px-4 py-8">
