@@ -11,15 +11,13 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { LoaderCircle, Calendar as CalendarIcon, CalendarPlus, Stethoscope, Bubbles } from 'lucide-react'
 import { usePets } from '@/hooks/usePets'
 import { useServices } from '@/hooks/useServices'
-import { useAuth } from '@/hooks/useAuth'
 import { useAppointments } from '@/hooks/useAppointments'
 import { Image } from '@unpic/react'
 
 export function FormContent() {
-  const { user } = useAuth()
   const { pets, loading: petsLoading, initializePets } = usePets()
   const { services, loading: servicesLoading, initializeServices } = useServices()
-  const { closeForm } = useAppointments()
+  const { addAppointment, closeForm } = useAppointments()
 
   const [open, setOpen] = useState(false)
   const [selectedDate, setSelectedDate] = useState(undefined)
@@ -27,7 +25,6 @@ export function FormContent() {
   const form = useForm({
     resolver: zodResolver(appointmentSchema),
     defaultValues: {
-      cliente_id: user?.id || '',
       mascota_id: '',
       servicio_id: '',
       status: 'Programada',
@@ -54,7 +51,8 @@ export function FormContent() {
         ...data,
         servicio_id: Number(data.servicio_id)
       }
-      console.log('Datos del formulario:', formData)
+      const response = await addAppointment(formData)
+      console.log(response)
     } catch (error) {
       console.error('Error al procesar la cita:', error)
     }
@@ -72,7 +70,9 @@ export function FormContent() {
               control={control}
               render={({ field: { onChange, value } }) => (
                 <Select value={value} onValueChange={onChange} disabled={petsLoading || pets.length === 0}>
-                  <SelectTrigger className={`${errors.mascota_id ? 'border-red-500' : ''} w-full overflow-hidden`}>
+                  <SelectTrigger
+                    className={`${errors.mascota_id ? 'border-red-500' : ''} w-full overflow-hidden min-h-12`}
+                  >
                     <SelectValue
                       placeholder={
                         petsLoading
@@ -93,7 +93,7 @@ export function FormContent() {
                             width={100}
                             aspectRatio={1}
                             loading="lazy"
-                            className="rounded-full w-7 h-7"
+                            className="rounded-full w-9 h-9"
                           />
                           <span>{pet.nombre}</span>
                         </div>
@@ -121,12 +121,17 @@ export function FormContent() {
                     onValueChange={(val) => onChange(Number(val))}
                     disabled={servicesLoading || services.length === 0}
                   >
-                    <SelectTrigger className={`${errors.servicio_id ? 'border-red-500' : ''} w-full overflow-hidden`}>
+                    <SelectTrigger
+                      className={`${errors.servicio_id ? 'border-red-500' : ''} w-full overflow-hidden min-h-12`}
+                    >
                       {selectedService ? (
                         <div className="flex items-center gap-2">
                           {selectedService.categoria_id === 1 && <Stethoscope size={18} />}
                           {selectedService.categoria_id === 2 && <Bubbles size={18} />}
-                          <span>{selectedService.nombre}</span>
+                          <span>
+                            <strong className="font-semibold">{selectedService.nombre}</strong> - $
+                            {selectedService.precio}
+                          </span>
                         </div>
                       ) : (
                         <SelectValue
@@ -188,6 +193,9 @@ export function FormContent() {
                       mode="single"
                       selected={selectedDate}
                       captionLayout="dropdown"
+                      fromDate={new Date()}
+                      fromYear={new Date().getFullYear()}
+                      toYear={new Date().getFullYear() + 2}
                       onSelect={(date) => {
                         setSelectedDate(date)
                         setOpen(false)
@@ -250,7 +258,9 @@ export function FormContent() {
       </div>
 
       {/* Error general */}
-      {errors.root && <div className="rounded-md bg-red-50 p-4 text-red-600">{errors.root.message}</div>}
+      {errors.root && (
+        <div className="rounded-md bg-red-400/20 p-4 text-red-600 border border-red-600">{errors.root.message}</div>
+      )}
 
       {/* Botones */}
       <div className="flex justify-end space-x-2 pt-4">
@@ -259,7 +269,7 @@ export function FormContent() {
         </Button>
         <Button type="submit" disabled={isSubmitting || petsLoading || servicesLoading}>
           {isSubmitting ? (
-            <LoaderCircle className="h-4 w-4 animate-spin mr-2" />
+            <LoaderCircle className="h-4 w-4 animate-spin" />
           ) : (
             <>
               Agendar
