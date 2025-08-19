@@ -7,6 +7,24 @@ const getCurrentClientId = () => {
   return userData?.id
 }
 
+export const createAppointment = async (data) => {
+  try {
+    const config = {
+      requiresAuth: true
+    }
+
+    const body = {
+      ...data,
+      cliente_id: getCurrentClientId()
+    }
+    const { data: response } = await api.post('/appointments', body, config)
+    return response
+  } catch (error) {
+    console.error('Error creating appointment:', error)
+    throw error
+  }
+}
+
 export const getAppointments = async () => {
   try {
     const clienteId = getCurrentClientId()

@@ -1,6 +1,7 @@
 import { createContext, useCallback, useState, useEffect } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { getAppointments as getAppointmentsApi } from '@/services/api/appointments'
+import { createAppointment as addAppointmentApi } from '@/services/api/appointments'
 import { cancelAppointment as cancelAppointmentApi } from '@/services/api/appointments'
 import { toast } from 'sonner'
 
@@ -45,6 +46,29 @@ export function AppointmentsProvider({ children }) {
     }
   }, [])
 
+  const addAppointment = useCallback(
+    async (data) => {
+      try {
+        setLoading(true)
+        const response = await addAppointmentApi(data)
+        const updatedAppointments = await fetchAppointments()
+        setAppointments(updatedAppointments)
+        setNoAppointments(updatedAppointments.length === 0)
+        setFormState({ isOpen: false })
+        toast.success('Cita agendada exitosamente')
+        return response.data
+      } catch (error) {
+        console.error('Error adding appointment:', error)
+        setError(error)
+        toast.error('Error al agendar la cita')
+        throw error
+      } finally {
+        setLoading(false)
+      }
+    },
+    [fetchAppointments]
+  )
+
   const initializeAppointments = useCallback(() => {
     if (!initialized && !loading && isAuthenticated) {
       fetchAppointments()
@@ -66,7 +90,6 @@ export function AppointmentsProvider({ children }) {
     }
   }
 
-  // Funciones para manejar el formulario
   const openForm = useCallback(() => {
     setFormState({
       isOpen: true
@@ -85,11 +108,11 @@ export function AppointmentsProvider({ children }) {
     loading,
     error,
     initialized,
+    addAppointment,
     fetchAppointments,
     cancelAppointment,
     initializeAppointments,
 
-    // Estado del formulario
     formState,
     openForm,
     closeForm
