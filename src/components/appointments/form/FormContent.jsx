@@ -14,6 +14,7 @@ import { useServices } from '@/hooks/useServices'
 import { useAuth } from '@/hooks/useAuth'
 import { useAppointments } from '@/hooks/useAppointments'
 import { Image } from '@unpic/react'
+import { toast } from 'sonner'
 
 export function FormContent() {
   const { user } = useAuth()
@@ -55,6 +56,7 @@ export function FormContent() {
         servicio_id: Number(data.servicio_id)
       }
       console.log('Datos del formulario:', formData)
+      toast.warning('Funcionalidad en desarrollo')
     } catch (error) {
       console.error('Error al procesar la cita:', error)
     }
@@ -188,6 +190,9 @@ export function FormContent() {
                       mode="single"
                       selected={selectedDate}
                       captionLayout="dropdown"
+                      fromDate={new Date()}
+                      fromYear={new Date().getFullYear()}
+                      toYear={new Date().getFullYear() + 2}
                       onSelect={(date) => {
                         setSelectedDate(date)
                         setOpen(false)

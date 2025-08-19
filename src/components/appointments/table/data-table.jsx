@@ -2,7 +2,6 @@ import { useState, Fragment, useEffect } from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-// toast removed — not used in this component
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { CancelDialog } from '@/components/appointments/CancelDialog'
 import {
@@ -32,9 +31,9 @@ import {
   Stethoscope,
   User
 } from 'lucide-react'
-// Removed Link usage — buttons will open the appointment form via openForm prop
+import { Link } from 'react-router-dom'
 
-export function DataTable({ columns, data, cancelAppointment, openForm }) {
+export function DataTable({ columns, data, cancelAppointment }) {
   const [sorting, setSorting] = useState([])
   const [columnFilters, setColumnFilters] = useState([])
   const [columnVisibility, setColumnVisibility] = useState({})
@@ -84,10 +83,12 @@ export function DataTable({ columns, data, cancelAppointment, openForm }) {
       <div className={`flex ${isMobile ? 'flex-col gap-4' : 'items-center'}`}>
         {isMobile && (
           <div className="mb-2">
-            <Button onClick={() => openForm?.()} className="w-full">
-              Agendar Cita
-              <CalendarPlus className="h-4 w-4" />
-            </Button>
+            <Link to="/agendar">
+              <Button className="w-full">
+                Agendar Cita
+                <CalendarPlus className="h-4 w-4" />
+              </Button>
+            </Link>
           </div>
         )}
 
@@ -103,10 +104,12 @@ export function DataTable({ columns, data, cancelAppointment, openForm }) {
           </div>
           {!isMobile && (
             <div className="ml-auto">
-              <Button onClick={() => openForm?.()} className="w-auto">
-                Agendar Cita
-                <CalendarPlus className="h-4 w-4" />
-              </Button>
+              <Link to="/agendar">
+                <Button className="w-auto">
+                  Agendar Cita
+                  <CalendarPlus className="h-4 w-4" />
+                </Button>
+              </Link>
             </div>
           )}
           {!isMobile && (
