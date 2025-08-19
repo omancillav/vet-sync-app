@@ -38,7 +38,7 @@ export function DataTable({ columns, data, cancelAppointment }) {
   const [columnFilters, setColumnFilters] = useState([])
   const [columnVisibility, setColumnVisibility] = useState({})
   const [expanded, setExpanded] = useState({})
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 6 })
 
   const isMobile = useMediaQuery('(max-width: 768px)')
 
