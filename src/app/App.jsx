@@ -7,6 +7,7 @@ import { MobileMenu } from '@/components/header/MobileMenu.jsx'
 import { Home } from '@/views/Home.jsx'
 import { Pets } from '@/views/Pets.jsx'
 import { Appointments } from '@/views/Appointments.jsx'
+import { NewAppointment } from '../views/NewAppointment'
 import { Services } from '@/views/Services.jsx'
 import { NotFound } from '@/views/NotFound.jsx'
 
@@ -34,6 +35,7 @@ function AppContent() {
           <Route path="/" element={<Home />} />
           <Route path="/mascotas" element={<Pets />} />
           <Route path="/citas" element={<Appointments />} />
+          <Route path="/agendar" element={<NewAppointment />} />
           <Route path="/servicios" element={<Services />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

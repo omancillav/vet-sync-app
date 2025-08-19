@@ -1,14 +1,6 @@
 import { z } from 'zod'
 
 export const appointmentSchema = z.object({
-  cliente_id: z.preprocess((val) => (val === '' ? undefined : val),
-    z.string({
-      required_error: 'El ID del cliente es obligatorio',
-      invalid_type_error: 'El ID del cliente debe ser un UUID válido'
-    })
-      .uuid('El ID del cliente debe ser un UUID válido')
-      .trim()),
-
   mascota_id: z.preprocess((val) => (val === '' ? undefined : val),
     z.string({
       required_error: 'El ID de la mascota es obligatorio',
