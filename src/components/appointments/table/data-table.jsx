@@ -150,7 +150,7 @@ export function DataTable({ columns, data, cancelAppointment }) {
         </div>
       </div>
       <div className="overflow-hidden rounded-md border">
-        <Table className="text-sm">
+        <Table className="text-sm bg-card/50">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
