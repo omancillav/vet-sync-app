@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { appointmentSchema } from '@/schemas/appointmentSchema'
 import { Button } from '@/components/ui/button'
@@ -18,6 +19,7 @@ export function FormContent() {
   const { pets, loading: petsLoading, initializePets } = usePets()
   const { services, loading: servicesLoading, initializeServices } = useServices()
   const { addAppointment, closeForm } = useAppointments()
+  const navigate = useNavigate()
 
   const [open, setOpen] = useState(false)
   const [selectedDate, setSelectedDate] = useState(undefined)
@@ -51,8 +53,8 @@ export function FormContent() {
         ...data,
         servicio_id: Number(data.servicio_id)
       }
-      const response = await addAppointment(formData)
-      console.log(response)
+      await addAppointment(formData)
+      navigate('/citas')
     } catch (error) {
       console.error('Error al procesar la cita:', error)
     }
