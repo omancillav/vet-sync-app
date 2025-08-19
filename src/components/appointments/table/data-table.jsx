@@ -38,7 +38,7 @@ export function DataTable({ columns, data, cancelAppointment }) {
   const [columnFilters, setColumnFilters] = useState([])
   const [columnVisibility, setColumnVisibility] = useState({})
   const [expanded, setExpanded] = useState({})
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 6 })
 
   const isMobile = useMediaQuery('(max-width: 768px)')
 
@@ -150,7 +150,7 @@ export function DataTable({ columns, data, cancelAppointment }) {
         </div>
       </div>
       <div className="overflow-hidden rounded-md border">
-        <Table className="text-sm">
+        <Table className="text-sm bg-card/50">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
