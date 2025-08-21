@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -8,11 +8,11 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Calendar } from '@/components/ui/calendar'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { LoaderCircle, Calendar as CalendarIcon, CalendarPlus, Stethoscope, Bubbles } from 'lucide-react'
+import { LoaderCircle, CalendarPlus, Stethoscope, Bubbles } from 'lucide-react'
 import { usePets } from '@/hooks/usePets'
 import { useServices } from '@/hooks/useServices'
 import { useAppointments } from '@/hooks/useAppointments'
+import { getCurrentDateInCDMX } from '@/lib/utils'
 import { Image } from '@unpic/react'
 
 export function FormContent() {
@@ -21,16 +21,13 @@ export function FormContent() {
   const { addAppointment, closeForm } = useAppointments()
   const navigate = useNavigate()
 
-  const [open, setOpen] = useState(false)
-  const [selectedDate, setSelectedDate] = useState(undefined)
-
   const form = useForm({
     resolver: zodResolver(appointmentSchema),
     defaultValues: {
       mascota_id: '',
       servicio_id: '',
       status: 'Programada',
-      fecha: '',
+      fecha: getCurrentDateInCDMX(),
       hora_inicio: '',
       motivo_consulta: ''
     }
@@ -171,52 +168,50 @@ export function FormContent() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="flex items-center gap-3">
           {/* Fecha de la Cita */}
-          <div className="grid gap-2">
+          <div className="flex flex-col gap-2">
             <Label htmlFor="fecha">Fecha de la Cita</Label>
             <Controller
               name="fecha"
               control={control}
-              render={({ field: { onChange } }) => (
-                <Popover open={open} onOpenChange={setOpen}>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      id="fecha"
-                      className={`w-full justify-between font-normal ${errors.fecha ? 'border-red-500' : ''}`}
-                    >
-                      {selectedDate ? selectedDate.toLocaleDateString('es-ES') : 'Seleccionar fecha'}
-                      <CalendarIcon className="h-4 w-4" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto overflow-hidden p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={selectedDate}
-                      captionLayout="dropdown"
-                      fromDate={new Date()}
-                      fromYear={new Date().getFullYear()}
-                      toYear={new Date().getFullYear() + 2}
-                      onSelect={(date) => {
-                        setSelectedDate(date)
-                        setOpen(false)
-                        if (date) {
-                          const formattedDate = date.toISOString().split('T')[0]
-                          onChange(formattedDate)
-                        }
-                      }}
-                      disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
-                    />
-                  </PopoverContent>
-                </Popover>
+              render={({ field: { onChange, value } }) => (
+                <div>
+                  <Calendar
+                    mode="single"
+                    selected={value ? new Date(value + 'T00:00:00') : undefined}
+                    captionLayout="dropdown"
+                    fromDate={new Date(getCurrentDateInCDMX() + 'T00:00:00')}
+                    fromYear={new Date().getFullYear()}
+                    toYear={new Date().getFullYear() + 2}
+                    onSelect={(date) => {
+                      if (date) {
+                        // Formatear fecha usando zona horaria local para evitar desfases
+                        const year = date.getFullYear()
+                        const month = String(date.getMonth() + 1).padStart(2, '0')
+                        const day = String(date.getDate()).padStart(2, '0')
+                        const formattedDate = `${year}-${month}-${day}`
+                        onChange(formattedDate)
+                      }
+                    }}
+                    disabled={(date) => {
+                      const today = new Date(getCurrentDateInCDMX() + 'T00:00:00')
+                      return date < today
+                    }}
+                    className="rounded-md border"
+                    classNames={{
+                      today:
+                        'bg-accent/50 text-accent-foreground rounded-md data-[selected=true]:bg-primary data-[selected=true]:text-primary-foreground data-[selected=true]:rounded-md'
+                    }}
+                  />
+                </div>
               )}
             />
             {errors.fecha && <p className="text-sm text-red-500">{errors.fecha.message}</p>}
           </div>
 
           {/* Hora de Inicio */}
-          <div className="grid gap-2">
+          <div className=" flex flex-col gap-2 w-full">
             <Label htmlFor="hora_inicio">Hora de la Cita</Label>
             <Controller
               name="hora_inicio"
