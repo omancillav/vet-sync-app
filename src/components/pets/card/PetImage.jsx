@@ -41,6 +41,7 @@ export function PetImage({ src, alt, className }) {
         onLoad={handleLoad}
         width={500}
         aspectRatio={1}
+        loading="lazy"
       />
     </div>
   )

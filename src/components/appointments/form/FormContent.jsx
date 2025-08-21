@@ -288,7 +288,7 @@ export function FormContent() {
                     className={`rounded-md border ${isMobile ? 'w-full' : ''}`}
                     classNames={{
                       today:
-                        'bg-accent/50 text-accent-foreground rounded-md data-[selected=true]:bg-primary data-[selected=true]:text-primary-foreground data-[selected=true]:rounded-md'
+                        'bg-accent/50 text-accent-foreground rounded-full data-[selected=true]:bg-primary data-[selected=true]:text-primary-foreground data-[selected=true]:rounded-full'
                     }}
                   />
                 </div>
@@ -388,10 +388,20 @@ export function FormContent() {
 
       {/* Botones */}
       <div className="flex justify-end space-x-2 pt-4">
-        <Button type="button" variant="secondary" disabled={isSubmitting} onClick={closeForm}>
+        <Button
+          type="button"
+          className={`${isMobile ? 'w-1/2' : ''}`}
+          variant="secondary"
+          disabled={isSubmitting}
+          onClick={closeForm}
+        >
           Cancelar
         </Button>
-        <Button type="submit" disabled={isSubmitting || petsLoading || servicesLoading}>
+        <Button
+          className={`${isMobile ? 'w-1/2' : ''}`}
+          type="submit"
+          disabled={isSubmitting || petsLoading || servicesLoading}
+        >
           {isSubmitting ? (
             <LoaderCircle className="h-4 w-4 animate-spin" />
           ) : (

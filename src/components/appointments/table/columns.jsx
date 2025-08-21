@@ -22,6 +22,7 @@ export const createColumns = (cancelAppointment) => [
           {imgUrl && (
             <div className="mr-1.5 sm:mr-3 w-8 sm:w-11 rounded-full overflow-hidden">
               <Image
+                loading='lazy'
                 width={80}
                 aspectRatio={1}
                 src={imgUrl}
