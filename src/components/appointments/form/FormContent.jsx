@@ -18,8 +18,22 @@ import { Image } from '@unpic/react'
 export function FormContent() {
   const { pets, loading: petsLoading, initializePets } = usePets()
   const { services, loading: servicesLoading, initializeServices } = useServices()
-  const { addAppointment, closeForm } = useAppointments()
+  const { addAppointment, closeForm, getBlockedSlots } = useAppointments()
   const navigate = useNavigate()
+
+  const checkAndFetchBlockedSlots = async () => {
+    const currentDate = form.getValues('fecha')
+    const currentServiceId = form.getValues('servicio_id')
+
+    if (currentDate && currentServiceId) {
+      try {
+        const { blocked_slots } = await getBlockedSlots(Number(currentServiceId), currentDate)
+        console.log('Blocked slots for', currentDate, 'with service', currentServiceId, ':', blocked_slots)
+      } catch (error) {
+        console.error('Error fetching blocked slots:', error)
+      }
+    }
+  }
 
   const form = useForm({
     resolver: zodResolver(appointmentSchema),
@@ -117,7 +131,11 @@ export function FormContent() {
                 return (
                   <Select
                     value={value?.toString() || ''}
-                    onValueChange={(val) => onChange(Number(val))}
+                    onValueChange={async (val) => {
+                      const serviceId = Number(val)
+                      onChange(serviceId)
+                      await checkAndFetchBlockedSlots()
+                    }}
                     disabled={servicesLoading || services.length === 0}
                   >
                     <SelectTrigger
@@ -184,7 +202,7 @@ export function FormContent() {
                     fromDate={new Date(getCurrentDateInCDMX() + 'T00:00:00')}
                     fromYear={new Date().getFullYear()}
                     toYear={new Date().getFullYear() + 2}
-                    onSelect={(date) => {
+                    onSelect={async (date) => {
                       if (date) {
                         // Formatear fecha usando zona horaria local para evitar desfases
                         const year = date.getFullYear()
@@ -192,6 +210,7 @@ export function FormContent() {
                         const day = String(date.getDate()).padStart(2, '0')
                         const formattedDate = `${year}-${month}-${day}`
                         onChange(formattedDate)
+                        await checkAndFetchBlockedSlots()
                       }
                     }}
                     disabled={(date) => {
