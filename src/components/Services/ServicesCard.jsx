@@ -25,6 +25,7 @@ export function ServicesCard({ service }) {
           {/* Skeleton/placeholder mientras carga la imagen */}
           {!imageLoaded && <Skeleton className="w-full h-full rounded-none"></Skeleton>}
           <Image
+            loading='lazy'
             src={service.img_url}
             alt={service.nombre}
             onLoad={handleImageLoad}
