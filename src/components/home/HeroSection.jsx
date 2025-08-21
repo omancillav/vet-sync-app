@@ -63,6 +63,7 @@ export function HeroSection() {
               <div className="absolute -top-2 -left-2 lg:-top-4 lg:-left-4 w-full h-full bg-primary/20 rounded-3xl transform -rotate-1 lg:-rotate-3 transition-transform duration-500 group-hover:rotate-0"></div>
               {!imgLoaded && <Skeleton className="w-full h-full absolute inset-0 rounded-3xl" />}
               <Image
+                loading="lazy"
                 onLoad={() => setImgLoaded(true)}
                 width={800}
                 aspectRatio={3 / 2}

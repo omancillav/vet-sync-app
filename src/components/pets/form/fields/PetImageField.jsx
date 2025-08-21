@@ -115,6 +115,7 @@ export function PetImageField({ error, onImageChange, onImageError, initialImage
         <div className=" relative flex items-start gap-3 w-full py-2 px-2 lg:pr-4 border-2 border-dashed border-border rounded-lg bg-card overflow-hidden justify-between">
           <div className="w-15 h-15 lg:w-22 lg:h-22 rounded-sm overflow-hidden flex-shrink-0">
             <Image
+              loading='lazy'
               src={imagePreview}
               alt="Preview"
               width={200}
