@@ -1,39 +1,30 @@
-import { useEffect } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { appointmentSchema } from '@/schemas/appointmentSchema'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Calendar } from '@/components/ui/calendar'
-import { LoaderCircle, CalendarPlus, Stethoscope, Bubbles } from 'lucide-react'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { LoaderCircle, CalendarPlus, Stethoscope, Bubbles, Clock } from 'lucide-react'
 import { usePets } from '@/hooks/usePets'
 import { useServices } from '@/hooks/useServices'
 import { useAppointments } from '@/hooks/useAppointments'
 import { getCurrentDateInCDMX } from '@/lib/utils'
 import { Image } from '@unpic/react'
+import { useMediaQuery } from '@/hooks/use-media-query'
 
 export function FormContent() {
   const { pets, loading: petsLoading, initializePets } = usePets()
   const { services, loading: servicesLoading, initializeServices } = useServices()
   const { addAppointment, closeForm, getBlockedSlots } = useAppointments()
+  const isMobile = useMediaQuery('(max-width: 768px)')
   const navigate = useNavigate()
 
-  const checkAndFetchBlockedSlots = async () => {
-    const currentDate = form.getValues('fecha')
-    const currentServiceId = form.getValues('servicio_id')
-
-    if (currentDate && currentServiceId) {
-      try {
-        const { blocked_slots } = await getBlockedSlots(Number(currentServiceId), currentDate)
-        console.log('Blocked slots for', currentDate, 'with service', currentServiceId, ':', blocked_slots)
-      } catch (error) {
-        console.error('Error fetching blocked slots:', error)
-      }
-    }
-  }
+  const [blockedSlots, setBlockedSlots] = useState([])
+  const [loadingSlots, setLoadingSlots] = useState(false)
 
   const form = useForm({
     resolver: zodResolver(appointmentSchema),
@@ -53,10 +44,89 @@ export function FormContent() {
     formState: { errors, isSubmitting }
   } = form
 
+  const getClinicHours = (date) => {
+    const dayOfWeek = new Date(date + 'T00:00:00').getDay()
+
+    switch (dayOfWeek) {
+    case 0: // Sunday
+      return { start: '10:00', end: '17:00' }
+    case 6: // Saturday
+      return { start: '08:00', end: '15:00' }
+    default: // Monday to Friday
+      return { start: '07:00', end: '20:00' }
+    }
+  }
+
+  const generateTimeSlots = (date, duration) => {
+    if (!date || !duration) return []
+
+    const { start, end } = getClinicHours(date)
+    const slots = []
+
+    const [startHour, startMin] = start.split(':').map(Number)
+    const [endHour, endMin] = end.split(':').map(Number)
+
+    const startMinutes = startHour * 60 + startMin
+    const endMinutes = endHour * 60 + endMin
+
+    for (let minutes = startMinutes; minutes < endMinutes; minutes += duration) {
+      const hour = Math.floor(minutes / 60)
+      const min = minutes % 60
+      const timeString = `${hour.toString().padStart(2, '0')}:${min.toString().padStart(2, '0')}`
+      slots.push(timeString)
+    }
+    return slots
+  }
+
+  const fetchBlockedSlots = useCallback(async () => {
+    const currentDate = form.getValues('fecha')
+    const currentServiceId = form.getValues('servicio_id')
+
+    if (currentDate && currentServiceId) {
+      try {
+        setLoadingSlots(true)
+        const { blocked_slots } = await getBlockedSlots(Number(currentServiceId), currentDate)
+        setBlockedSlots(blocked_slots || [])
+        console.log('Blocked slots for', currentDate, 'with service', currentServiceId, ':', blocked_slots)
+      } catch (error) {
+        console.error('Error fetching blocked slots:', error)
+        setBlockedSlots([])
+      } finally {
+        setLoadingSlots(false)
+      }
+    } else {
+      setBlockedSlots([])
+    }
+  }, [form, getBlockedSlots])
+
   useEffect(() => {
     initializePets()
     initializeServices()
   }, [initializePets, initializeServices])
+
+  useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (name === 'fecha' || name === 'servicio_id') {
+        fetchBlockedSlots()
+      }
+    })
+    return () => subscription.unsubscribe()
+  }, [form, fetchBlockedSlots])
+
+  useEffect(() => {
+    const fecha = form.getValues('fecha')
+    const servicioId = form.getValues('servicio_id')
+    if (fecha && servicioId) {
+      fetchBlockedSlots()
+    }
+  }, [form, fetchBlockedSlots])
+
+  useEffect(() => {
+    const currentTime = form.getValues('hora_inicio')
+    if (currentTime && blockedSlots.includes(currentTime)) {
+      form.setValue('hora_inicio', '')
+    }
+  }, [blockedSlots, form])
 
   const onSubmit = async (data) => {
     try {
@@ -73,7 +143,7 @@ export function FormContent() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div className="grid gap-6">
+      <div className="grid gap-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {/* Selección de Mascota */}
           <div className="grid gap-2 w-full">
@@ -131,10 +201,9 @@ export function FormContent() {
                 return (
                   <Select
                     value={value?.toString() || ''}
-                    onValueChange={async (val) => {
+                    onValueChange={(val) => {
                       const serviceId = Number(val)
                       onChange(serviceId)
-                      await checkAndFetchBlockedSlots()
                     }}
                     disabled={servicesLoading || services.length === 0}
                   >
@@ -186,15 +255,15 @@ export function FormContent() {
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className={`flex flex-col sm:flex-row items-center gap-8 sm:gap-3 ${isMobile ? 'w-full' : ''} mb-1`}>
           {/* Fecha de la Cita */}
-          <div className="flex flex-col gap-2">
+          <div className={`flex flex-col gap-2 ${isMobile ? 'w-full' : ''}`}>
             <Label htmlFor="fecha">Fecha de la Cita</Label>
             <Controller
               name="fecha"
               control={control}
               render={({ field: { onChange, value } }) => (
-                <div>
+                <div className="md:h-83">
                   <Calendar
                     mode="single"
                     selected={value ? new Date(value + 'T00:00:00') : undefined}
@@ -202,7 +271,7 @@ export function FormContent() {
                     fromDate={new Date(getCurrentDateInCDMX() + 'T00:00:00')}
                     fromYear={new Date().getFullYear()}
                     toYear={new Date().getFullYear() + 2}
-                    onSelect={async (date) => {
+                    onSelect={(date) => {
                       if (date) {
                         // Formatear fecha usando zona horaria local para evitar desfases
                         const year = date.getFullYear()
@@ -210,14 +279,13 @@ export function FormContent() {
                         const day = String(date.getDate()).padStart(2, '0')
                         const formattedDate = `${year}-${month}-${day}`
                         onChange(formattedDate)
-                        await checkAndFetchBlockedSlots()
                       }
                     }}
                     disabled={(date) => {
                       const today = new Date(getCurrentDateInCDMX() + 'T00:00:00')
                       return date < today
                     }}
-                    className="rounded-md border"
+                    className={`rounded-md border ${isMobile ? 'w-full' : ''}`}
                     classNames={{
                       today:
                         'bg-accent/50 text-accent-foreground rounded-md data-[selected=true]:bg-primary data-[selected=true]:text-primary-foreground data-[selected=true]:rounded-md'
@@ -230,22 +298,62 @@ export function FormContent() {
           </div>
 
           {/* Hora de Inicio */}
-          <div className=" flex flex-col gap-2 w-full">
+          <div className="flex flex-col gap-2 w-full">
             <Label htmlFor="hora_inicio">Hora de la Cita</Label>
             <Controller
               name="hora_inicio"
               control={control}
-              render={({ field: { onChange, value } }) => (
-                <Input
-                  type="time"
-                  id="hora_inicio"
-                  value={value}
-                  onChange={onChange}
-                  className={`bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none ${
-                    errors.hora_inicio ? 'border-red-500' : ''
-                  }`}
-                />
-              )}
+              render={({ field: { onChange, value } }) => {
+                const selectedDate = form.getValues('fecha')
+                const selectedServiceId = form.getValues('servicio_id')
+                const selectedService = services.find((service) => service.id === Number(selectedServiceId))
+                const duration = selectedService?.duracion_estimada || 30
+
+                const availableSlots = generateTimeSlots(selectedDate, duration)
+                const filteredSlots = availableSlots.filter((slot) => !blockedSlots.includes(slot))
+
+                return (
+                  <div
+                    className={`border rounded-md md:h-83 ${errors.hora_inicio ? 'border-red-500' : 'border-input'}`}
+                  >
+                    {loadingSlots ? (
+                      <div className="flex items-center justify-center md:h-full p-4">
+                        <LoaderCircle className="h-4 w-4 animate-spin" />
+                        <span className="ml-2 text-sm text-muted-foreground">Cargando horarios...</span>
+                      </div>
+                    ) : !selectedDate || !selectedServiceId ? (
+                      <div className="flex items-center flex-col justify-center md:h-full p-4 gap-4">
+                        <Clock className="w-10 h-10 md:w-16 sm:h-16 text-muted-foreground" />
+                        <span className="ml-2 text-sm sm:text-base text-center text-muted-foreground">
+                          Selecciona una fecha y servicio para ver horarios disponibles
+                        </span>
+                      </div>
+                    ) : filteredSlots.length === 0 ? (
+                      <div className="flex items-center justify-center md:h-full p-4">
+                        <Clock className="h-4 w-4 text-muted-foreground" />
+                        <span className="ml-2 text-sm text-muted-foreground">No hay horarios disponibles</span>
+                      </div>
+                    ) : (
+                      <ScrollArea className="md:h-full p-4">
+                        <div className="grid grid-cols-3 md:grid-cols-4 gap-3">
+                          {filteredSlots.map((slot) => (
+                            <Button
+                              key={slot}
+                              type="button"
+                              variant={value === slot ? 'default' : 'outline'}
+                              size="default"
+                              className="h-10 text-sm font-medium"
+                              onClick={() => onChange(slot)}
+                            >
+                              {slot}
+                            </Button>
+                          ))}
+                        </div>
+                      </ScrollArea>
+                    )}
+                  </div>
+                )
+              }}
             />
             {errors.hora_inicio && <p className="text-sm text-red-500">{errors.hora_inicio.message}</p>}
           </div>
