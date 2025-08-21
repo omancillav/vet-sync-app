@@ -56,3 +56,17 @@ export const cancelAppointment = async (id) => {
     throw error
   }
 }
+
+export const getBlockedSlots = async (service_id, date) => {
+  try {
+    const config = {
+      params: { fecha: date },
+      requiresAuth: true
+    }
+    const { data } = await api.get(`/services/${service_id}/blocked-slots`, config)
+    return data
+  } catch (error) {
+    console.error('Error getting blocked slots:', error)
+    throw error
+  }
+}

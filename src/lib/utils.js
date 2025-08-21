@@ -59,3 +59,12 @@ export const groupAppointmentsByStatus = (appointments) => {
 
   return { pending, history }
 }
+
+export const getCurrentDateInCDMX = () => {
+  const now = new Date()
+  const cdmxDate = new Date(now.toLocaleString('en-US', { timeZone: 'America/Mexico_City' }))
+  const year = cdmxDate.getFullYear()
+  const month = String(cdmxDate.getMonth() + 1).padStart(2, '0')
+  const day = String(cdmxDate.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}

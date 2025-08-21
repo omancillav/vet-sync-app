@@ -1,9 +1,12 @@
 import { createContext, useCallback, useState, useEffect } from 'react'
 import { useAuth } from '@/hooks/useAuth'
-import { getAppointments as getAppointmentsApi } from '@/services/api/appointments'
-import { createAppointment as addAppointmentApi } from '@/services/api/appointments'
-import { cancelAppointment as cancelAppointmentApi } from '@/services/api/appointments'
 import { toast } from 'sonner'
+import {
+  getAppointments as getAppointmentsApi,
+  createAppointment as addAppointmentApi,
+  cancelAppointment as cancelAppointmentApi,
+  getBlockedSlots as getBlockedSlotsApi
+} from '@/services/api/appointments'
 
 const AppointmentsContext = createContext()
 
@@ -102,6 +105,20 @@ export function AppointmentsProvider({ children }) {
     })
   }, [])
 
+  const getBlockedSlots = useCallback(async (service_id, date) => {
+    try {
+      setLoading(true)
+      const { data } = await getBlockedSlotsApi(service_id, date)
+      return data
+    } catch (error) {
+      console.error('Error getting blocked slots:', error)
+      setError(error)
+      throw error
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
   const value = {
     appointments,
     noAppointments,
@@ -112,7 +129,7 @@ export function AppointmentsProvider({ children }) {
     fetchAppointments,
     cancelAppointment,
     initializeAppointments,
-
+    getBlockedSlots,
     formState,
     openForm,
     closeForm
