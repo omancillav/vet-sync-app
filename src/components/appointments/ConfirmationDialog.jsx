@@ -7,8 +7,7 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger
+  AlertDialogTitle
 } from '@/components/ui/alert-dialog'
 import {
   Drawer,
@@ -16,21 +15,18 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerDescription,
-  DrawerTrigger
+  DrawerDescription
 } from '@/components/ui/drawer'
-import { CircleCheck, Calendar, LoaderCircle } from 'lucide-react'
+import { CircleCheck, Calendar, LoaderCircle, Clock } from 'lucide-react'
 
-export function ConfirmationDialog({ children, onConfirm }) {
+export function ConfirmationDialog({ open, onOpenChange, onConfirm, appointmentData }) {
   const [loading, setLoading] = useState(false)
-  const [open, setOpen] = useState(false)
   const isDesktop = useMediaQuery('(min-width: 64rem)')
 
   const handleConfirm = async () => {
     try {
       setLoading(true)
       await onConfirm()
-      setOpen(false)
     } catch (error) {
       console.error('Error al agendar la cita:', error)
     } finally {
@@ -38,33 +34,65 @@ export function ConfirmationDialog({ children, onConfirm }) {
     }
   }
 
+  const formatDate = (dateString) => {
+    if (!dateString) return ''
+    const date = new Date(dateString + 'T00:00:00')
+    return date.toLocaleDateString('es-MX', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
+  }
+
+  const AppointmentDetails = () => (
+    <div className="space-y-3">
+      <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+        <Calendar size={20} className="text-primary" />
+        <div>
+          <p className="text-sm text-muted-foreground">Fecha</p>
+          <p className="font-medium">{formatDate(appointmentData?.fecha)}</p>
+        </div>
+      </div>
+      <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+        <Clock size={20} className="text-primary" />
+        <div>
+          <p className="text-sm text-muted-foreground">Hora</p>
+          <p className="font-medium">{appointmentData?.hora_inicio}</p>
+        </div>
+      </div>
+    </div>
+  )
+
   if (isDesktop) {
     return (
-      <AlertDialog open={open} onOpenChange={setOpen}>
-        <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
-        <AlertDialogContent className="sm:max-w-[425px] z-[200] flex flex-col gap-3">
+      <AlertDialog open={open} onOpenChange={onOpenChange}>
+        <AlertDialogContent className="sm:max-w-[400px] z-[200]">
           <AlertDialogHeader>
             <div className="flex justify-center mb-2">
-              <CircleCheck className="w-24 h-24 text-green-500/80" />
+              <CircleCheck className="w-16 h-16 text-green-500/80" />
             </div>
-            <AlertDialogTitle className="font-semibold text-xl">
-              ¿Confirmas que deseas agendar esta cita?
+            <AlertDialogTitle className="font-semibold text-xl text-center">
+              ¿Estás seguro de que deseas agendar esta cita?
             </AlertDialogTitle>
           </AlertDialogHeader>
-          <AlertDialogDescription className="text-md">
-            Revisa que todos los datos sean correctos antes de confirmar la cita.
+          <div className="my-2">
+            <AppointmentDetails />
+          </div>
+          <AlertDialogDescription className="text-center text-muted-foreground">
+            Revisa que todos los datos sean correctos antes de confirmar.
           </AlertDialogDescription>
-          <AlertDialogFooter className="pt-4 gap-3">
-            <Button variant="secondary" className="text-md" onClick={() => setOpen(false)}>
+          <AlertDialogFooter className="gap-2 grid grid-cols-1 sm:grid-cols-2">
+            <Button className="w-full" variant="secondary" onClick={() => onOpenChange(false)} disabled={loading}>
               Revisar
             </Button>
-            <Button className="text-md w-28 " onClick={handleConfirm} disabled={loading}>
+            <Button onClick={handleConfirm} disabled={loading} className="w-full">
               {loading ? (
                 <LoaderCircle className="animate-spin" />
               ) : (
                 <span className="flex items-center gap-2">
-                  Agendar
-                  <Calendar className="w-4 h-4" />{' '}
+                  Confirmar
+                  <Calendar className="w-4 h-4" />
                 </span>
               )}
             </Button>
@@ -75,32 +103,34 @@ export function ConfirmationDialog({ children, onConfirm }) {
   }
 
   return (
-    <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerTrigger asChild>{children}</DrawerTrigger>
-      <DrawerContent className="z-[200] w-full flex flex-col gap-3">
+    <Drawer open={open} onOpenChange={onOpenChange}>
+      <DrawerContent className="z-[200] w-full">
         <div className="mx-auto w-full max-w-[600px] px-4">
           <DrawerHeader className="px-0 text-center">
             <div className="flex justify-center mb-2">
-              <CircleCheck className="w-20 h-20 text-green-500/80" />
+              <CircleCheck className="w-16 h-16 text-green-500/80" />
             </div>
             <DrawerTitle className="text-lg font-semibold text-center">
-              ¿Confirmas que deseas agendar esta cita?
+              ¿Estás seguro de que deseas agendar esta cita?
             </DrawerTitle>
           </DrawerHeader>
-          <DrawerDescription className="text-md text-center">
-            Revisa que todos los datos sean correctos antes de confirmar la cita.
+          <div className="my-2">
+            <AppointmentDetails />
+          </div>
+          <DrawerDescription className="text-center text-muted-foreground mb-4">
+            Revisa que todos los datos sean correctos antes de confirmar.
           </DrawerDescription>
-          <DrawerFooter className="px-0 pt-6 gap-3">
-            <Button variant="secondary" className="text-md" onClick={() => setOpen(false)}>
+          <DrawerFooter className="px-0 pt-2 gap-3">
+            <Button className="w-full" variant="secondary" onClick={() => onOpenChange(false)} disabled={loading}>
               Revisar
             </Button>
-            <Button className="text-md" onClick={handleConfirm} disabled={loading}>
+            <Button onClick={handleConfirm} disabled={loading} className="w-full">
               {loading ? (
                 <LoaderCircle className="animate-spin" />
               ) : (
                 <span className="flex items-center gap-2">
-                  Agendar
-                  <Calendar className="w-4 h-4" />{' '}
+                  Confirmar
+                  <Calendar className="w-4 h-4" />
                 </span>
               )}
             </Button>
