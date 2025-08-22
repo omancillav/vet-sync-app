@@ -11,9 +11,11 @@ import { AppointmentsForm } from '@/components/appointments/form/FormDialog'
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 import { sortAppointments } from '@/lib/utils.js'
+import { Link } from 'react-router-dom'
 
 export function Appointments() {
-  const { appointments, noAppointments, loading, error, initializeAppointments, cancelAppointment, openForm } = useAppointments()
+  const { appointments, noAppointments, loading, error, initializeAppointments, cancelAppointment, openForm } =
+    useAppointments()
   const { isAuthenticated } = useAuth()
 
   useEffect(() => {
@@ -40,7 +42,14 @@ export function Appointments() {
     const sortedAppointments = sortAppointments(appointments)
     const columns = createColumns(cancelAppointment)
 
-    return <DataTable columns={columns} data={sortedAppointments} cancelAppointment={cancelAppointment} openForm={openForm} />
+    return (
+      <DataTable
+        columns={columns}
+        data={sortedAppointments}
+        cancelAppointment={cancelAppointment}
+        openForm={openForm}
+      />
+    )
   }
   return (
     <div className="container mx-auto px-4 py-8">
@@ -53,10 +62,12 @@ export function Appointments() {
             </p>
           </section>
           {isAuthenticated && noAppointments && (
-            <Button onClick={openForm} className="flex items-center gap-2">
-              Agendar Cita
-              <Plus className="h-4 w-4" />
-            </Button>
+            <Link to="/agendar">
+              <Button className=" w-full md:w-auto flex items-center gap-2">
+                Agendar Cita
+                <Plus className="h-4 w-4" />
+              </Button>
+            </Link>
           )}
         </div>
         {renderContent()}
