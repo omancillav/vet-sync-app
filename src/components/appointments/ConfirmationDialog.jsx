@@ -80,7 +80,7 @@ export function ConfirmationDialog({ open, onOpenChange, onConfirm, appointmentD
             <AppointmentDetails />
           </div>
           <AlertDialogDescription className="text-center text-muted-foreground">
-            Revisa que todos los datos sean correctos antes de confirmar.
+            Revisa que todos los datos sean correctos antes de confirmar. Estos no podrán ser modificados
           </AlertDialogDescription>
           <AlertDialogFooter className="gap-2 grid grid-cols-1 sm:grid-cols-2">
             <Button className="w-full" variant="secondary" onClick={() => onOpenChange(false)} disabled={loading}>
@@ -117,8 +117,8 @@ export function ConfirmationDialog({ open, onOpenChange, onConfirm, appointmentD
           <div className="my-2">
             <AppointmentDetails />
           </div>
-          <DrawerDescription className="text-center text-muted-foreground mb-4">
-            Revisa que todos los datos sean correctos antes de confirmar.
+          <DrawerDescription className="text-center text-muted-foreground my-4 px-0">
+            Revisa que todos los datos sean correctos antes de confirmar. Estos no podrán ser modificados
           </DrawerDescription>
           <DrawerFooter className="px-0 pt-2 gap-3">
             <Button className="w-full" variant="secondary" onClick={() => onOpenChange(false)} disabled={loading}>
