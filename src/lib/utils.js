@@ -84,10 +84,8 @@ export const getClinicHours = (date) => {
 
 export const generateTimeSlots = (date, duration) => {
   if (!date || !duration) return []
-
   const { start, end } = getClinicHours(date)
   const slots = []
-
   const [startHour, startMin] = start.split(':').map(Number)
   const [endHour, endMin] = end.split(':').map(Number)
   const startMinutes = startHour * 60 + startMin
@@ -95,16 +93,21 @@ export const generateTimeSlots = (date, duration) => {
 
   const currentDateCDMX = getCurrentDateInCDMX()
   const isToday = date === currentDateCDMX
+
   let minimumStartTime = startMinutes
 
   if (isToday) {
     const now = new Date()
     const currentHourCDMX = now.getHours()
     const currentMinutesCDMX = now.getMinutes()
-    const currentTotalMinutes = currentHourCDMX * 60 + currentMinutesCDMX
-    const minimumTimeWithBuffer = currentTotalMinutes + 120
+
+    const roundedHour = currentMinutesCDMX < 30 ? currentHourCDMX : currentHourCDMX + 1
+    const minimumHourWithBuffer = roundedHour + 2
+    const minimumTimeWithBuffer = minimumHourWithBuffer * 60 // convertir a minutos
+
     minimumStartTime = Math.max(startMinutes, minimumTimeWithBuffer)
   }
+
   for (let minutes = minimumStartTime; minutes < endMinutes; minutes += duration) {
     const hour = Math.floor(minutes / 60)
     const min = minutes % 60
@@ -114,6 +117,5 @@ export const generateTimeSlots = (date, duration) => {
       slots.push(timeString)
     }
   }
-
   return slots
 }
