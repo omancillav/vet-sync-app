@@ -48,11 +48,11 @@ export function FormContent() {
     const dayOfWeek = new Date(date + 'T00:00:00').getDay()
 
     switch (dayOfWeek) {
-    case 0: // Sunday
+    case 0:
       return { start: '10:00', end: '17:00' }
-    case 6: // Saturday
+    case 6:
       return { start: '08:00', end: '15:00' }
-    default: // Monday to Friday
+    default:
       return { start: '07:00', end: '20:00' }
     }
   }
@@ -87,7 +87,6 @@ export function FormContent() {
         setLoadingSlots(true)
         const { blocked_slots } = await getBlockedSlots(Number(currentServiceId), currentDate)
         setBlockedSlots(blocked_slots || [])
-        console.log('Blocked slots for', currentDate, 'with service', currentServiceId, ':', blocked_slots)
       } catch (error) {
         console.error('Error fetching blocked slots:', error)
         setBlockedSlots([])
@@ -270,7 +269,7 @@ export function FormContent() {
                     captionLayout="dropdown"
                     fromDate={new Date(getCurrentDateInCDMX() + 'T00:00:00')}
                     fromYear={new Date().getFullYear()}
-                    toYear={new Date().getFullYear() + 2}
+                    toYear={new Date().getFullYear() + 1}
                     onSelect={(date) => {
                       if (date) {
                         // Formatear fecha usando zona horaria local para evitar desfases
@@ -393,7 +392,10 @@ export function FormContent() {
           className={`${isMobile ? 'w-1/2' : ''}`}
           variant="secondary"
           disabled={isSubmitting}
-          onClick={closeForm}
+          onClick={() => {
+            closeForm()
+            navigate('/citas')
+          }}
         >
           Cancelar
         </Button>
