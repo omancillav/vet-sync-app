@@ -39,7 +39,6 @@ export function DataTable({ columns, data, cancelAppointment }) {
   const [columnVisibility, setColumnVisibility] = useState({})
   const [expanded, setExpanded] = useState({})
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 6 })
-
   const isMobile = useMediaQuery('(max-width: 768px)')
 
   useEffect(() => {
@@ -99,7 +98,7 @@ export function DataTable({ columns, data, cancelAppointment }) {
               placeholder="Filtrar mascotas..."
               value={table.getColumn('nombre_mascota')?.getFilterValue() ?? ''}
               onChange={(event) => table.getColumn('nombre_mascota')?.setFilterValue(event.target.value)}
-              className="pr-10"
+              className="pr-10 text-sm text-"
             />
           </div>
           {!isMobile && (
@@ -276,53 +275,60 @@ export function DataTable({ columns, data, cancelAppointment }) {
           </TableBody>
         </Table>
       </div>
-      <div className={`flex ${isMobile ? 'justify-center' : 'justify-end'} items-center gap-2`}>
-        <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
-          <ChevronLeft />
-        </Button>
+      {data.length > 6 && (
+        <div className={`flex ${isMobile ? 'justify-center' : 'justify-end'} items-center gap-2`}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <ChevronLeft />
+          </Button>
 
-        <div className="flex items-center gap-1.5">
-          {Array.from({ length: table.getPageCount() }, (_, index) => {
-            const pageNumber = index + 1
-            const currentPage = table.getState().pagination.pageIndex + 1
-            const isCurrentPage = pageNumber === currentPage
+          <div className="flex items-center gap-1.5">
+            {Array.from({ length: table.getPageCount() }, (_, index) => {
+              const pageNumber = index + 1
+              const currentPage = table.getState().pagination.pageIndex + 1
+              const isCurrentPage = pageNumber === currentPage
 
-            const maxVisiblePages = isMobile ? 1 : 2
-            const shouldShow =
-              pageNumber === 1 ||
-              pageNumber === table.getPageCount() ||
-              Math.abs(pageNumber - currentPage) <= maxVisiblePages
+              const maxVisiblePages = isMobile ? 1 : 2
+              const shouldShow =
+                pageNumber === 1 ||
+                pageNumber === table.getPageCount() ||
+                Math.abs(pageNumber - currentPage) <= maxVisiblePages
 
-            if (!shouldShow) {
-              const ellipsisDistance = isMobile ? 2 : 3
-              if (pageNumber === currentPage - ellipsisDistance || pageNumber === currentPage + ellipsisDistance) {
-                return (
-                  <span key={pageNumber} className="px-2 text-muted-foreground">
-                    ...
-                  </span>
-                )
+              if (!shouldShow) {
+                const ellipsisDistance = isMobile ? 2 : 3
+                if (pageNumber === currentPage - ellipsisDistance || pageNumber === currentPage + ellipsisDistance) {
+                  return (
+                    <span key={pageNumber} className="px-2 text-muted-foreground">
+                      ...
+                    </span>
+                  )
+                }
+                return null
               }
-              return null
-            }
 
-            return (
-              <Button
-                key={pageNumber}
-                variant={isCurrentPage ? 'default' : 'outline'}
-                size="sm"
-                className={`w-8 h-8 p-0 ${isCurrentPage ? 'pointer-events-none' : ''}`}
-                onClick={() => table.setPageIndex(index)}
-              >
-                {pageNumber}
-              </Button>
-            )
-          })}
+              return (
+                <Button
+                  key={pageNumber}
+                  variant={isCurrentPage ? 'default' : 'outline'}
+                  size="sm"
+                  className={`w-8 h-8 p-0 ${isCurrentPage ? 'pointer-events-none' : ''}`}
+                  onClick={() => table.setPageIndex(index)}
+                >
+                  {pageNumber}
+                </Button>
+              )
+            })}
+          </div>
+
+          <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+            <ChevronRight />
+          </Button>
         </div>
-
-        <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-          <ChevronRight />
-        </Button>
-      </div>
+      )}
     </div>
   )
 }
