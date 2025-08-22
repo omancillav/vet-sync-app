@@ -353,10 +353,9 @@ export function FormContent() {
       )}
 
       {/* Botones */}
-      <div className="flex justify-end space-x-2 pt-4">
+      <div className={`flex ${isMobile ? 'flex-col' : 'justify-end'} gap-2 pt-4`}>
         <Button
           type="button"
-          className={`${isMobile ? 'w-1/2' : ''}`}
           variant="secondary"
           disabled={isSubmitting}
           onClick={() => {
@@ -367,11 +366,7 @@ export function FormContent() {
           Cancelar
         </Button>
         <ConfirmationDialog onConfirm={handleSubmit(onSubmit)}>
-          <Button
-            className={`${isMobile ? 'w-1/2' : ''}`}
-            type="button"
-            disabled={isSubmitting || petsLoading || servicesLoading}
-          >
+          <Button type="button" disabled={isSubmitting || petsLoading || servicesLoading}>
             {isSubmitting ? (
               <LoaderCircle className="h-4 w-4 animate-spin" />
             ) : (
@@ -382,7 +377,6 @@ export function FormContent() {
             )}
           </Button>
         </ConfirmationDialog>
-
       </div>
     </form>
   )
