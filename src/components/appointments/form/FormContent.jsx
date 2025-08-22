@@ -15,6 +15,7 @@ import { useAppointments } from '@/hooks/useAppointments'
 import { getCurrentDateInCDMX, generateTimeSlots } from '@/lib/utils'
 import { Image } from '@unpic/react'
 import { useMediaQuery } from '@/hooks/use-media-query'
+import { ConfirmationDialog } from '../ConfirmationDialog'
 
 export function FormContent() {
   const { pets, loading: petsLoading, initializePets } = usePets()
@@ -365,20 +366,23 @@ export function FormContent() {
         >
           Cancelar
         </Button>
-        <Button
-          className={`${isMobile ? 'w-1/2' : ''}`}
-          type="submit"
-          disabled={isSubmitting || petsLoading || servicesLoading}
-        >
-          {isSubmitting ? (
-            <LoaderCircle className="h-4 w-4 animate-spin" />
-          ) : (
-            <>
-              Agendar
-              <CalendarPlus className="h-4 w-4" />
-            </>
-          )}
-        </Button>
+        <ConfirmationDialog onConfirm={handleSubmit(onSubmit)}>
+          <Button
+            className={`${isMobile ? 'w-1/2' : ''}`}
+            type="button"
+            disabled={isSubmitting || petsLoading || servicesLoading}
+          >
+            {isSubmitting ? (
+              <LoaderCircle className="h-4 w-4 animate-spin" />
+            ) : (
+              <>
+                Agendar
+                <CalendarPlus className="h-4 w-4" />
+              </>
+            )}
+          </Button>
+        </ConfirmationDialog>
+
       </div>
     </form>
   )
