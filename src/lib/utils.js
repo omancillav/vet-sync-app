@@ -68,3 +68,52 @@ export const getCurrentDateInCDMX = () => {
   const day = String(cdmxDate.getDate()).padStart(2, '0')
   return `${year}-${month}-${day}`
 }
+
+export const getClinicHours = (date) => {
+  const dayOfWeek = new Date(date + 'T00:00:00').getDay()
+
+  switch (dayOfWeek) {
+  case 0:
+    return { start: '10:00', end: '17:00' }
+  case 6:
+    return { start: '08:00', end: '15:00' }
+  default:
+    return { start: '07:00', end: '20:00' }
+  }
+}
+
+export const generateTimeSlots = (date, duration) => {
+  if (!date || !duration) return []
+
+  const { start, end } = getClinicHours(date)
+  const slots = []
+
+  const [startHour, startMin] = start.split(':').map(Number)
+  const [endHour, endMin] = end.split(':').map(Number)
+  const startMinutes = startHour * 60 + startMin
+  const endMinutes = endHour * 60 + endMin
+
+  const currentDateCDMX = getCurrentDateInCDMX()
+  const isToday = date === currentDateCDMX
+  let minimumStartTime = startMinutes
+
+  if (isToday) {
+    const now = new Date()
+    const currentHourCDMX = now.getHours()
+    const currentMinutesCDMX = now.getMinutes()
+    const currentTotalMinutes = currentHourCDMX * 60 + currentMinutesCDMX
+    const minimumTimeWithBuffer = currentTotalMinutes + 120
+    minimumStartTime = Math.max(startMinutes, minimumTimeWithBuffer)
+  }
+  for (let minutes = minimumStartTime; minutes < endMinutes; minutes += duration) {
+    const hour = Math.floor(minutes / 60)
+    const min = minutes % 60
+
+    if (minutes >= startMinutes) {
+      const timeString = `${hour.toString().padStart(2, '0')}:${min.toString().padStart(2, '0')}`
+      slots.push(timeString)
+    }
+  }
+
+  return slots
+}

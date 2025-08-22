@@ -12,7 +12,7 @@ import { LoaderCircle, CalendarPlus, Stethoscope, Bubbles, Clock } from 'lucide-
 import { usePets } from '@/hooks/usePets'
 import { useServices } from '@/hooks/useServices'
 import { useAppointments } from '@/hooks/useAppointments'
-import { getCurrentDateInCDMX } from '@/lib/utils'
+import { getCurrentDateInCDMX, generateTimeSlots } from '@/lib/utils'
 import { Image } from '@unpic/react'
 import { useMediaQuery } from '@/hooks/use-media-query'
 
@@ -43,40 +43,6 @@ export function FormContent() {
     control,
     formState: { errors, isSubmitting }
   } = form
-
-  const getClinicHours = (date) => {
-    const dayOfWeek = new Date(date + 'T00:00:00').getDay()
-
-    switch (dayOfWeek) {
-    case 0:
-      return { start: '10:00', end: '17:00' }
-    case 6:
-      return { start: '08:00', end: '15:00' }
-    default:
-      return { start: '07:00', end: '20:00' }
-    }
-  }
-
-  const generateTimeSlots = (date, duration) => {
-    if (!date || !duration) return []
-
-    const { start, end } = getClinicHours(date)
-    const slots = []
-
-    const [startHour, startMin] = start.split(':').map(Number)
-    const [endHour, endMin] = end.split(':').map(Number)
-
-    const startMinutes = startHour * 60 + startMin
-    const endMinutes = endHour * 60 + endMin
-
-    for (let minutes = startMinutes; minutes < endMinutes; minutes += duration) {
-      const hour = Math.floor(minutes / 60)
-      const min = minutes % 60
-      const timeString = `${hour.toString().padStart(2, '0')}:${min.toString().padStart(2, '0')}`
-      slots.push(timeString)
-    }
-    return slots
-  }
 
   const fetchBlockedSlots = useCallback(async () => {
     const currentDate = form.getValues('fecha')
