@@ -15,6 +15,7 @@ export function AppointmentsProvider({ children }) {
   const [appointments, setAppointments] = useState([])
   const [noAppointments, setNoAppointments] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [loadingSlots, setLoadingSlots] = useState(false)
   const [error, setError] = useState(null)
   const [initialized, setInitialized] = useState(false)
 
@@ -26,6 +27,7 @@ export function AppointmentsProvider({ children }) {
     if (!isAuthenticated) {
       setAppointments([])
       setNoAppointments(false)
+      setLoadingSlots(false)
       setError(null)
       setInitialized(false)
       setFormState({ isOpen: false })
@@ -107,7 +109,7 @@ export function AppointmentsProvider({ children }) {
 
   const getBlockedSlots = useCallback(async (service_id, date) => {
     try {
-      setLoading(true)
+      setLoadingSlots(true)
       const { data } = await getBlockedSlotsApi(service_id, date)
       return data
     } catch (error) {
@@ -115,7 +117,7 @@ export function AppointmentsProvider({ children }) {
       setError(error)
       throw error
     } finally {
-      setLoading(false)
+      setLoadingSlots(false)
     }
   }, [])
 
@@ -123,6 +125,7 @@ export function AppointmentsProvider({ children }) {
     appointments,
     noAppointments,
     loading,
+    loadingSlots,
     error,
     initialized,
     addAppointment,

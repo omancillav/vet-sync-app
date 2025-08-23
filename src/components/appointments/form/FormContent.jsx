@@ -20,7 +20,7 @@ import { ConfirmationDialog } from '../ConfirmationDialog'
 export function FormContent() {
   const { pets, loading: petsLoading, initializePets } = usePets()
   const { services, loading: servicesLoading, initializeServices } = useServices()
-  const { addAppointment, getBlockedSlots } = useAppointments()
+  const { addAppointment, getBlockedSlots, loadingSlots } = useAppointments()
   const isMobile = useMediaQuery('(max-width: 768px)')
   const navigate = useNavigate()
 
@@ -28,7 +28,6 @@ export function FormContent() {
   const totalSteps = 4
 
   const [blockedSlots, setBlockedSlots] = useState([])
-  const [loadingSlots, setLoadingSlots] = useState(false)
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
   const [validatedData, setValidatedData] = useState(null)
 
@@ -61,14 +60,11 @@ export function FormContent() {
 
     if (currentDate && currentServiceId) {
       try {
-        setLoadingSlots(true)
         const { blocked_slots } = await getBlockedSlots(Number(currentServiceId), currentDate)
         setBlockedSlots(blocked_slots || [])
       } catch (error) {
         console.error('Error fetching blocked slots:', error)
         setBlockedSlots([])
-      } finally {
-        setLoadingSlots(false)
       }
     } else {
       setBlockedSlots([])
