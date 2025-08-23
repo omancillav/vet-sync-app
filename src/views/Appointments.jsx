@@ -9,9 +9,8 @@ import { createColumns } from '@/components/appointments/table/columns'
 import { DataTable } from '@/components/appointments/table/data-table'
 import { AppointmentsForm } from '@/components/appointments/form/FormDialog'
 import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
+import { CalendarPlus } from 'lucide-react'
 import { sortAppointments } from '@/lib/utils.js'
-import { Link } from 'react-router-dom'
 
 export function Appointments() {
   const { appointments, noAppointments, loading, error, initializeAppointments, cancelAppointment, openForm } =
@@ -62,12 +61,10 @@ export function Appointments() {
             </p>
           </section>
           {isAuthenticated && noAppointments && (
-            <Link to="/agendar">
-              <Button className=" w-full md:w-auto flex items-center gap-2">
-                Agendar Cita
-                <Plus className="h-4 w-4" />
-              </Button>
-            </Link>
+            <Button onClick={openForm} className="flex items-center gap-2">
+              Agendar Cita
+              <CalendarPlus className="h-4 w-4" />
+            </Button>
           )}
         </div>
         {renderContent()}
