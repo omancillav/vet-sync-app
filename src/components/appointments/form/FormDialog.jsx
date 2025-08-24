@@ -3,7 +3,7 @@ import { useMediaQuery } from '@/hooks/use-media-query'
 import { useAppointments } from '@/hooks/useAppointments'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet'
-import { PawPrint } from 'lucide-react'
+import { NotebookPen } from 'lucide-react'
 import { LoadingSpinner } from '@/components/loaders/LoadingSpinner.jsx'
 import { FormContent } from './FormContent'
 
@@ -29,10 +29,12 @@ export function AppointmentsForm() {
         <SheetContent className="p-4 overflow-y-auto">
           <SheetHeader>
             <div className="flex items-center gap-4">
-              <PawPrint className="w-6 h-6" />
+              <NotebookPen className="w-6 h-6" />
               <SheetTitle>Agendar cita</SheetTitle>
             </div>
-            <SheetDescription className="hidden"></SheetDescription>
+            <SheetDescription className="hidden">
+              Completa los pasos para agendar tu cita veterinaria
+            </SheetDescription>
           </SheetHeader>
           {formContent}
         </SheetContent>
@@ -42,14 +44,16 @@ export function AppointmentsForm() {
 
   return (
     <Dialog open={formState.isOpen} onOpenChange={closeForm}>
-      <DialogContent className="sm:max-w-[500px] gap-8 max-h-[98vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[400px] gap-8 max-h-[98vh] overflow-y-auto">
         <DialogHeader className="gap-3">
-          <div className="flex items-center gap-3">
-            <PawPrint className="w-6 h-6" />
+          <div className="flex items-center gap-2">
+            <NotebookPen className="w-5 h-5" />
             <DialogTitle>Agendar cita</DialogTitle>
           </div>
+          <DialogDescription className="hidden">
+            Completa los pasos para agendar tu cita veterinaria
+          </DialogDescription>
         </DialogHeader>
-        <DialogDescription className="hidden"></DialogDescription>
         {formContent}
       </DialogContent>
     </Dialog>
