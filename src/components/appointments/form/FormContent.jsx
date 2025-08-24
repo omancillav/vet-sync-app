@@ -154,7 +154,7 @@ export function FormContent() {
           <div
             key={index}
             className={`h-2 flex-1 rounded-full transition-all duration-300 ${
-              index < currentStep ? 'bg-white' : 'bg-gray-600'
+              index < currentStep ? 'bg-primary' : 'bg-muted'
             }`}
           />
         ))}
