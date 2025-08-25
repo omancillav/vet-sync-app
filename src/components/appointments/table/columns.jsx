@@ -1,4 +1,4 @@
-import { MoreHorizontal, ArrowUpDown, CalendarX, NotebookPen } from 'lucide-react'
+import { MoreHorizontal, ArrowUpDown, CalendarX } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -143,10 +143,6 @@ export const createColumns = (cancelAppointment) => [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem className="flex items-center text-black dark:text-white cursor-pointer">
-              <NotebookPen className="h-4 w-4 mr-1 stroke-black dark:stroke-white" />
-              Modificar
-            </DropdownMenuItem>
             <CancelDialog onConfirm={() => cancelAppointment(appointment.id)}>
               <DropdownMenuItem
                 className="flex items-center !text-red-500 cursor-pointer"
