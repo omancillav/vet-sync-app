@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Link } from 'react-router-dom'
-import { User, LogOut } from 'lucide-react'
+import { LogOut } from 'lucide-react'
 import { LogoutDialog } from './LogoutDialog'
 import { useAuth } from '@/hooks/useAuth'
 
@@ -55,11 +55,6 @@ export function UserNav() {
                 <p className="text-xs leading-none text-muted-foreground">{user?.email}</p>
               </div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="hover:cursor-pointer">
-              <User className="mr-2 h-4 w-4" />
-              <span>Mi Perfil</span>
-            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="hover:cursor-pointer" onClick={handleLogoutClick}>
               <LogOut className="mr-2 h-4 w-4" />

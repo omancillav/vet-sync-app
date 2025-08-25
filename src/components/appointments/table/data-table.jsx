@@ -26,7 +26,6 @@ import {
   SlidersHorizontal,
   Search,
   CalendarPlus,
-  NotebookPen,
   CalendarX,
   Clock,
   Stethoscope,
@@ -238,21 +237,15 @@ export function DataTable({ columns, data, cancelAppointment }) {
                             </div>
                             {['Programada', 'Reprogramada'].includes(row.original.status) && (
                               <div className="pt-4 border-t border-border/50">
-                                <div className="grid grid-cols-2 gap-3">
-                                  <Button variant="outline" className="bg-background/50">
-                                    <NotebookPen className="h-4 w-4 mr-1" />
-                                    Modificar
+                                <CancelDialog onConfirm={() => cancelAppointment(row.original.id)}>
+                                  <Button
+                                    variant="outline"
+                                    className="w-full bg-background/50 text-red-600 dark:text-red-500"
+                                  >
+                                    <CalendarX className="h-4 w-4 mr-1" />
+                                    Cancelar
                                   </Button>
-                                  <CancelDialog onConfirm={() => cancelAppointment(row.original.id)}>
-                                    <Button
-                                      variant="outline"
-                                      className="bg-background/50 text-red-600 dark:text-red-500"
-                                    >
-                                      <CalendarX className="h-4 w-4 mr-1" />
-                                      Cancelar
-                                    </Button>
-                                  </CancelDialog>
-                                </div>
+                                </CancelDialog>
                               </div>
                             )}
                           </div>
