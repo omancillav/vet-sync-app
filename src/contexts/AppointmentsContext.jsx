@@ -20,7 +20,8 @@ export function AppointmentsProvider({ children }) {
   const [initialized, setInitialized] = useState(false)
 
   const [formState, setFormState] = useState({
-    isOpen: false
+    isOpen: false,
+    preselectedServiceId: null
   })
 
   useEffect(() => {
@@ -30,7 +31,7 @@ export function AppointmentsProvider({ children }) {
       setLoadingSlots(false)
       setError(null)
       setInitialized(false)
-      setFormState({ isOpen: false })
+      setFormState({ isOpen: false, preselectedServiceId: null })
     }
   }, [isAuthenticated])
 
@@ -59,7 +60,7 @@ export function AppointmentsProvider({ children }) {
         const updatedAppointments = await fetchAppointments()
         setAppointments(updatedAppointments)
         setNoAppointments(updatedAppointments.length === 0)
-        setFormState({ isOpen: false })
+        setFormState({ isOpen: false, preselectedServiceId: null })
         toast.success('Cita agendada exitosamente')
         return response.data
       } catch (error) {
@@ -95,15 +96,17 @@ export function AppointmentsProvider({ children }) {
     }
   }
 
-  const openForm = useCallback(() => {
+  const openForm = useCallback((serviceId = null) => {
     setFormState({
-      isOpen: true
+      isOpen: true,
+      preselectedServiceId: serviceId
     })
   }, [])
 
   const closeForm = useCallback(() => {
     setFormState({
-      isOpen: false
+      isOpen: false,
+      preselectedServiceId: null
     })
   }, [])
 

@@ -11,7 +11,7 @@ import { getCurrentDateInCDMX } from '@/lib/utils'
 export function useAppointmentForm() {
   const { pets, loading: petsLoading, initializePets } = usePets()
   const { services, loading: servicesLoading, initializeServices } = useServices()
-  const { addAppointment, getBlockedSlots, loadingSlots } = useAppointments()
+  const { addAppointment, getBlockedSlots, loadingSlots, formState } = useAppointments()
   const navigate = useNavigate()
 
   const [currentStep, setCurrentStep] = useState(1)
@@ -34,7 +34,36 @@ export function useAppointmentForm() {
     }
   })
 
-  const { handleSubmit, control, trigger, getValues, setValue, watch, formState: { errors, isSubmitting } } = form
+  const { handleSubmit, control, trigger, getValues, setValue, watch, reset, formState: { errors, isSubmitting } } = form
+
+  // Resetear el formulario cuando se cierra PERO mantener servicio preseleccionado cuando se abre
+  useEffect(() => {
+    if (!formState.isOpen) {
+      reset({
+        mascota_id: '',
+        servicio_id: '',
+        status: 'Programada',
+        fecha: getCurrentDateInCDMX(),
+        hora_inicio: '',
+        motivo_consulta: ''
+      })
+      setCurrentStep(1)
+      setBlockedSlots([])
+      setShowConfirmDialog(false)
+      setValidatedData(null)
+    } else if (formState.isOpen && formState.preselectedServiceId && services.length > 0) {
+      const serviceIdString = String(formState.preselectedServiceId)
+
+      reset({
+        mascota_id: '',
+        servicio_id: serviceIdString,
+        status: 'Programada',
+        fecha: getCurrentDateInCDMX(),
+        hora_inicio: '',
+        motivo_consulta: ''
+      })
+    }
+  }, [formState.isOpen, formState.preselectedServiceId, services.length, reset])
 
   const fetchBlockedSlots = useCallback(async () => {
     const currentDate = getValues('fecha')

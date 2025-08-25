@@ -61,15 +61,13 @@ export function PetServiceSelection({ control, errors, pets, services, petsLoadi
             name="servicio_id"
             control={control}
             render={({ field: { onChange, value } }) => {
-              const selectedService = services.find((service) => service.id === Number(value))
+              const selectedService = services.find((service) => service.id.toString() === value?.toString())
 
               return (
                 <Select
+                  key={value ? `service-select-${value}` : undefined}
                   value={value?.toString() || ''}
-                  onValueChange={(val) => {
-                    const serviceId = Number(val)
-                    onChange(serviceId)
-                  }}
+                  onValueChange={onChange}
                   disabled={servicesLoading || services.length === 0}
                 >
                   <SelectTrigger

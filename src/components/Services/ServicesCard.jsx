@@ -3,11 +3,15 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Image } from '@unpic/react'
+import { useAppointments } from '@/hooks/useAppointments'
+import { useAuth } from '@/hooks/useAuth'
 import { toast } from 'sonner'
 
 export function ServicesCard({ service }) {
   const [imageLoaded, setImageLoaded] = useState(false)
   const [imageError, setImageError] = useState(false)
+  const { openForm } = useAppointments()
+  const { isAuthenticated } = useAuth()
 
   const handleImageLoad = () => {
     setImageLoaded(true)
@@ -15,6 +19,14 @@ export function ServicesCard({ service }) {
 
   const handleImageError = () => {
     setImageError(true)
+  }
+
+  const handleScheduleAppointment = () => {
+    if (!isAuthenticated) {
+      toast.error('Debes iniciar sesión para agendar una cita')
+      return
+    }
+    openForm(service.id)
   }
 
   return (
@@ -57,7 +69,7 @@ export function ServicesCard({ service }) {
             </div>
           </section>
           <Button
-            onClick={() => toast.warning('Funcionalidad de agendar cita en desarrollo')}
+            onClick={handleScheduleAppointment}
             className="w-full bg-primary rounded-md hover:bg-primary/90 transition-colors text-sm md:text-md hover:cursor-pointer"
           >
             Agendar Cita

@@ -61,7 +61,7 @@ export function Appointments() {
             </p>
           </section>
           {isAuthenticated && noAppointments && (
-            <Button onClick={openForm} className="flex items-center gap-2">
+            <Button onClick={() => openForm()} className="flex items-center gap-2">
               Agendar Cita
               <CalendarPlus className="h-4 w-4" />
             </Button>

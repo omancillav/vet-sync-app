@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ServicesCard } from '@/components/Services/ServicesCard'
 import { ServicesSkeleton } from '@/components/loaders/ServicesSkeleton.jsx'
 import { ErrorCard } from '@/components/ErrorCard'
+import { AppointmentsForm } from '@/components/appointments/form/FormDialog'
 import { filterServicesByCategory } from '@/lib/utils'
 
 export function Services() {
@@ -92,6 +93,7 @@ export function Services() {
             </>
           )}
         </Tabs>
+        <AppointmentsForm />
       </div>
     </div>
   )
