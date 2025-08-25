@@ -83,7 +83,7 @@ export function DataTable({ columns, data, cancelAppointment }) {
       <div className={`flex ${isMobile ? 'flex-col gap-4' : 'items-center'}`}>
         {isMobile && (
           <div className="mb-1">
-            <Button onClick={openForm} className="flex items-center gap-2 w-full">
+            <Button onClick={() => openForm()} className="flex items-center gap-2 w-full">
               Agendar Cita
               <CalendarPlus className="h-4 w-4" />
             </Button>
@@ -102,7 +102,7 @@ export function DataTable({ columns, data, cancelAppointment }) {
           </div>
           {!isMobile && (
             <div className="ml-auto">
-              <Button onClick={openForm} className="flex items-center gap-2">
+              <Button onClick={() => openForm()} className="flex items-center gap-2">
                 Agendar Cita
                 <CalendarPlus className="h-4 w-4" />
               </Button>
