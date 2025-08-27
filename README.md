@@ -200,3 +200,33 @@ Las contribuciones son bienvenidas. Para contribuir:
 ---
 
 ⭐ ¡No olvides darle una estrella al proyecto si te gustó!
+
+## ☁️ Despliegue (Vercel)
+
+El proyecto está preparado para desplegarse en **Vercel**. Se incluye un archivo `vercel.json` que redirige todo el tráfico a `index.html`, útil para aplicaciones SPA con routing del cliente:
+
+```json
+{
+  "rewrites": [
+    { "source": "\\/(.*)", "destination": "/index.html" }
+  ]
+}
+```
+
+Puntos clave y pasos para desplegar:
+
+- Configuración de build en Vercel:
+  - Framework: Selecciona "Other" o "Vite" si aparece.
+  - Build Command: `pnpm build` (o `npm run build`)
+  - Output Directory: `dist`
+
+- Variables de entorno recomendadas (ajusta según tu backend):
+  - `VITE_API_BASE_URL` - URL base del backend
+  - `VITE_API_KEY` - API key (si aplica)
+  - `NODE_ENV` - `production`
+
+- Para publicar:
+  1. Conecta tu repositorio de GitHub a Vercel.
+  2. Selecciona la rama `develop` o `main` según tu flujo.
+  3. Revisa las variables de entorno en la configuración del proyecto en Vercel.
+  4. Despliega y usa las preview URLs para probar antes de producción.
