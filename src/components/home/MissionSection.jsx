@@ -54,7 +54,7 @@ export function MissionSection() {
   ]
 
   return (
-    <section className="w-full py-16 md:py-20 px-4 sm:px-10 bg-background">
+    <section className="w-full pt-12 md:pt-20 pb-12 px-4 sm:px-10 bg-background">
       <div className="container mx-auto max-w-6xl">
         {/* Mission Statement */}
         <div className="text-center mb-16">

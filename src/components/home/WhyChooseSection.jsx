@@ -48,7 +48,7 @@ export function WhyChooseSection() {
   ]
 
   return (
-    <section className="w-full py-16 md:py-20 px-4 sm:px-10 bg-muted/30">
+    <section className="w-full py-16 md:py-20 px-4 sm:px-10 bg-background">
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-12">
           <Badge variant="secondary" className="mb-4 text-sm bg-primary/15">
