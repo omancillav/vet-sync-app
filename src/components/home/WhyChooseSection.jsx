@@ -64,22 +64,22 @@ export function WhyChooseSection() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 gap-6 mb-10">
           {reasons.map((reason, index) => {
             const IconComponent = reason.icon
             return (
               <Card
                 key={index}
-                className="group hover:shadow-lg transition-all duration-300 border-muted hover:border-primary/20 bg-background/80 backdrop-blur-sm"
+                className="group hover:shadow-lg transition-all duration-300 border-muted hover:border-primary/20 bg-background/80 backdrop-blur-sm gap-4"
               >
-                <CardHeader className="pb-4">
-                  <div className="flex items-center justify-between mb-3">
+                <CardHeader className="gap-4">
+                  <div className="flex items-center justify-between">
                     <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/15 transition-colors">
                       <IconComponent className="w-6 h-6 text-primary" />
                     </div>
                     <Badge
                       variant="outline"
-                      className="text-xs font-medium bg-green-50 text-green-700 border-green-200"
+                      className="text-xs font-medium bg-green-50 dark:bg-green-700 text-green-700 dark:text-green-50 border-green-200 dark:border-green-500"
                     >
                       {reason.benefit}
                     </Badge>

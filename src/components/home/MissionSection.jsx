@@ -72,13 +72,13 @@ export function MissionSection() {
         </div>
 
         {/* Values Grid */}
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
+        <div className="grid md:grid-cols-2 md:gap-8 gap-6 mb-16">
           {values.map((value, index) => {
             const IconComponent = value.icon
             return (
               <Card
                 key={index}
-                className="group hover:shadow-lg transition-all duration-300 border-muted hover:border-primary/20 bg-background/80 backdrop-blur-sm"
+                className="group hover:shadow-lg transition-all duration-300 border-muted hover:border-primary/20 bg-background/80 backdrop-blur-sm gap-4"
               >
                 <CardHeader>
                   <div className="flex items-center gap-4">
