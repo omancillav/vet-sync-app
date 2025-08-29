@@ -181,26 +181,6 @@ La aplicación está optimizada para diferentes dispositivos:
 - **Componentes Dinámicos**: Sheet en móvil, Dialog en desktop
 - **Touch Friendly**: Controles optimizados para touch
 
-## 🤝 Contribuciones
-
-Las contribuciones son bienvenidas. Para contribuir:
-
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
-## 👨‍💻 Autor
-
-### omancilla
-
-- GitHub: [@omancillav](https://github.com/omancillav)
-
----
-
-⭐ ¡No olvides darle una estrella al proyecto si te gustó!
-
 ## ☁️ Despliegue (Vercel)
 
 El proyecto está preparado para desplegarse en **Vercel**. Se incluye un archivo `vercel.json` que redirige todo el tráfico a `index.html`, útil para aplicaciones SPA con routing del cliente:
@@ -223,10 +203,24 @@ Puntos clave y pasos para desplegar:
 - Variables de entorno recomendadas (ajusta según tu backend):
   - `VITE_API_BASE_URL` - URL base del backend
   - `VITE_API_KEY` - API key (si aplica)
-  - `NODE_ENV` - `production`
+  - `NODE_ENV` - `production`s
 
-- Para publicar:
-  1. Conecta tu repositorio de GitHub a Vercel.
-  2. Selecciona la rama `develop` o `main` según tu flujo.
-  3. Revisa las variables de entorno en la configuración del proyecto en Vercel.
-  4. Despliega y usa las preview URLs para probar antes de producción.
+## 🤝 Contribuciones
+
+Las contribuciones son bienvenidas. Para contribuir:
+
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## 👨‍💻 Autor
+
+### omancilla
+
+- GitHub: [@omancillav](https://github.com/omancillav)
+
+---
+
+⭐ ¡No olvides darle una estrella al proyecto si te gustó!
