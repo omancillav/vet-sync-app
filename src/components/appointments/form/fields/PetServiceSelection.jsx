@@ -5,9 +5,10 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Button } from '@/components/ui/button'
 import { Stethoscope, Bubbles, LoaderCircle, Zap } from 'lucide-react'
 import { Image } from '@unpic/react'
+import { useMediaQuery } from '@/hooks/use-media-query'
 
 export function PetServiceSelection({ control, errors, pets, services, petsLoading, servicesLoading }) {
-  console.log(services)
+  const isMobile = useMediaQuery('(max-width: 768px)')
 
   return (
     <div className="space-y-4">
@@ -65,7 +66,7 @@ export function PetServiceSelection({ control, errors, pets, services, petsLoadi
             name="servicio_id"
             control={control}
             render={({ field: { onChange, value } }) => (
-              <div className="border rounded-md max-h-[250px] min-h-[120px] overflow-hidden">
+              <div className={`border rounded-md ${isMobile ? 'max-h-[350px]' : 'max-h-[250px]'} min-h-[120px] overflow-hidden`}>
                 {servicesLoading ? (
                   <div className="flex items-center justify-center h-[120px] p-6">
                     <LoaderCircle className="h-6 w-6 animate-spin" />
@@ -77,7 +78,7 @@ export function PetServiceSelection({ control, errors, pets, services, petsLoadi
                     <span className="text-sm text-center text-muted-foreground">No hay servicios disponibles</span>
                   </div>
                 ) : (
-                  <ScrollArea className="h-[300px] w-full">
+                  <ScrollArea className="w-full h-full">
                     <div className="pb-13">
                       {services.map((service) => (
                         <Button
@@ -90,8 +91,8 @@ export function PetServiceSelection({ control, errors, pets, services, petsLoadi
                           <div className="grid grid-cols-1 w-full">
                             {/* Información del servicio */}
                             <div className="flex flex-col w-full">
-                              <div className="flex justify-between mb-1">
-                                <h4 className="font-semibold text-sm leading-tight">{service.nombre}</h4>
+                              <div className="flex justify-between mb-1 gap-2">
+                                <h4 className="font-semibold text-sm leading-tight line-clamp-2">{service.nombre}</h4>
                                 <div>
                                   {service.categoria_id === 1 && <Stethoscope size={20} />}
                                   {service.categoria_id === 2 && <Bubbles size={20} />}
