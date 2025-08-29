@@ -7,6 +7,8 @@ import { Stethoscope, Bubbles, LoaderCircle, Zap } from 'lucide-react'
 import { Image } from '@unpic/react'
 
 export function PetServiceSelection({ control, errors, pets, services, petsLoading, servicesLoading }) {
+  console.log(services)
+
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold">Selecciona tu mascota y servicio</h3>
@@ -76,21 +78,21 @@ export function PetServiceSelection({ control, errors, pets, services, petsLoadi
                   </div>
                 ) : (
                   <ScrollArea className="h-[300px] w-full">
-                    <div>
+                    <div className="pb-13">
                       {services.map((service) => (
                         <Button
                           key={service.id}
                           type="button"
                           variant={value?.toString() === service.id.toString() ? 'default' : 'outline'}
-                          className="w-full h-auto justify-start text-left border-none rounded-none py-4"
+                          className="w-full h-auto border-none rounded-none py-4"
                           onClick={() => onChange(service.id.toString())}
                         >
-                          <div className="flex items-start w-full min-w-0">
+                          <div className="grid grid-cols-1 w-full">
                             {/* Información del servicio */}
-                            <div className="flex flex-col w-full overflow-hidden">
-                              <div className="flex items-start justify-between mb-1">
+                            <div className="flex flex-col w-full">
+                              <div className="flex justify-between mb-1">
                                 <h4 className="font-semibold text-sm leading-tight">{service.nombre}</h4>
-                                <div className="flex-shrink-0">
+                                <div>
                                   {service.categoria_id === 1 && <Stethoscope size={20} />}
                                   {service.categoria_id === 2 && <Bubbles size={20} />}
                                 </div>
@@ -100,20 +102,21 @@ export function PetServiceSelection({ control, errors, pets, services, petsLoadi
                                 <p
                                   className={`text-xs ${
                                     value?.toString() === service.id.toString() ? 'foreground' : 'text-muted-foreground'
-                                  } leading-relaxed text-left mb-2 line-clamp-2`}
+                                  } leading-relaxed text-left mb-2 line-clamp-2 whitespace-normal mr-2`}
                                 >
                                   {service.descripcion}
                                 </p>
                               )}
 
-                              <div className='flex gap-2'>
+                              <div className="flex gap-2">
                                 {service.duracion_estimada && (
-                                  <span className="inline-block text-xs bg-secondary px-2 py-0.5 rounded text-muted-foreground w-fit">
+                                  <span className="text-xs bg-secondary px-2 py-0.5 rounded text-muted-foreground w-fit">
                                     {service.duracion_estimada} min
                                   </span>
                                 )}
+
                                 {service.precio && (
-                                  <span className="inline-block text-xs bg-secondary px-2 py-0.5 rounded text-muted-foreground w-fit">
+                                  <span className="text-xs bg-secondary px-2 py-0.5 rounded text-muted-foreground w-fit">
                                     ${service.precio}
                                   </span>
                                 )}
