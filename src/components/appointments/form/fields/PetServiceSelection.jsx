@@ -66,7 +66,7 @@ export function PetServiceSelection({ control, errors, pets, services, petsLoadi
             name="servicio_id"
             control={control}
             render={({ field: { onChange, value } }) => (
-              <div className={`border rounded-md ${isMobile ? 'max-h-[350px]' : 'max-h-[250px]'} min-h-[120px] overflow-hidden`}>
+              <div className={`border rounded-md ${isMobile ? 'max-h-[340px]' : 'max-h-[250px]'} min-h-[120px] overflow-hidden`}>
                 {servicesLoading ? (
                   <div className="flex items-center justify-center h-[120px] p-6">
                     <LoaderCircle className="h-6 w-6 animate-spin" />
