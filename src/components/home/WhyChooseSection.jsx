@@ -106,7 +106,7 @@ export function WhyChooseSection() {
             </Button>
           ) : (
             <Button asChild size="lg" className="text-base">
-              <Link to="/nueva-cita">
+              <Link to="/citas">
                 Agendar Primera Cita
                 <Calendar className="ml-2 w-5 h-5" />
               </Link>

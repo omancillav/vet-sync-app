@@ -31,12 +31,8 @@ export const addPet = async (petData) => {
   }
 
   const requestBody = {
-    nombre: petData.nombre,
     cliente_id: clienteId,
-    especie_id: petData.especie_id,
-    raza_id: petData.raza_id,
-    edad: petData.edad,
-    sexo: petData.sexo
+    ...petData
   }
 
   try {
