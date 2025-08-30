@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { LoaderCircle, CalendarPlus } from 'lucide-react'
+import { LoaderCircle, CalendarPlus, ArrowRight, ArrowLeft } from 'lucide-react'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { ConfirmationDialog } from '../ConfirmationDialog'
 import { useAppointmentForm } from '@/hooks/useAppointmentForm'
@@ -99,8 +99,8 @@ export function FormContent() {
           <div className="rounded-md bg-red-400/20 p-4 text-red-600 border border-red-600">{errors.root.message}</div>
         )}
 
-        <div className={`flex ${isMobile ? 'flex-col' : 'justify-between'} gap-2.5 md:pt-4`}>
-          <div className="flex gap-2">
+        <div className={`flex ${isMobile ? 'flex-col' : 'justify-between'} gap-2.5`}>
+          <div className="flex">
             {currentStep > 1 && (
               <Button
                 className="w-full md:w-auto"
@@ -109,6 +109,7 @@ export function FormContent() {
                 onClick={prevStep}
                 disabled={isSubmitting}
               >
+                <ArrowLeft className='w-4 h-4  hidden md:block' />
                 Anterior
               </Button>
             )}
@@ -117,6 +118,7 @@ export function FormContent() {
           {currentStep < totalSteps ? (
             <Button type="button" onClick={nextStep} disabled={isSubmitting || petsLoading || servicesLoading}>
               Siguiente
+              <ArrowRight className='w-4 h-4' />
             </Button>
           ) : (
             <Button type="submit" disabled={isSubmitting || petsLoading || servicesLoading}>

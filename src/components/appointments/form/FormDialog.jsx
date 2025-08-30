@@ -44,7 +44,7 @@ export function AppointmentsForm() {
 
   return (
     <Dialog open={formState.isOpen} onOpenChange={closeForm}>
-      <DialogContent className="sm:max-w-[400px] gap-8 max-h-[98vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[400px] gap-4 max-h-[98vh] overflow-y-auto">
         <DialogHeader className="gap-3">
           <div className="flex items-center gap-2">
             <NotebookPen className="w-5 h-5" />

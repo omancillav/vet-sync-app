@@ -12,7 +12,7 @@ export function DateSelection({ control, errors }) {
           name="fecha"
           control={control}
           render={({ field: { onChange, value } }) => (
-            <div>
+            <div className="md:w-9/10">
               <Calendar
                 mode="single"
                 selected={value ? new Date(value + 'T00:00:00') : undefined}
@@ -33,7 +33,7 @@ export function DateSelection({ control, errors }) {
                   const today = new Date(getCurrentDateInCDMX() + 'T00:00:00')
                   return date < today
                 }}
-                className="rounded-md border"
+                className="rounded-md border w-full"
                 classNames={{
                   today:
                     'bg-accent/50 text-accent-foreground rounded-full data-[selected=true]:bg-primary data-[selected=true]:text-primary-foreground data-[selected=true]:rounded-full'
