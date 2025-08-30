@@ -21,21 +21,22 @@ export function TimeSelection({ control, errors, getValues, services, blockedSlo
         name="hora_inicio"
         control={control}
         render={({ field: { onChange, value } }) => (
-          <div className="border rounded-md max-h-[300px] min-h-[120px] overflow-hidden">
+          <div className="border rounded-md">
             {loadingSlots ? (
               <div className="flex items-center justify-center h-[120px] p-6">
                 <LoaderCircle className="h-6 w-6 animate-spin" />
                 <span className="ml-2 text-sm text-muted-foreground">Cargando horarios...</span>
               </div>
             ) : filteredSlots.length === 0 ? (
-              <div className="flex items-center flex-col justify-center h-[120px] p-6 gap-4">
+              <div className="flex items-center flex-col justify-center p-6 gap-4">
                 <Clock className="w-10 h-10 text-muted-foreground" />
                 <span className="text-sm text-center text-muted-foreground">
                   No hay horarios disponibles para la fecha seleccionada
                 </span>
               </div>
             ) : (
-              <ScrollArea className="h-[360px] w-full">
+              // SOLUCIÓN: Altura fija específica para el ScrollArea
+              <ScrollArea className="h-[400px] md:h-[300px] w-full">
                 <div className="p-4 space-y-3">
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                     {filteredSlots.map((slot) => (
