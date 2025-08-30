@@ -2,7 +2,7 @@ import { Controller } from 'react-hook-form'
 
 export function ConsultationReason({ control, errors }) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <h3 className="text-lg font-semibold">Describe el motivo de la consulta</h3>
 
       <Controller
@@ -22,7 +22,7 @@ export function ConsultationReason({ control, errors }) {
       />
       {errors.motivo_consulta && <p className="text-sm text-red-500">{errors.motivo_consulta.message}</p>}
 
-      <div className="text-sm text-muted-foreground text-center">
+      <div className="text-sm text-muted-foreground">
         <p>Este campo es opcional. Si no tienes un motivo específico, puedes dejarlo vacío y continuar.</p>
       </div>
     </div>
