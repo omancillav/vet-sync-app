@@ -3,10 +3,13 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Button } from '@/components/ui/button'
+import { sortServicesByCategory } from '@/lib/utils'
 import { Stethoscope, Bubbles, LoaderCircle, Zap } from 'lucide-react'
 import { Image } from '@unpic/react'
 
 export function PetServiceSelection({ control, errors, pets, services, petsLoading, servicesLoading }) {
+  const sortedServices = sortServicesByCategory(services)
+
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold">Selecciona tu mascota y servicio</h3>
@@ -66,7 +69,7 @@ export function PetServiceSelection({ control, errors, pets, services, petsLoadi
               <div className="border rounded-md h-[340px] md:h-[250px] min-h-[120px] overflow-hidden">
                 {servicesLoading ? (
                   <div className="flex items-center justify-center h-[120px] p-6">
-                    <LoaderCircle className="h-6 w-6 animate-spin" />
+                    <LoaderCircle className="h-6 w-6 animate-spin text-muted-foreground" />
                     <span className="ml-2 text-sm text-muted-foreground">Cargando servicios...</span>
                   </div>
                 ) : services.length === 0 ? (
@@ -77,7 +80,7 @@ export function PetServiceSelection({ control, errors, pets, services, petsLoadi
                 ) : (
                   <ScrollArea className="w-full h-full">
                     <div>
-                      {services.map((service) => (
+                      {sortedServices.map((service) => (
                         <Button
                           key={service.id}
                           type="button"
