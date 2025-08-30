@@ -119,3 +119,9 @@ export const generateTimeSlots = (date, duration) => {
   }
   return slots
 }
+
+export const sortServicesByCategory = (services) => {
+  return [...services].sort((a, b) => {
+    return a.categoria_id - b.categoria_id
+  })
+}

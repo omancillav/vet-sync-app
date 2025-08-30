@@ -96,7 +96,7 @@ export function MissionSection() {
           })}
         </div>
 
-        <div className="bg-primary-foreground rounded-2xl p-8 md:p-10">
+        <div className="bg-muted/50 rounded-2xl p-8 md:p-10">
           <div className="text-center mb-8">
             <h3 className="text-2xl font-semibold text-foreground/85 mb-3">Nuestros Compromisos</h3>
             <p className="text-muted-foreground">
