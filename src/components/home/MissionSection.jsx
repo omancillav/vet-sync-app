@@ -56,7 +56,6 @@ export function MissionSection() {
   return (
     <section className="w-full pt-12 md:pt-20 pb-12 px-4 sm:px-10 bg-background">
       <div className="container mx-auto max-w-6xl">
-        {/* Mission Statement */}
         <div className="text-center mb-16">
           <Badge variant="secondary" className="mb-4 text-sm bg-primary/15">
             Nuestro Compromiso
@@ -71,7 +70,6 @@ export function MissionSection() {
           </p>
         </div>
 
-        {/* Values Grid */}
         <div className="grid md:grid-cols-2 md:gap-8 gap-6 mb-16">
           {values.map((value, index) => {
             const IconComponent = value.icon
@@ -98,8 +96,7 @@ export function MissionSection() {
           })}
         </div>
 
-        {/* Commitments */}
-        <div className="bg-muted/30 rounded-2xl p-8 md:p-10">
+        <div className="bg-primary-foreground rounded-2xl p-8 md:p-10">
           <div className="text-center mb-8">
             <h3 className="text-2xl font-semibold text-foreground/85 mb-3">Nuestros Compromisos</h3>
             <p className="text-muted-foreground">

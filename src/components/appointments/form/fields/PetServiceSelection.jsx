@@ -66,7 +66,11 @@ export function PetServiceSelection({ control, errors, pets, services, petsLoadi
             name="servicio_id"
             control={control}
             render={({ field: { onChange, value } }) => (
-              <div className={`border rounded-md ${isMobile ? 'max-h-[340px]' : 'max-h-[250px]'} min-h-[120px] overflow-hidden`}>
+              <div
+                className={`border rounded-md ${
+                  isMobile ? 'max-h-[340px]' : 'max-h-[250px]'
+                } min-h-[120px] overflow-hidden`}
+              >
                 {servicesLoading ? (
                   <div className="flex items-center justify-center h-[120px] p-6">
                     <LoaderCircle className="h-6 w-6 animate-spin" />
@@ -98,7 +102,6 @@ export function PetServiceSelection({ control, errors, pets, services, petsLoadi
                                   {service.categoria_id === 2 && <Bubbles size={20} />}
                                 </div>
                               </div>
-
                               {service.descripcion && (
                                 <p
                                   className={`text-xs ${
@@ -108,16 +111,26 @@ export function PetServiceSelection({ control, errors, pets, services, petsLoadi
                                   {service.descripcion}
                                 </p>
                               )}
-
                               <div className="flex gap-2">
                                 {service.duracion_estimada && (
-                                  <span className="text-xs bg-secondary px-2 py-0.5 rounded text-muted-foreground w-fit">
+                                  <span
+                                    className={`text-xs bg-secondary ${
+                                      value?.toString() === service.id.toString()
+                                        ? 'dark:bg-white/30 dark:text-white'
+                                        : 'bg-secondary'
+                                    } px-2 py-0.5 rounded text-muted-foreground w-fit`}
+                                  >
                                     {service.duracion_estimada} min
                                   </span>
                                 )}
-
                                 {service.precio && (
-                                  <span className="text-xs bg-secondary px-2 py-0.5 rounded text-muted-foreground w-fit">
+                                  <span
+                                    className={`text-xs bg-secondary ${
+                                      value?.toString() === service.id.toString()
+                                        ? 'dark:bg-white/30 dark:text-white'
+                                        : 'bg-secondary'
+                                    } px-2 py-0.5 rounded text-muted-foreground w-fit`}
+                                  >
                                     ${service.precio}
                                   </span>
                                 )}

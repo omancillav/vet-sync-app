@@ -1,14 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  Calendar,
-  Stethoscope,
-  Users,
-  Clock,
-  Shield,
-  Star,
-  ArrowRight
-} from 'lucide-react'
+import { Calendar, Stethoscope, Users, Clock, Shield, Star, ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 const features = [
