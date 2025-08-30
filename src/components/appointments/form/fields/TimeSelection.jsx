@@ -21,7 +21,7 @@ export function TimeSelection({ control, errors, getValues, services, blockedSlo
         name="hora_inicio"
         control={control}
         render={({ field: { onChange, value } }) => (
-          <div className="border rounded-md max-h-[300px] min-h-[120px] overflow-hidden">
+          <div className={'border rounded-md max-h-[400px] md:max-h-[300px] min-h-[120px] overflow-hidden'}>
             {loadingSlots ? (
               <div className="flex items-center justify-center h-[120px] p-6">
                 <LoaderCircle className="h-6 w-6 animate-spin" />

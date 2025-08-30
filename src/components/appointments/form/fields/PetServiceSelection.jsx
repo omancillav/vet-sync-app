@@ -5,11 +5,8 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Button } from '@/components/ui/button'
 import { Stethoscope, Bubbles, LoaderCircle, Zap } from 'lucide-react'
 import { Image } from '@unpic/react'
-import { useMediaQuery } from '@/hooks/use-media-query'
 
 export function PetServiceSelection({ control, errors, pets, services, petsLoading, servicesLoading }) {
-  const isMobile = useMediaQuery('(max-width: 768px)')
-
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold">Selecciona tu mascota y servicio</h3>
@@ -66,11 +63,7 @@ export function PetServiceSelection({ control, errors, pets, services, petsLoadi
             name="servicio_id"
             control={control}
             render={({ field: { onChange, value } }) => (
-              <div
-                className={`border rounded-md ${
-                  isMobile ? 'max-h-[340px]' : 'max-h-[250px]'
-                } min-h-[120px] overflow-hidden`}
-              >
+              <div className="border rounded-md max-h-[340px] md:max-h-[250px] min-h-[120px] overflow-hidden">
                 {servicesLoading ? (
                   <div className="flex items-center justify-center h-[120px] p-6">
                     <LoaderCircle className="h-6 w-6 animate-spin" />
@@ -83,7 +76,7 @@ export function PetServiceSelection({ control, errors, pets, services, petsLoadi
                   </div>
                 ) : (
                   <ScrollArea className="w-full h-full">
-                    <div className="pb-13">
+                    <div>
                       {services.map((service) => (
                         <Button
                           key={service.id}
