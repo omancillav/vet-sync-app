@@ -319,8 +319,9 @@ export function DataTable({ columns, data, cancelAppointment }) {
           </Button>
         </div>
       )}
-      <span className="text-sm text-muted-foreground/80 md:hidden">
-        <strong className="font-semibold">Nota: </strong>Haz clic en una fila para ver más información de la cita.
+      <span className="text-sm text-muted-foreground/70 md:hidden">
+        <strong className="font-semibold">Nota: </strong>Puedes ver más detalles de la cita haciendo clic en la fila
+        correspondiente.
       </span>
     </div>
   )
