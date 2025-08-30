@@ -28,14 +28,14 @@ export function TimeSelection({ control, errors, getValues, services, blockedSlo
                 <span className="ml-2 text-sm text-muted-foreground">Cargando horarios...</span>
               </div>
             ) : filteredSlots.length === 0 ? (
-              <div className="flex items-center flex-col justify-center h-[120px] p-6 gap-4">
+              <div className="flex items-center flex-col justify-center p-6 gap-4">
                 <Clock className="w-10 h-10 text-muted-foreground" />
                 <span className="text-sm text-center text-muted-foreground">
                   No hay horarios disponibles para la fecha seleccionada
                 </span>
               </div>
             ) : (
-              <ScrollArea className="max-h-[400px] md:max-h-[300px] w-full">
+              <ScrollArea className="max-h-[400px] md:max-h-[300px] w-full overflow-scroll">
                 <div className="p-4 space-y-3">
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                     {filteredSlots.map((slot) => (
