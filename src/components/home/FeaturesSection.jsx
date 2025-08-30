@@ -69,12 +69,19 @@ export function FeaturesSection() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 gap-6">
           {features.map((feature, index) => (
-            <Card key={index}>
+            <Card
+              key={index}
+              className="group hover:shadow-lg transition-all duration-300 border-muted hover:border-primary/20 bg-background/80 backdrop-blur-sm"
+            >
               <CardHeader>
-                <div className={`w-12 h-12 ${feature.bgColor} rounded-lg flex items-center justify-center mb-4`}>
-                  <feature.icon className={`w-6 h-6 ${feature.color}`} />
+                <div
+                  className={`w-12 h-12 ${feature.bgColor} group-hover:bg-primary/15 rounded-lg flex items-center justify-center mb-4 transition-colors`}
+                >
+                  <feature.icon className={`w-6 h-6 ${feature.color} group-hover:text-primary transition-colors`} />
                 </div>
-                <CardTitle className="text-lg md:text-xl">{feature.title}</CardTitle>
+                <CardTitle className="text-lg md:text-xl group-hover:text-primary transition-colors">
+                  {feature.title}
+                </CardTitle>
                 <CardDescription className="text-sm md:text-base">{feature.description}</CardDescription>
               </CardHeader>
               {feature.link && (
