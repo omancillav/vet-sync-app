@@ -16,7 +16,7 @@ const features = [
   {
     icon: Calendar,
     title: 'Citas Inteligentes',
-    description: 'Agenda citas veterinarias de manera rápida y recibe recordatorios automáticos.',
+    description: 'Agenda citas veterinarias en tiempo real y consulta horarios disponibles al instante.',
     link: '/citas',
     linkText: 'Agendar Cita',
     color: 'text-blue-500',
