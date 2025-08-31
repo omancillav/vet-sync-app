@@ -66,14 +66,14 @@ export function PetServiceSelection({ control, errors, pets, services, petsLoadi
             name="servicio_id"
             control={control}
             render={({ field: { onChange, value } }) => (
-              <div className="border rounded-md h-[340px] md:h-[250px] min-h-[120px] overflow-hidden">
+              <div className="border rounded-md h-[340px] md:h-[250px] overflow-hidden">
                 {servicesLoading ? (
-                  <div className="flex items-center justify-center h-[120px] p-6">
+                  <div className="flex items-center justify-center h-[340px] md:h-[250px] p-6">
                     <LoaderCircle className="h-6 w-6 animate-spin text-muted-foreground" />
                     <span className="ml-2 text-sm text-muted-foreground">Cargando servicios...</span>
                   </div>
                 ) : services.length === 0 ? (
-                  <div className="flex items-center flex-col justify-center h-[120px] p-6 gap-4">
+                  <div className="flex items-center flex-col justify-center h-[340px] md:h-[250px] p-6 gap-4">
                     <Zap className="w-10 h-10 text-muted-foreground" />
                     <span className="text-sm text-center text-muted-foreground">No hay servicios disponibles</span>
                   </div>
