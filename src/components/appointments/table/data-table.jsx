@@ -29,7 +29,8 @@ import {
   CalendarX,
   Clock,
   Stethoscope,
-  User
+  User,
+  NotepadText
 } from 'lucide-react'
 
 export function DataTable({ columns, data, cancelAppointment }) {
@@ -234,6 +235,20 @@ export function DataTable({ columns, data, cancelAppointment }) {
                                   <p className="font-semibold text-foreground">{row.original.nombre_profesional}</p>
                                 </div>
                               </div>
+                              {/* Notas */}
+                              {row.original.motivo_consulta && (
+                                <div className="flex items-center gap-3 p-3 rounded-md bg-card border border-border/30">
+                                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-yellow-500/10 flex items-center justify-center">
+                                    <NotepadText className="w-5 h-5 text-yellow-500" />
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                                      Notas
+                                    </p>
+                                    <p className="font-semibold text-foreground">{row.original.motivo_consulta}</p>
+                                  </div>
+                                </div>
+                              )}
                             </div>
                             {['Programada', 'Reprogramada'].includes(row.original.status) && (
                               <div className="pt-4 border-t border-border/50">
