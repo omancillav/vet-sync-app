@@ -1,6 +1,6 @@
 import VetsyncLogo from '@/assets/vetsync_logo.webp'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useState, useEffect } from 'react'
@@ -66,10 +66,11 @@ export function Login() {
         </Link>
 
         <CardHeader>
-          <CardTitle className="text-center uppercase font-bold">Inicia sesión</CardTitle>
+          <CardTitle className="text-center uppercase font-bold">Bienvenido de vuelta</CardTitle>
+          <CardDescription className="text-center">Inicia sesión en tu cuenta de Vetsync</CardDescription>
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="flex flex-col gap-4">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
@@ -80,9 +81,9 @@ export function Login() {
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Contraseña</Label>
-                  <a href="#" className="ml-auto inline-block text-sm underline-offset-4 hover:underline">
+                  {/* <a href="#" className="ml-auto inline-block text-sm underline-offset-4 hover:underline">
                     ¿Olvidaste tu contraseña?
-                  </a>
+                  </a> */}
                 </div>
                 <div className="relative">
                   <Input
@@ -119,12 +120,11 @@ export function Login() {
               </Button>
             </CardFooter>
           </form>
+          <Link to="/register" className="text-center">
+            No tienes una cuenta? <span className="underline">Registrate</span>
+          </Link>
         </CardContent>
       </Card>
-
-      <Link to="/register">
-        No tienes una cuenta? <span className="underline">Registrate</span>
-      </Link>
     </div>
   )
 }

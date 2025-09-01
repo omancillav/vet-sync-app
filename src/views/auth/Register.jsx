@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import VetsyncLogo from '@/assets/vetsync_logo.webp'
 import { ArrowLeft, Eye, EyeOff, LoaderCircle } from 'lucide-react'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -31,15 +31,12 @@ export function Register() {
 
   const onSubmit = async (data) => {
     try {
-      // 1. Intenta registrar al usuario y obtener la sesión
       const sessionData = await registerRequest({ input: data })
 
-      // 2. Guarda la sesión en el contexto y redirige
       login(sessionData)
       navigate('/')
     } catch (err) {
       console.error(err)
-      // Maneja errores del registro (ej. email ya existe)
       setError('root.serverError', {
         type: 'manual',
         message: err.response?.data?.message || 'Hubo un error durante el registro. Por favor, inténtalo de nuevo.'
@@ -67,9 +64,10 @@ export function Register() {
 
         <CardHeader>
           <CardTitle className="text-center uppercase font-bold">Crea una cuenta</CardTitle>
+          <CardDescription className="text-center">Regístrate para ser parte de Vetsync</CardDescription>
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="flex flex-col gap-4">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-4">
               <div className="grid gap-4 md:grid-cols-2">
@@ -95,7 +93,7 @@ export function Register() {
                   <Input
                     id="telefono"
                     type="tel"
-                    placeholder="1234567890"
+                    placeholder="5582470239"
                     {...register('telefono')}
                     onChange={(e) => {
                       const { value } = e.target
@@ -147,12 +145,11 @@ export function Register() {
               </Button>
             </CardFooter>
           </form>
+          <Link to="/login" className="text-center">
+            ¿Ya tienes una cuenta? <span className="underline">Inicia sesión</span>
+          </Link>
         </CardContent>
       </Card>
-
-      <Link to="/login">
-        ¿Ya tienes una cuenta? <span className="underline">Inicia sesión</span>
-      </Link>
     </div>
   )
 }
