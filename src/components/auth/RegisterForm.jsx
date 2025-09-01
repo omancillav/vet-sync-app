@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, LoaderCircle } from 'lucide-react'
-import { CardFooter } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
@@ -10,56 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { registerSchema } from '@/schemas/registerSchema.js'
 import { register as registerRequest } from '@/services/api/auth.js'
 import { useAuth } from '@/hooks/useAuth'
-
-const isEmailDuplicateError = (error) => {
-  return error.response?.status === 409 && error.response?.data?.message === 'Email already registered'
-}
-
-const getErrorMessage = (error) => {
-  if (!error.response) {
-    return 'Error de conexión. Por favor, verifica tu conexión a internet.'
-  }
-
-  const status = error.response.status
-  const apiMessage = error.response.data?.message
-  const apiError = error.response.data?.error
-
-  if (status === 422 && apiError) {
-    const validationErrors = Object.values(apiError).flat()
-    return validationErrors.join('. ')
-  }
-
-  const errorMap = {
-    409: {
-      'Email already registered':
-        'Ya existe una cuenta registrada con este correo electrónico. ¿Quieres iniciar sesión?'
-    },
-    422: {
-      default: 'Los datos ingresados no son válidos. Por favor, revisa la información.'
-    },
-    500: {
-      'Internal server error': 'Error interno del servidor. Por favor, inténtalo más tarde.'
-    }
-  }
-
-  const statusErrors = errorMap[status]
-  if (statusErrors && statusErrors[apiMessage]) {
-    return statusErrors[apiMessage]
-  }
-
-  switch (status) {
-  case 409:
-    return 'Ya existe una cuenta con este correo electrónico.'
-  case 422:
-    return 'Los datos ingresados no son válidos. Por favor, revisa la información.'
-  case 500:
-    return 'Error interno del servidor. Por favor, inténtalo más tarde.'
-  case 429:
-    return 'Demasiados intentos de registro. Espera unos minutos.'
-  default:
-    return 'Ocurrió un error inesperado. Por favor, inténtalo de nuevo.'
-  }
-}
+import { isEmailDuplicateError, getRegisterErrorMessage } from '../../lib/utils'
 
 export function RegisterForm() {
   const navigate = useNavigate()
@@ -86,7 +36,7 @@ export function RegisterForm() {
     } catch (err) {
       console.error('Register error:', err)
 
-      const errorMessage = getErrorMessage(err)
+      const errorMessage = getRegisterErrorMessage(err)
 
       setError('root.serverError', {
         type: 'manual',
@@ -236,18 +186,11 @@ export function RegisterForm() {
           )}
         </div>
 
-        <CardFooter className="mt-4 flex-col gap-2 p-0">
+        <div className="mt-4 flex-col gap-2 p-0">
           <Button type="submit" className="w-full" disabled={isSubmitting}>
-            {isSubmitting ? (
-              <>
-                <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-                Registrando...
-              </>
-            ) : (
-              'Registrarse'
-            )}
+            {isSubmitting ? <LoaderCircle className="h-4 w-4 animate-spin" /> : 'Registrarse'}
           </Button>
-        </CardFooter>
+        </div>
       </form>
 
       <Link to="/login" className="text-center text-sm">
