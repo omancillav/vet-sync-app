@@ -13,6 +13,56 @@ import { registerSchema } from '@/schemas/registerSchema.js'
 import { register as registerRequest } from '@/services/api/auth.js'
 import { useAuth } from '@/hooks/useAuth'
 
+const getErrorMessage = (error) => {
+  if (!error.response) {
+    return 'Error de conexión. Por favor, verifica tu conexión a internet.'
+  }
+
+  const status = error.response.status
+  const apiMessage = error.response.data?.message
+  const apiError = error.response.data?.error
+
+  if (status === 422 && apiError) {
+    const validationErrors = Object.values(apiError).flat()
+    return validationErrors.join('. ')
+  }
+
+  const errorMap = {
+    409: {
+      'Email already registered':
+        'Ya existe una cuenta registrada con este correo electrónico. ¿Quieres iniciar sesión?'
+    },
+    422: {
+      default: 'Los datos ingresados no son válidos. Por favor, revisa la información.'
+    },
+    500: {
+      'Internal server error': 'Error interno del servidor. Por favor, inténtalo más tarde.'
+    }
+  }
+
+  const statusErrors = errorMap[status]
+  if (statusErrors && statusErrors[apiMessage]) {
+    return statusErrors[apiMessage]
+  }
+
+  switch (status) {
+  case 409:
+    return 'Ya existe una cuenta con este correo electrónico.'
+  case 422:
+    return 'Los datos ingresados no son válidos. Por favor, revisa la información.'
+  case 500:
+    return 'Error interno del servidor. Por favor, inténtalo más tarde.'
+  case 429:
+    return 'Demasiados intentos de registro. Espera unos minutos.'
+  default:
+    return 'Ocurrió un error inesperado. Por favor, inténtalo de nuevo.'
+  }
+}
+
+const isEmailDuplicateError = (error) => {
+  return error.response?.status === 409 && error.response?.data?.message === 'Email already registered'
+}
+
 export function Register() {
   const navigate = useNavigate()
   const { login, isAuthenticated } = useAuth()
@@ -24,24 +74,55 @@ export function Register() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    setError
+    setError,
+    clearErrors
   } = useForm({
     resolver: zodResolver(registerSchema)
   })
 
   const onSubmit = async (data) => {
     try {
-      const sessionData = await registerRequest({ input: data })
+      clearErrors('root.serverError')
 
+      const sessionData = await registerRequest({ input: data })
       login(sessionData)
       navigate('/')
     } catch (err) {
-      console.error(err)
+      console.error('Register error:', err)
+
+      const errorMessage = getErrorMessage(err)
+
       setError('root.serverError', {
         type: 'manual',
-        message: err.response?.data?.message || 'Hubo un error durante el registro. Por favor, inténtalo de nuevo.'
+        message: errorMessage
       })
     }
+  }
+
+  const handleInputChange = (fieldName) => {
+    return (e) => {
+      if (errors.root?.serverError) {
+        clearErrors('root.serverError')
+      }
+      if (errors[fieldName]) {
+        clearErrors(fieldName)
+      }
+      return register(fieldName).onChange(e)
+    }
+  }
+
+  const handleTelephoneChange = (e) => {
+    const { value } = e.target
+    e.target.value = value.replace(/[^0-9]/g, '').slice(0, 10)
+
+    if (errors.root?.serverError) {
+      clearErrors('root.serverError')
+    }
+    if (errors.telefono) {
+      clearErrors('telefono')
+    }
+
+    register('telefono').onChange(e)
   }
 
   return (
@@ -73,19 +154,41 @@ export function Register() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="grid gap-2">
                   <Label htmlFor="nombre">Nombre</Label>
-                  <Input id="nombre" type="text" placeholder="Juan" {...register('nombre')} />
+                  <Input
+                    id="nombre"
+                    type="text"
+                    placeholder="Juan"
+                    {...register('nombre')}
+                    onChange={handleInputChange('nombre')}
+                    className={errors.nombre ? 'border-red-500' : ''}
+                  />
                   {errors.nombre && <p className="text-sm text-red-500">{errors.nombre.message}</p>}
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="apellido">Apellido</Label>
-                  <Input id="apellido" type="text" placeholder="Perez" {...register('apellido')} />
+                  <Input
+                    id="apellido"
+                    type="text"
+                    placeholder="Perez"
+                    {...register('apellido')}
+                    onChange={handleInputChange('apellido')}
+                    className={errors.apellido ? 'border-red-500' : ''}
+                  />
                   {errors.apellido && <p className="text-sm text-red-500">{errors.apellido.message}</p>}
                 </div>
               </div>
+
               <div className="grid grid-cols-1 gap-4 md:grid-cols-10">
                 <div className="grid gap-2 md:col-span-6">
                   <Label htmlFor="email">Correo electrónico</Label>
-                  <Input id="email" type="email" placeholder="correo@ejemplo.com" {...register('email')} />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="correo@ejemplo.com"
+                    {...register('email')}
+                    onChange={handleInputChange('email')}
+                    className={errors.email ? 'border-red-500' : ''}
+                  />
                   {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
                 </div>
                 <div className="grid gap-2 md:col-span-4">
@@ -93,30 +196,30 @@ export function Register() {
                   <Input
                     id="telefono"
                     type="tel"
-                    placeholder="5582470239"
+                    placeholder="5512345678"
                     {...register('telefono')}
-                    onChange={(e) => {
-                      const { value } = e.target
-                      e.target.value = value.replace(/[^0-9]/g, '').slice(0, 10)
-                      register('telefono').onChange(e)
-                    }}
+                    onChange={handleTelephoneChange}
+                    className={errors.telefono ? 'border-red-500' : ''}
                   />
                   {errors.telefono && <p className="text-sm text-red-500">{errors.telefono.message}</p>}
                 </div>
               </div>
+
               <div className="grid gap-2">
                 <Label htmlFor="password">Contraseña</Label>
                 <div className="relative">
                   <Input
                     id="password"
                     type={showPassword ? 'text' : 'password'}
-                    className="pr-10 font-mono"
+                    className={`pr-10 font-mono ${errors.password ? 'border-red-500' : ''}`}
                     {...register('password')}
+                    onChange={handleInputChange('password')}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute inset-y-0 right-0 flex items-center pr-3"
+                    tabIndex={-1}
                   >
                     {showPassword ? (
                       <EyeOff className="h-4 w-4 text-gray-500 hover:cursor-pointer" />
@@ -127,6 +230,7 @@ export function Register() {
                 </div>
                 {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
               </div>
+
               <div className="grid gap-2">
                 <Label htmlFor="direccion">Dirección (Opcional)</Label>
                 <Input
@@ -134,18 +238,45 @@ export function Register() {
                   type="text"
                   placeholder="Calle 123, Colonia, Ciudad, Estado"
                   {...register('direccion')}
+                  onChange={handleInputChange('direccion')}
+                  className={errors.direccion ? 'border-red-500' : ''}
                 />
                 {errors.direccion && <p className="text-sm text-red-500">{errors.direccion.message}</p>}
               </div>
-              {errors.root?.serverError && <p className="text-sm text-red-500">{errors.root.serverError.message}</p>}
+
+              {/* Error del servidor */}
+              {errors.root?.serverError && (
+                <p className="text-sm text-red-500 text-center bg-red-50 dark:bg-red-950/10 p-3 rounded-md border border-red-200 dark:border-red-800">
+                  {errors.root.serverError.message}
+                  {isEmailDuplicateError({
+                    response: { status: 409, data: { message: 'Email already registered' } }
+                  }) &&
+                    errors.root.serverError.message.includes('correo electrónico') && (
+                    <span className="block mt-1">
+                      <Link to="/login" className="underline hover:no-underline">
+                          Ir al inicio de sesión
+                      </Link>
+                    </span>
+                  )}
+                </p>
+              )}
             </div>
+
             <CardFooter className="mt-4 flex-col gap-2 p-0">
               <Button type="submit" className="w-full" disabled={isSubmitting}>
-                {isSubmitting ? <LoaderCircle className="mr-2 h-4 w-4 animate-spin" /> : 'Registrarse'}
+                {isSubmitting ? (
+                  <>
+                    <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                    Registrando...
+                  </>
+                ) : (
+                  'Registrarse'
+                )}
               </Button>
             </CardFooter>
           </form>
-          <Link to="/login" className="text-center">
+
+          <Link to="/login" className="text-center text-sm">
             ¿Ya tienes una cuenta? <span className="underline">Inicia sesión</span>
           </Link>
         </CardContent>
