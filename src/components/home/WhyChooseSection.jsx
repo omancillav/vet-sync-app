@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Clock, Shield, Calendar, FileText, Bell, HeadphonesIcon, ArrowRight } from 'lucide-react'
+import { Clock, Shield, Calendar, FileText, CheckCircle2, HeadphonesIcon, ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
 
@@ -22,10 +22,10 @@ export function WhyChooseSection() {
       benefit: '100% organizado'
     },
     {
-      icon: Bell,
-      title: 'Recordatorios Automáticos',
-      description: 'Nunca olvides vacunas, desparasitaciones o citas de seguimiento con nuestras notificaciones.',
-      benefit: '0 citas perdidas'
+      icon: CheckCircle2,
+      title: 'Gestión Simplificada',
+      description: 'Administra la información de tus mascotas y citas desde una sola plataforma.',
+      benefit: 'Todo integrado'
     },
     {
       icon: Shield,

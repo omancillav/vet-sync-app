@@ -5,6 +5,96 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs))
 }
 
+export const isEmailDuplicateError = (error) => {
+  return error.response?.status === 409 && error.response?.data?.message === 'Email already registered'
+}
+
+export const getRegisterErrorMessage = (error) => {
+  if (!error.response) {
+    return 'Error de conexión. Por favor, verifica tu conexión a internet.'
+  }
+
+  const status = error.response.status
+  const apiMessage = error.response.data?.message
+  const apiError = error.response.data?.error
+
+  if (status === 422 && apiError) {
+    const validationErrors = Object.values(apiError).flat()
+    return validationErrors.join('. ')
+  }
+
+  const errorMap = {
+    409: {
+      'Email already registered':
+        'Ya existe una cuenta registrada con este correo electrónico. ¿Quieres iniciar sesión?'
+    },
+    422: {
+      default: 'Los datos ingresados no son válidos. Por favor, revisa la información.'
+    },
+    500: {
+      'Internal server error': 'Error interno del servidor. Por favor, inténtalo más tarde.'
+    }
+  }
+
+  const statusErrors = errorMap[status]
+  if (statusErrors && statusErrors[apiMessage]) {
+    return statusErrors[apiMessage]
+  }
+
+  switch (status) {
+  case 409:
+    return 'Ya existe una cuenta con este correo electrónico.'
+  case 422:
+    return 'Los datos ingresados no son válidos. Por favor, revisa la información.'
+  case 500:
+    return 'Error interno del servidor. Por favor, inténtalo más tarde.'
+  case 429:
+    return 'Demasiados intentos de registro. Espera unos minutos.'
+  default:
+    return 'Ocurrió un error inesperado. Por favor, inténtalo de nuevo.'
+  }
+}
+
+export const getLoginErrorMessage = (error) => {
+  if (!error.response) {
+    return 'Error de conexión. Por favor, verifica tu conexión a internet.'
+  }
+
+  const status = error.response.status
+  const apiMessage = error.response.data?.message
+
+  const errorMap = {
+    404: {
+      'Email not found': 'No existe una cuenta asociada a este correo electrónico.'
+    },
+    401: {
+      'Invalid password': 'La contraseña ingresada es incorrecta.',
+      'User is not active': 'Tu cuenta está inactiva. Contacta al administrador para reactivarla.'
+    },
+    500: {
+      'Internal server error': 'Error interno del servidor. Por favor, inténtalo más tarde.'
+    }
+  }
+
+  const statusErrors = errorMap[status]
+  if (statusErrors && statusErrors[apiMessage]) {
+    return statusErrors[apiMessage]
+  }
+
+  switch (status) {
+  case 404:
+    return 'No se encontró una cuenta con ese correo electrónico.'
+  case 401:
+    return 'Credenciales inválidas. Verifica tu correo y contraseña.'
+  case 500:
+    return 'Error interno del servidor. Por favor, inténtalo más tarde.'
+  case 429:
+    return 'Demasiados intentos de inicio de sesión. Espera unos minutos.'
+  default:
+    return 'Ocurrió un error inesperado. Por favor, inténtalo de nuevo.'
+  }
+}
+
 export const filterServicesByCategory = (services, category) =>
   services.filter((service) =>
     category === 'Veterinaria' ? service.categoria_id === 1 : service.categoria_id === 2
