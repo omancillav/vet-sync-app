@@ -9,9 +9,9 @@ export function AppWrapper({ children }) {
 
   return (
     <AuthProvider>
-      <Toaster position={isMobile ? 'top-center' : 'bottom-right'} />
+      <Toaster position={isMobile ? 'top-center' : 'bottom-right'} richColors={true} />
       {children}
-      <SpeedInsights debug={false}/>
+      <SpeedInsights debug={false} />
       <Analytics debug={false} />
     </AuthProvider>
   )
