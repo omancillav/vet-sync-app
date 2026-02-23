@@ -40,6 +40,7 @@ export function ServicesCard({ service }) {
             loading='lazy'
             src={service.img_url}
             alt={service.nombre}
+            cdn={false}
             onLoad={handleImageLoad}
             onError={handleImageError}
             width={800}

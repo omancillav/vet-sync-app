@@ -46,6 +46,7 @@ export function PetServiceSelection({ control, errors, pets, services, petsLoadi
                           width={100}
                           aspectRatio={1}
                           loading="lazy"
+                          cdn={false}
                           className="rounded-full w-9 h-9"
                         />
                         <span>{pet.nombre}</span>

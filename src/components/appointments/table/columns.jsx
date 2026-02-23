@@ -27,6 +27,7 @@ export const createColumns = (cancelAppointment) => [
                 aspectRatio={1}
                 src={imgUrl}
                 alt={nombreMascota}
+                cdn={false}
                 onError={(e) => {
                   e.target.style.display = 'none'
                 }}
