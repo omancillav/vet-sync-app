@@ -118,6 +118,7 @@ export function PetImageField({ error, onImageChange, onImageError, initialImage
               loading='lazy'
               src={imagePreview}
               alt="Preview"
+              cdn={false}
               width={200}
               aspectRatio={1}
               className="w-full h-full object-cover"

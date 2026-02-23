@@ -37,6 +37,7 @@ export function PetImage({ src, alt, className }) {
         }`}
         src={src}
         alt={alt}
+        cdn={false}
         onError={handleError}
         onLoad={handleLoad}
         width={500}
